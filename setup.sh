@@ -1,3 +1,5 @@
+!#/bin/bash
+
 # Installation
 
 git clone git@github.com:yufernando/dotfiles.git

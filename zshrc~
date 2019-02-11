@@ -1,6 +1,5 @@
-# ZSHRC
-
-# OH MY ZSH {{{
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/Fer/.oh-my-zsh"
@@ -62,25 +61,18 @@ ZSH_THEME="robbyrussell"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-#}}}
-# PLUGINS {{{
-#
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-
 plugins=(
-  git 
-  osx 
-  kubectl 
-  zsh-autosuggestions
-  zsh-syntax-highlighting
+  git osx kubectl
 )
 
-#}}}
-# User configuration {{{
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -100,9 +92,6 @@ plugins=(
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-#}}}
-# ALIASES {{{
-#
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -115,37 +104,29 @@ alias skim='open -a skim'
 alias vim='nvim'
 alias vi='nvim'
 alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
+alias t1='osascript script.scpt 0.2'
+alias t2='osascript script.scpt 0.4'
+alias t3='osascript script.scpt 0.6'
+alias t4='osascript script.scpt 0.8'
+alias t5='osascript script.scpt 1'
 
-#}}}
-# PATH {{{
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/Fer/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/Fer/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/Fer/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/Fer/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-conda deactivate
+# From .bash_profile
+# The code below was copy pasted from .bash_profile
 
+# PATH
 # TeX and X11 directories are added to path from /etc/paths.d
 
-# added by Anaconda3 5.1.0 installer
-PATH="/Users/Fer/anaconda3/bin:$PATH"
-
-# Use latest version of Vim (symlinked to MacVim) instead of /usr/bin/vim
+# Use latest version of Vim. The problem is that this also switches to Python 2.7
+# as default.
 PATH="/usr/local/bin:$PATH"
 
 # Setting PATH for Python 2.7
 # The original version is saved in .bash_profile.pysave
-PATH="$PATH:/Library/Frameworks/Python.framework/Versions/2.7/bin"
+PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH"
+
+# added by Anaconda3 5.1.0 installer
+PATH="/Users/Fer/anaconda3/bin:$PATH"
 
 # Add Visual Studio Code (code)
 PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
@@ -155,12 +136,6 @@ PATH="$PATH:/Users/Fer/.gem/ruby/2.3.0/bin"
 
 # Dotfiles
 PATH="$PATH:/Users/Fer/.dotfiles/"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/Fer/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/Fer/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/Fer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Fer/google-cloud-sdk/completion.zsh.inc'; fi
 
 typeset -gxU path # equivalent to 'export PATH' but also keep unique entries
 export PATH
@@ -178,14 +153,27 @@ export C_INCLUDE_PATH=/usr/local/include
 # set -o gives full list of options
 setopt extendedglob
 
-# }}}
-# OTHER {{{
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/Fer/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/Fer/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/Fer/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/Fer/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+conda deactivate
 # Solves problem with Tmux and Conda environments
 [[ -z $TMUX ]] || conda deactivate; #conda activate base
 
-#}}}
-# Source files {{{
-source $ZSH/oh-my-zsh.sh
-source ~/.dotfiles/zsh/transparency
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/Fer/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/Fer/google-cloud-sdk/path.zsh.inc'; fi
 
-#}}}
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/Fer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Fer/google-cloud-sdk/completion.zsh.inc'; fi

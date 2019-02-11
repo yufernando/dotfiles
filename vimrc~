@@ -52,9 +52,9 @@ Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown' " Plasticboy Plugin for Markdown
 let g:vim_markdown_frontmatter = 1
-" Plugin 'Valloric/YouCompleteMe' " YouCompleteMe: Autocomplete code
-" let g:ycm_server_keep_logfiles = 1
-" let g:ycm_server_log_level = 'debug'
+Plugin 'Valloric/YouCompleteMe' " YouCompleteMe: Autocomplete code
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
 " Plugin 'nelstrom/vim-markdown-folding' "Markdown Header Folding. Messes up with plasticboy
 " Plugin 'tpope/vim-fugitive'
 " plugin from http://vim-scripts.org/vim/scripts.html

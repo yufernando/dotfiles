@@ -1,6 +1,8 @@
-# ZSHRC
+# ╔═╗╔═╗╦ ╦╦═╗╔═╗
+# ╔═╝╚═╗╠═╣╠╦╝║  
+# ╚═╝╚═╝╩ ╩╩╚═╚═╝
 
-# OH MY ZSH {{{
+# Oh My Zsh {{{
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/Fer/.oh-my-zsh"
@@ -63,7 +65,7 @@ ZSH_THEME="robbyrussell"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 #}}}
-# PLUGINS {{{
+# Plugins {{{
 #
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -76,7 +78,7 @@ plugins=(
   osx 
   kubectl 
   zsh-autosuggestions
-  zsh-syntax-highlighting
+  # zsh-syntax-highlighting
 )
 
 #}}}
@@ -101,7 +103,7 @@ plugins=(
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 #}}}
-# ALIASES {{{
+# Aliases {{{
 #
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -115,9 +117,13 @@ alias skim='open -a skim'
 alias vim='nvim'
 alias vi='nvim'
 alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
+# Call Python 3 by default. This does not and should not change the symlink to
+# /usr/local/lib/python
+alias python='python3'
+# alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app='
 
 #}}}
-# PATH {{{
+# Path {{{
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -179,13 +185,22 @@ export C_INCLUDE_PATH=/usr/local/include
 setopt extendedglob
 
 # }}}
-# OTHER {{{
+# Source files {{{
+
+source $ZSH/oh-my-zsh.sh
+source ~/.dotfiles/zsh/my_custom_commands.sh
+
+#}}}
+# Key Bindings {{{
+bindkey '^[[A' fzf-history-widget
+# }}}
+# Other {{{
 # Solves problem with Tmux and Conda environments
 [[ -z $TMUX ]] || conda deactivate; #conda activate base
 
-#}}}
-# Source files {{{
-source $ZSH/oh-my-zsh.sh
-source ~/.dotfiles/zsh/transparency
+# Run rbenv to manage Ruby versions
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+# Source FZF Autocompletion and Command Search
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 #}}}

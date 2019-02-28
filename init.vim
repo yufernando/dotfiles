@@ -1,13 +1,6 @@
-"  ▄█    █▄   ▄█    ▄▄▄▄███▄▄▄▄
-" ███    ███ ███  ▄██▀▀▀███▀▀▀██▄
-" ███    ███ ███▌ ███   ███   ███
-" ███    ███ ███▌ ███   ███   ███
-" ███    ███ ███▌ ███   ███   ███
-" ███    ███ ███  ███   ███   ███
-" ███    ███ ███  ███   ███   ███
-"  ▀██████▀  █▀    ▀█   ███   █▀
-"
-" .vimrc
+" ╦  ╦╦╔╦╗
+" ╚╗╔╝║║║║
+"  ╚╝ ╩╩ ╩
 
 " Setup {{{
 
@@ -37,8 +30,6 @@ set softtabstop=4   " Sets the number of columns for a TAB
 set expandtab       " Expand TABs to spaces
 set smarttab
 set clipboard=unnamed "MacOS Clipboard
-"set textwidth=80
-"set nowrap
 
 set splitbelow      " Split below
 set splitright      " Split to the right, feels more natural 
@@ -53,12 +44,19 @@ set foldmethod=marker " Fold with three brackets
 
 set mouse=a " enable mouse (selection, resizing windows)
 
+" set list                    " Show whitespace
+" set listchars=nbsp:⦸        " Circle Reverse Solidus U+29B8)
+" set listchars+=trail:•      " BULLET (U+2022)
+
+set scrolloff=1             "Keep lines visible at end
+
+set virtualedit=block "Allow cursor to move when there is no text in visual block mode
+
 " }}}
 " Plugins {{{
 
 call plug#begin('~/.vim/plugged')
 
-" NERD tree will be loaded on the first invocation of NERDTreeToggle command
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'
@@ -71,9 +69,9 @@ Plug 'junegunn/limelight.vim'       " Highlight current paragraph
 Plug '/usr/local/opt/fzf'           " Fuzzy finder
 Plug 'junegunn/fzf.vim'             " Fuzzy finder for Vim
 Plug 'tpope/vim-surround'           " Edit surrounding text
-Plug 'tpope/vim-vinegar'            " File browser
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github
+Plug 'tpope/vim-vinegar'            " File browser
 Plug 'takac/vim-hardtime'           " Block repeat keys
 Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
 Plug 'epeli/slimux'                 " Send comands to tmux window
@@ -95,7 +93,7 @@ endif
 Plug 'davidhalter/jedi'
 Plug 'zchee/deoplete-jedi'
 Plug 'morhetz/gruvbox'
-
+Plug 'vimwiki/vimwiki'
 call plug#end()
 
 " Jupytext.vim
@@ -113,8 +111,8 @@ let g:neoterm_autoscroll = '1'
 
 " For Limelight to work with colorscheme (:help cterm-colors)
 let g:limelight_conceal_ctermfg = 'gray'
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
+" autocmd! User GoyoEnter Limelight | set colorcolumn="" | set nocursorline
+" autocmd! User GoyoLeave Limelight!
 
 " Neomake: When writing a buffer (no delay), and on normal mode changes (after 1s).
 "call neomake#configure#automake('nw', 1000)
@@ -134,7 +132,28 @@ command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 " Startify Bookmarks
-let g:startify_bookmarks = [ {'d': '~/.dotfiles/init.vim'}, '~/.zshrc' ]
+let g:startify_bookmarks = [ {'d': '~/.dotfiles/init.vim'}, {'z': '~/.dotfiles/zshrc'}, {'t':'~/.dotfiles/tmux.conf'} ]
+
+let s:startify_ascii_header=[
+                \ '                  ________ ;;     ________',
+                \ '                 /********\;;;;  /********\',
+                \ '                 \********/;;;;;;\********/',
+                \ '                  |******|;;;;;;;;/*****/',
+                \ '                  |******|;;;;;;/*****/''',
+                \ '                 ;|******|;;;;/*****/'';',
+                \ '               ;;;|******|;;/*****/'';;;;;',
+                \ '             ;;;;;|******|/*****/'';;;;;;;;;',
+                \ '               ;;;|***********/'';;;;;;;;;',
+                \ '                 ;|*********/'';;;;;;;;;',
+                \ '                  |*******/'';;;;;;;;;',
+                \ '                  |*****/'';;;;;;;;;',
+                \ '                  |***/'';;;;;;;;;',
+                \ '                  |*/''   ;;;;;;',
+                \ '                           ;;',
+                \ '',
+                \]
+let g:startify_custom_header = map(s:startify_ascii_header +
+        \ startify#fortune#boxed(), '"           ".v:val')
 
 " Disable ALE by default. Enable with :ALEToggle
 let g:ale_enabled = 0
@@ -143,12 +162,40 @@ let g:ale_enabled = 0
 let NERDTreeMinimalUI=1
 let NERDTreeShowBookmarks=1
 
+" Vim wiki
+" let g:vimwiki_ext2syntax= {'.md': 'markdown', '.markdown': 'markdown', 'mdown':'markdown'}
+" let g:vimwiki_list = [{'path': '~/my_site/',
+                       " \ 'syntax': 'markdown', 'ext': '.md'}]
+let wiki_1 = {}
+    let wiki_1.path             = '~/Dropbox/vimwiki/work'
+    let wiki_1.path_html        = '~/Dropbox/vimwiki/work/html'
+    " let wiki_1.custom_wiki2html = '~/Dropbox/vimwiki/vimwiki_md2html/misaka_md2html.py'
+    let wiki_1.syntax           = 'markdown'
+    let wiki_1.ext              = '.wiki'
+
+let wiki_2 = {}
+    let wiki_2.path             = '~/Dropbox/vimwiki/home'
+    let wiki_2.path_html        = '~/Dropbox/vimwiki/home/html'
+    " let wiki_2.custom_wiki2html = '~/Dropbox/vimwiki/vimwiki_md2html/misaka_md2html.py'
+    let wiki_2.syntax           = 'markdown'
+    let wiki_2.ext              = '.wiki'
+
+let g:vimwiki_list = [wiki_1, wiki_2]
+" Instant Markdown
+" let g:instant_markdown_autostart=0
+" map <leader>md :InstantMarkdownPreview<CR>
+
+  " autocmd FileType vimwiki call SetMarkdownOptions()
+
+  " function! SetMarkdownOptions()
+    " call VimwikiSet('syntax', 'markdown')
+    " call VimwikiSet('custom_wiki2html', 'wiki2html.sh')
+  " endfunction
+
 "}}}
 " UI Customization {{{
 
 " True colors
-set termguicolors  " enable true colors
-" set term=screen-256color  "Make Vim colors work in Tmux
 
 " Gruvbox
 colorscheme gruvbox
@@ -160,14 +207,33 @@ set background=dark
 "Vertical Split bar. autocmd: change survives switch of color scheme
 highlight VertSplit cterm=NONE ctermfg=8 ctermbg=NONE
 
+" Textwidth 
+set textwidth=79
+autocmd FileType                text            setlocal textwidth=99
+autocmd BufReadPost,BufNewFile *.py,*.R         setlocal textwidth=79
+autocmd BufReadPost,BufNewFile *.md,*.txt,*.tex setlocal textwidth=99
+
+" Linebreaks
+set wrap
+set linebreak " Do not split words in linebreak
+set breakindent " Indent line breaks
+set breakindentopt=shift:1 " Add space to linebreaks to make them more evident
+let &showbreak='⤷ '        "Arrow pointing downwards U+2935
+
+" Colorcolumn and cursorline
+" set cursorline
+" set colorcolumn=
+" let &l:colorcolumn='+' . join(range(1, 255), ',+')
+
 " }}}
 " Keybindings {{{
 
 " Leader key
 let mapleader = ","
 
-" NERDTreeToggle
-nnoremap <leader>l :NERDTreeToggle<CR> 
+" Nerd Tree
+nnoremap <silent> <leader>l :NERDTreeToggle<CR> 
+nnoremap <silent> <leader>L :NERDTreeFind<CR> 
 
 " Slimux Send Selection
 nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
@@ -182,8 +248,9 @@ nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
 vnoremap <silent> <leader><CR> :TREPLSendSelection<CR>
 
 " Escape key to jk
-inoremap jk <Esc>
-inoremap kj <Esc>
+inoremap jk <Esc>`^
+inoremap kj <Esc>`^
+inoremap <C-c> <Esc>`^
 
 " Maps for Spanish Keyboard
 inoremap ç \
@@ -203,12 +270,19 @@ nnoremap <leader>e :Files<CR>
 nnoremap <leader>f :BLines<CR>
 nnoremap <leader>F :Lines<CR>
 nnoremap <leader>c :Commands<CR>
-nnoremap <leader>H :History<CR>
+nnoremap <leader>h :History<CR>
+nnoremap <leader>H :Helptags!<CR>
 nnoremap <leader>r :Rg<CR>
-nnoremap <leader>h :Helptags!<CR>
+nnoremap <leader>R :Rgcmd 
+nnoremap <leader>rh :Rghome<CR>
+nnoremap <leader>ru :Rgup<CR>
+nnoremap <leader>rd :Rgdrop<CR>
 
 " ALE Linting
-noremap <leader>a :ALEToggle<CR>
+nmap <leader>A <Plug>(ale_toggle)
+nmap <leader>a <Plug>(ale_detail)
+nmap <silent> <leader>k <Plug>(ale_previous)
+nmap <silent> <leader>j <Plug>(ale_next)
 
 " Navigate splits
 nnoremap <C-h> <C-w>h
@@ -216,6 +290,178 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w><C-w>
+
+" Toggle files
+nnoremap <leader><leader> <C-^>
+
+" Resemble C and D
+nnoremap Y y$
+
+" Edit new file in same folder
+nnoremap <leader>n :edit <C-R>=expand('%:p:h') . '/'<CR>
+
+" Save
+nnoremap <leader>w :w<CR>
+nnoremap <leader>wq :wq<CR>
+
+" Spell check
+nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
+nnoremap <leader>S :setlocal spell! spelllang=es<CR>
+
+" Terminal
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-[> <C-\><C-n>
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
+" VIMRC
+nnoremap <leader>d :e ~/.dotfiles/init.vim<CR>
+
+" Goyo
+nnoremap <leader>g :Goyo<CR>
+
+" }}}
+" Autocommands {{{
+
+" https://vi.stackexchange.com/a/17550
+augroup my_autocmds
+    autocmd!
+    autocmd FileType vimwiki nnoremap <leader>md :<C-u>silent call system('pandoc -s -f markdown -t html --css style.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR>:silent call system('open -a "Google Chrome" '.expand('%:p:r:S').'.html')<CR> 
+    " \:<C-u>silent call system('open -a "Google Chrome" %')
+
+    " Start new file in Insert Mode
+    autocmd BufNewFile * startinsert
+    autocmd BufNewFile ALEPreviewWindow stopinsert
+
+    " Start Insert Mode for Geeknote
+    autocmd BufEnter *.markdown startinsert 
+
+augroup END
+
+" Focus
+function! s:focus()
+augroup focus
+autocmd!
+set cursorline
+" let &l:colorcolumn='+' . join(range(1, 255), ',+')
+
+" Make current window more obvious by turning off/adjusting some features in non-current windows.
+" if exists('+colorcolumn')
+    autocmd BufEnter,FocusGained,VimEnter,WinEnter * 
+        \if autocmds#should_colorcolumn() | 
+            \let &l:colorcolumn='+' . join(range(1,255), ',+') |
+        \endif
+    " autocmd FocusLost,WinLeave *
+        " \if autocmds#should_colorcolumn() |
+            " \let &l:colorcolumn=join(range(1, 255), ',') |
+        " \endif
+" endif
+
+" autocmd InsertLeave,VimEnter,WinEnter * 
+    " \if autocmds#should_cursorline() | setlocal cursorline | endif
+" autocmd InsertEnter,WinLeave *
+    " \if autocmds#should_cursorline() | setlocal nocursorline | endif
+
+augroup END
+endfunction
+
+call s:focus()
+
+" Load NERD Tree on startup
+augroup nerd_loader
+  autocmd!
+  autocmd VimEnter * silent! autocmd! FileExplorer
+  autocmd BufEnter,BufNew *
+        \  if isdirectory(expand('<amatch>'))
+        \|   call plug#load('nerdtree')
+        \|   execute 'autocmd! nerd_loader'
+        \| endif
+augroup END
+
+" }}}
+" Commands and Functions {{{
+
+function! s:goyo_enter()
+    augroup focus
+      autocmd!
+    augroup END
+    augroup! focus
+
+    let s:settings = {
+          \   'showbreak': &showbreak,
+          \   'statusline': &statusline,
+          \   'cursorline': &cursorline,
+          \   'showmode': &showmode
+          \ }
+    
+    set colorcolumn=""
+    set showbreak=
+    " set statusline=\ 
+    set nocursorline
+    set noshowmode
+    Limelight
+endfunction
+
+function! s:goyo_leave()
+    for [k, v] in items(s:settings)
+      execute 'let &' . k . '=' . string(v)
+    endfor
+    Limelight!
+    call s:focus()
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --follow '
+  \   .shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=* Rgcmd
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --follow '
+  \ . <q-args>, 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=* Rghome
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --follow --max-depth 2 '
+  \   .shellescape(<q-args>). ' ~' , 1, 
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=* Rgup
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --follow --max-depth 3 '
+  \   .shellescape(<q-args>). ' ' .expand('%:p:h:h') , 1, 
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=* Rgdrop
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --follow '
+  \   .shellescape(<q-args>). ' ~/Dropbox/' , 1, 
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 
 " }}}
 " Added by VimTutor {{{
@@ -232,44 +478,44 @@ nnoremap <C-h> <C-w><C-w>
 "	    for OpenVMS:  sys$login:.vimrc
 
 " When started as "evim", evim.vim will already have done these settings.
-if v:progname =~? "evim"
-    finish
-endif
+" if v:progname =~? "evim"
+    " finish
+" endif
 
 " Get the defaults that most users want.
 "source $VIMRUNTIME/defaults.vim
 
-if has("vms")
-    set nobackup		" do not keep a backup file, use versions instead
-else
-    set backup		" keep a backup file (restore to previous version)
-    if has('persistent_undo')
-        set undofile	" keep an undo file (undo changes after closing)
-    endif
-endif
+" if has("vms")
+    " set nobackup		" do not keep a backup file, use versions instead
+" else
+    " set backup		" keep a backup file (restore to previous version)
+    " if has('persistent_undo')
+        " set undofile	" keep an undo file (undo changes after closing)
+    " endif
+" endif
 
-if &t_Co > 2 || has("gui_running")
+" if &t_Co > 2 || has("gui_running")
     " Switch on highlighting the last used search pattern.
-    set hlsearch
-endif
+    " set hlsearch
+" endif
 
 " Only do this part when compiled with support for autocommands.
-if has("autocmd")
+" if has("autocmd")
 
     " Put these in an autocmd group, so that we can delete them easily.
-    augroup vimrcEx
-        au!
+    " augroup vimrcEx
+        " au!
 
         " For all text files set 'textwidth' to 78 characters.
-        autocmd FileType text setlocal textwidth=78
+        " autocmd FileType text setlocal textwidth=78
 
-    augroup END
+    " augroup END
 
-else
+" else
 
-    set autoindent		" always set autoindenting on
+    " set autoindent		" always set autoindenting on
 
-endif " has("autocmd")
+" endif " has("autocmd")
 
 " Add optional packages.
 "

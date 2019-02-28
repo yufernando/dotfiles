@@ -88,6 +88,9 @@ plugins=(
 
 #}}}
 # User configuration {{{
+# Neovim as Git default editor
+export VISUAL='nvim'
+export EDITOR="$VISUAL"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 

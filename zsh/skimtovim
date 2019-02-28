@@ -1,0 +1,23 @@
+#!/bin/bash
+
+file="$1"
+line="$2"
+
+[ "${file:0:1}" == "/" ] || file="${PWD}/$file"
+
+exec osascript << EOF
+tell application "iTerm2" to activate
+tell application "System Events"
+    tell process "iTerm2"
+        key code 53 -- ESC key
+        keystroke ":set hidden" & return 
+        keystroke ":if bufexists(\'$file\')" & return 
+        keystroke ":exe \":buffer \" . bufnr(\'$file\')"  & return 
+        keystroke ":else " & return 
+        keystroke ":    edit ${file// /\ }" & return 
+        keystroke ":endif" & return 
+        keystroke ":$line" & return 
+        keystroke "zO" 
+    end tell
+end tell
+EOF

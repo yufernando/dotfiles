@@ -2,6 +2,11 @@
 # ╔═╝╚═╗╠═╣╠╦╝║  
 # ╚═╝╚═╝╩ ╩╩╚═╚═╝
 
+# Options {{{
+# Avoid exit after Ctrl+d
+set -o ignoreeof
+
+# }}}
 # Oh My Zsh {{{
 
 # Path to your oh-my-zsh installation.

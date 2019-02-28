@@ -149,6 +149,9 @@ PATH="/Users/Fer/anaconda3/bin:$PATH"
 # Use latest version of Vim (symlinked to MacVim) instead of /usr/bin/vim
 PATH="/usr/local/bin:$PATH"
 
+# Add Latexmk to path
+PATH="$PATH:/Library/TeX/texbin"
+
 # Setting PATH for Python 2.7
 # The original version is saved in .bash_profile.pysave
 PATH="$PATH:/Library/Frameworks/Python.framework/Versions/2.7/bin"

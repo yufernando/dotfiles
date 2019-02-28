@@ -15,5 +15,6 @@ ln -sf $DIR/init.vim     ~/.config/nvim/init.vim
 ln -sf $DIR/tmux.conf    ~/.tmux.conf
 ln -sf $DIR/vimrc        ~/.vimrc
 ln -sf $DIR/zshrc        ~/.zshrc
+ln -sf $DIR/vim/autocmds.vim ~/.vim/autoload/autocmds.vim        
 
 echo "Installation complete! Relogin please"

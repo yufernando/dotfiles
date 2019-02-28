@@ -261,6 +261,9 @@ autocmd FileType tex nmap <buffer> <C-T> :!latexmk -pdf %<CR>
 " Open tex file in Skim
 autocmd FileType tex nmap <buffer> <S-T> :!open -a skim %:r.pdf<CR><CR><D-S-->
 
+" Forward search in Skim
+map ,p :w<CR>:silent !~/.dotfiles/zsh/displayline -b <C-r>=line('.')<CR> %<.pdf<CR>
+
 " Syntax highlighting for Markdown
 " autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 
@@ -326,6 +329,7 @@ nnoremap <A-l> <C-w>l
 
 " VIMRC
 nnoremap <leader>d :e ~/.dotfiles/init.vim<CR>
+nnoremap <leader>D :source ~/.dotfiles/init.vim<CR>
 
 " Goyo
 nnoremap <leader>g :Goyo<CR>

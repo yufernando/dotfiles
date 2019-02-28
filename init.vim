@@ -262,7 +262,7 @@ autocmd FileType tex nmap <buffer> <C-T> :!latexmk -pdf %<CR>
 autocmd FileType tex nmap <buffer> <S-T> :!open -a skim %:r.pdf<CR><CR><D-S-->
 
 " Forward search in Skim
-map ,p :w<CR>:silent !~/.dotfiles/zsh/displayline -b <C-r>=line('.')<CR> %<.pdf<CR>
+map ,p :w<CR>:silent !~/.dotfiles/zsh/displayline -b -g <C-r>=line('.')<CR> %<.pdf<CR>
 
 " Syntax highlighting for Markdown
 " autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc

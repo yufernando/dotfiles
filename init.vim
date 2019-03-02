@@ -60,7 +60,7 @@ call plug#begin('~/.vim/plugged')
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'
-"Plug 'jupytext.vim'
+"Plug 'goerz/jupytext.vim'
 "Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " Tree browser
 Plug 'lervag/vimtex'                " Latex
@@ -130,6 +130,7 @@ let g:python3_host_prog = '/Users/Fer/anaconda3/envs/ds/bin/python'
 " FZF preview window
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+" set -gx FZF_DEFAULT_COMMAND  'rg --files --no-ignore-vcs --hidden'
 
 " Startify Bookmarks
 let g:startify_bookmarks = [ {'d': '~/.dotfiles/init.vim'}, {'z': '~/.dotfiles/zshrc'}, {'t':'~/.dotfiles/tmux.conf'} ]
@@ -191,6 +192,9 @@ let g:vimwiki_list = [wiki_1, wiki_2]
     " call VimwikiSet('syntax', 'markdown')
     " call VimwikiSet('custom_wiki2html', 'wiki2html.sh')
   " endfunction
+
+" Jupytext
+let g:jupytext_fmt = 'py'
 
 "}}}
 " UI Customization {{{

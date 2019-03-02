@@ -2,11 +2,6 @@
 # ╔═╝╚═╗╠═╣╠╦╝║  
 # ╚═╝╚═╝╩ ╩╩╚═╚═╝
 
-# Options {{{
-# Avoid exit after Ctrl+d
-set -o ignoreeof
-
-# }}}
 # Oh My Zsh {{{
 
 # Path to your oh-my-zsh installation.
@@ -87,7 +82,11 @@ plugins=(
 )
 
 #}}}
-# User configuration {{{
+# Options {{{
+
+# Avoid exit after Ctrl+d
+set -o ignoreeof
+
 # Neovim as Git default editor
 export VISUAL='nvim'
 export EDITOR="$VISUAL"
@@ -109,6 +108,9 @@ export EDITOR="$VISUAL"
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 #}}}
 # Aliases {{{
@@ -151,11 +153,11 @@ conda deactivate
 
 # TeX and X11 directories are added to path from /etc/paths.d
 
-# added by Anaconda3 5.1.0 installer
-PATH="/Users/Fer/anaconda3/bin:$PATH"
-
 # Use latest version of Vim (symlinked to MacVim) instead of /usr/bin/vim
 PATH="/usr/local/bin:$PATH"
+
+# Use Anaconda Python 3 before /usr/local
+PATH="/Users/Fer/anaconda3/bin:$PATH"
 
 # Add Latexmk to path
 PATH="$PATH:/Library/TeX/texbin"

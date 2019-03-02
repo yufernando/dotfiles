@@ -1,0 +1,28 @@
+{
+// Collapse output ;
+  "notebook:collapse-selected-outputs": {
+    "command": "notebook:hide-cell-outputs",
+    "keys": [
+      ";"
+    ],
+    "selector": ".jp-Notebook:focus"
+  }, 
+// Expand Output
+  "notebook:expand-selected-outputs": {
+    "command": "notebook:show-cell-outputs",
+    "keys": [
+      "Ctrl ;"
+    ],
+    "selector": ".jp-Notebook:focus"
+  },
+// Close Pane
+    "docmanager:close": {
+      "command": "docmanager:close",
+      "keys": [
+        "Cmd W"
+      ],
+      "selector": ".jp-Activity",
+      "title": "Close Activity",
+      "category": "File Operations"
+    }
+}

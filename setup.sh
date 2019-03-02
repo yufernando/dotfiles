@@ -19,5 +19,6 @@ ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim
 ln -svf $DIR/jupyter_notebook_config.py ~/.jupyter/jupyter_notebook_config.py
 ln -svf $DIR/tmux/tunes.js              ~/.tmux/tunes.js
 ln -svf $DIR/latexmkrc                  ~/.latexmkrc
+ln -svf $DIR/plugin.jupyterlab-settings ~/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/plugin.jupyterlab-settings
 
 echo "Installation complete! Relogin please"

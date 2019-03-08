@@ -62,3 +62,17 @@ function note() {
             ;;
     esac
 }
+
+# Script to convert RISE presentation to pdf
+
+function risetopdf() {
+
+echo "Converting RISE presentation $1.ipynb to PDF"
+
+token=$(jupyter notebook list | grep 'token=' | sed 's/^.*=//' | sed 's/:.*$//')
+DIR=$PWD
+
+`npm bin`/decktape rise http://localhost:8888/notebooks/$1.ipynb\?token\=$token $DIR/$1.pdf
+
+echo "Exported $DIR/$1.pdf" 
+}

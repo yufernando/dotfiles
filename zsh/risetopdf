@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Script to convert RISE presentation to pdf
+
+function risetopdf() {
+
+echo "Converting RISE presentation to PDF"
+
+token=$(jupyter notebook list | grep 'token=' | sed 's/^.*=//' | sed
+'s/:.*$//')
+
+`npm bin`/decktape rise http://localhost:8888/notebooks/$1.ipynb\?token\=$token ~/$1.pdf
+}

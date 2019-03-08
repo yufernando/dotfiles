@@ -91,7 +91,7 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 Plug 'davidhalter/jedi'
-Plug 'zchee/deoplete-jedi'
+Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
 call plug#end()
@@ -122,10 +122,13 @@ let g:deoplete#enable_at_startup = 1
 
 " Plasticboy markdown
 let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_folding_level = 2            " Do not fold title
+let g:vim_markdown_folding_disabled = 1
 
 " Deoplete Jedi
 let g:python_host_prog  = '/Users/Fer/anaconda3/envs/ds/bin/python' 
 let g:python3_host_prog = '/Users/Fer/anaconda3/envs/ds/bin/python' 
+command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
 
 " FZF preview window
 command! -bang -nargs=? -complete=dir Files
@@ -164,34 +167,24 @@ let NERDTreeMinimalUI=1
 let NERDTreeShowBookmarks=1
 
 " Vim wiki
+" Not needed, I already use plasticboy markdown
 " let g:vimwiki_ext2syntax= {'.md': 'markdown', '.markdown': 'markdown', 'mdown':'markdown'}
-" let g:vimwiki_list = [{'path': '~/my_site/',
-                       " \ 'syntax': 'markdown', 'ext': '.md'}]
-let wiki_1 = {}
-    let wiki_1.path             = '~/Dropbox/vimwiki/work'
-    let wiki_1.path_html        = '~/Dropbox/vimwiki/work/html'
+
+let ferwiki = {}
+    let ferwiki.path             = '~/Dropbox/vimwiki/'
+    let ferwiki.path_html        = '~/Dropbox/vimwiki/html'
     " let wiki_1.custom_wiki2html = '~/Dropbox/vimwiki/vimwiki_md2html/misaka_md2html.py'
-    let wiki_1.syntax           = 'markdown'
-    let wiki_1.ext              = '.wiki'
+    let ferwiki.syntax           = 'markdown'
+    let ferwiki.ext              = '.wiki'
 
-let wiki_2 = {}
-    let wiki_2.path             = '~/Dropbox/vimwiki/home'
-    let wiki_2.path_html        = '~/Dropbox/vimwiki/home/html'
+" let wiki_2 = {}
+    " let wiki_2.path             = '~/Dropbox/vimwiki/home'
+    " let wiki_2.path_html        = '~/Dropbox/vimwiki/home/html'
     " let wiki_2.custom_wiki2html = '~/Dropbox/vimwiki/vimwiki_md2html/misaka_md2html.py'
-    let wiki_2.syntax           = 'markdown'
-    let wiki_2.ext              = '.wiki'
+    " let wiki_2.syntax           = 'markdown'
+    " let wiki_2.ext              = '.wiki'
 
-let g:vimwiki_list = [wiki_1, wiki_2]
-" Instant Markdown
-" let g:instant_markdown_autostart=0
-" map <leader>md :InstantMarkdownPreview<CR>
-
-  " autocmd FileType vimwiki call SetMarkdownOptions()
-
-  " function! SetMarkdownOptions()
-    " call VimwikiSet('syntax', 'markdown')
-    " call VimwikiSet('custom_wiki2html', 'wiki2html.sh')
-  " endfunction
+let g:vimwiki_list = [ferwiki]
 
 " Jupytext
 let g:jupytext_fmt = 'py'
@@ -216,6 +209,9 @@ set textwidth=79
 autocmd FileType                text            setlocal textwidth=99
 autocmd BufReadPost,BufNewFile *.py,*.R         setlocal textwidth=79
 autocmd BufReadPost,BufNewFile *.md,*.txt,*.tex setlocal textwidth=99
+
+" Markdown
+autocmd BufReadPost,BufNewFile *.md set filetype=markdown
 
 " Linebreaks
 set wrap
@@ -277,8 +273,8 @@ nnoremap <leader>e :Files<CR>
 nnoremap <leader>f :BLines<CR>
 nnoremap <leader>F :Lines<CR>
 nnoremap <leader>c :Commands<CR>
-nnoremap <leader>h :History<CR>
-nnoremap <leader>H :Helptags!<CR>
+nnoremap <leader>H :History<CR>
+nnoremap <leader>h :Helptags!<CR>
 nnoremap <leader>r :Rg<CR>
 nnoremap <leader>R :Rgcmd 
 nnoremap <leader>rh :Rghome<CR>
@@ -307,9 +303,9 @@ nnoremap Y y$
 " Edit new file in same folder
 nnoremap <leader>n :edit <C-R>=expand('%:p:h') . '/'<CR>
 
-" Save
-nnoremap <leader>w :w<CR>
-nnoremap <leader>wq :wq<CR>
+" Spanish keyboard workarounds
+nnoremap Ñw :w
+nnoremap Ñq :q
 
 " Spell check
 nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
@@ -338,13 +334,18 @@ nnoremap <leader>D :source ~/.dotfiles/init.vim<CR>
 " Goyo
 nnoremap <leader>g :Goyo<CR>
 
+" Vimwiki
+" Todo Toggle conflicts with Choosing keyboard language
+" From: https://github.com/vimwiki/vimwiki/blob/master/doc/vimwiki.txt
+nmap <Leader>tt <Plug>VimwikiToggleListItem
+
 " }}}
 " Autocommands {{{
 
 " https://vi.stackexchange.com/a/17550
 augroup my_autocmds
     autocmd!
-    autocmd FileType vimwiki nnoremap <leader>md :<C-u>silent call system('pandoc -s -f markdown -t html --css style.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR>:silent call system('open -a "Google Chrome" '.expand('%:p:r:S').'.html')<CR> 
+    autocmd FileType markdown,vimwiki nnoremap <leader>md :<C-u>silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/style.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR>:silent call system('open -a "Google Chrome" '.expand('%:p:r:S').'.html')<CR> 
     " \:<C-u>silent call system('open -a "Google Chrome" %')
 
     " Start new file in Insert Mode
@@ -417,14 +418,18 @@ function! s:goyo_enter()
     " set statusline=\ 
     set nocursorline
     set noshowmode
+    call deoplete#custom#option('auto_complete', v:false)
     Limelight
+    silent !tmux set-option status off
 endfunction
 
 function! s:goyo_leave()
+    silent !tmux set-option status on
     for [k, v] in items(s:settings)
       execute 'let &' . k . '=' . string(v)
     endfor
     Limelight!
+    call deoplete#custom#option('auto_complete', v:true)
     call s:focus()
 endfunction
 

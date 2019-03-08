@@ -3,7 +3,7 @@
   "notebook:collapse-selected-outputs": {
     "command": "notebook:hide-cell-outputs",
     "keys": [
-      ";"
+      "Ctrl M"
     ],
     "selector": ".jp-Notebook:focus"
   }, 
@@ -11,7 +11,7 @@
   "notebook:expand-selected-outputs": {
     "command": "notebook:show-cell-outputs",
     "keys": [
-      "Ctrl ;"
+      "Ctrl ,"
     ],
     "selector": ".jp-Notebook:focus"
   },

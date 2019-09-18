@@ -21,4 +21,10 @@ ln -svf $DIR/tmux/tunes.js              ~/.tmux/tunes.js
 ln -svf $DIR/latexmkrc                  ~/.latexmkrc
 ln -svf $DIR/plugin.jupyterlab-settings ~/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/plugin.jupyterlab-settings
 
+# Italics in iTerm and Tmux
+# https://apple.stackexchange.com/a/267261
+tic -o ~/.terminfo xterm-256color.terminfo.txt
+tic -o ~/.terminfo tmux-256color.terminfo.txt
+tic -o ~/.terminfo tmux.terminfo.txt
+
 echo "Installation complete! Relogin please"

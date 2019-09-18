@@ -34,6 +34,7 @@ set foldmethod=marker
 set clipboard=unnamed "MacOS Clipboard
 
 set textwidth=80
+" Filetype detect
 
 set term=screen-256color  "Make Vim colors work in Tmux
 
@@ -150,6 +151,20 @@ autocmd FileType tex nmap <buffer> <S-T> :!open -a skim %:r.pdf<CR><CR><D-S-->
 " Syntax highlighting for Markdown
 " autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 
+" }}}
+" Autocommands {{{
+augroup set_filetypes
+    autocmd!
+    autocmd BufReadPost,BufNewFile *.txt set filetype=text
+    autocmd BufReadPost,BufNewFile *.md  set filetype=markdown
+    autocmd BufReadPost,BufNewFile *.py  set filetype=python
+    autocmd BufReadPost,BufNewFile *.R   set filetype=R
+    autocmd BufReadPost,BufNewFile *.tex set filetype=tex
+augroup end
+augroup filetype_settings
+    autocmd!
+    autocmd FileType text,tex,markdown setlocal textwidth=99 
+augroup end
 " }}}
 " Added by VimTutor {{{
 

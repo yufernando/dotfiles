@@ -8,12 +8,17 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 
+filetype plugin on " So it loads files in after/ftplugin
+
 set nocompatible     " Loads .vimrc as your own .vimrc. Was used for compatibility with vi
 
 " }}}
 " General Settings {{{ 
 
-syntax enable
+set textwidth=79
+
+" syntax enable
+syntax off
 set number
 set ruler
 set background=dark
@@ -57,13 +62,7 @@ set virtualedit=block "Allow cursor to move when there is no text in visual bloc
 
 call plug#begin('~/.vim/plugged')
 
-"Plug 'vim-airline/vim-airline' " Bottom Status Bar
-"Plug 'vim-airline/vim-airline-themes'
-"Plug 'rakr/vim-one'
-"Plug 'goerz/jupytext.vim'
-"Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " Tree browser
-Plug 'lervag/vimtex'                " Latex
 Plug 'junegunn/goyo.vim'            " Focused editing
 Plug 'junegunn/limelight.vim'       " Highlight current paragraph
 Plug '/usr/local/opt/fzf'           " Fuzzy finder
@@ -77,12 +76,9 @@ Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
 Plug 'epeli/slimux'                 " Send comands to tmux window
 Plug 'kassio/neoterm'               " Terminal in Vim
 Plug 'mhinz/vim-startify'           " Startup buffer
-Plug 'w0rp/ale'                     " Code syntax
-" Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
-
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown' " Plasticboy Plugin for Markdown
-
+" Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
+" Deoplete
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -94,12 +90,15 @@ Plug 'davidhalter/jedi'
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
+"Plug 'vim-airline/vim-airline' " Bottom Status Bar
+"Plug 'vim-airline/vim-airline-themes'
+"Plug 'rakr/vim-one'
+"Plug 'goerz/jupytext.vim'
+"Plug 'vim-pandoc/vim-pandoc-syntax'
+"Plug 'lervag/vimtex'                " Latex
+"Plug 'w0rp/ale'                     " Code syntax
+"Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
 call plug#end()
-
-" Jupytext.vim
-let g:jupytext_fmt = 'python' "convert to .py files
-let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
-
 " }}}
 " Plugin Modifications {{{
 
@@ -122,8 +121,11 @@ let g:deoplete#enable_at_startup = 1
 
 " Plasticboy markdown
 let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_folding_level = 2            " Do not fold title
+let g:vim_markdown_folding_level = 2    " Do not fold title
 let g:vim_markdown_folding_disabled = 1
+let g:tex_conceal = ""
+let g:vim_markdown_math = 1             " Avoid math syntax conceal
+set conceallevel=2                      " Highlight Bold and Italic 
 
 " Deoplete Jedi
 let g:python_host_prog  = '/Users/Fer/anaconda3/envs/ds/bin/python' 
@@ -188,9 +190,15 @@ let g:vimwiki_list = [ferwiki]
 
 " Jupytext
 let g:jupytext_fmt = 'py'
+let g:jupytext_fmt = 'python' "convert to .py files
+let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
 
 "}}}
 " UI Customization {{{
+
+" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+" set termguicolors
 
 " True colors
 
@@ -201,17 +209,11 @@ set background=dark
 "colorscheme apprentice
 "colorscheme one
 
+" Comments in italics
+highlight Comment cterm=italic
+
 "Vertical Split bar. autocmd: change survives switch of color scheme
 highlight VertSplit cterm=NONE ctermfg=8 ctermbg=NONE
-
-" Textwidth 
-set textwidth=79
-autocmd FileType                text            setlocal textwidth=99
-autocmd BufReadPost,BufNewFile *.py,*.R         setlocal textwidth=79
-autocmd BufReadPost,BufNewFile *.md,*.txt,*.tex setlocal textwidth=99
-
-" Markdown
-autocmd BufReadPost,BufNewFile *.md set filetype=markdown
 
 " Linebreaks
 set wrap
@@ -248,18 +250,13 @@ nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
 vnoremap <silent> <leader><CR> :TREPLSendSelection<CR>
 
 " Escape key to jk
+inoremap jj <Esc>`^
 inoremap jk <Esc>`^
 inoremap kj <Esc>`^
 inoremap <C-c> <Esc>`^
 
 " Maps for Spanish Keyboard
 inoremap ç \
-
-" Shift+d: Compile tex file using latexmk
-autocmd FileType tex nmap <buffer> <C-T> :!latexmk -pdf %<CR>
-
-" Open tex file in Skim
-autocmd FileType tex nmap <buffer> <S-T> :!open -a skim %:r.pdf<CR><CR><D-S-->
 
 " Forward search in Skim
 map ,p :w<CR>:silent !~/.dotfiles/zsh/displayline -b -g <C-r>=line('.')<CR> %<.pdf<CR>
@@ -338,15 +335,45 @@ nnoremap <leader>g :Goyo<CR>
 " Todo Toggle conflicts with Choosing keyboard language
 " From: https://github.com/vimwiki/vimwiki/blob/master/doc/vimwiki.txt
 nmap <Leader>tt <Plug>VimwikiToggleListItem
+nmap <Leader>w<Leader>g <Plug>VimwikiMakeDiaryNote<Esc>:Goyo<CR>i
 
 " }}}
 " Autocommands {{{
 
+" Filetype detect
+augroup set_filetypes
+    autocmd!
+    autocmd BufReadPost,BufNewFile *.txt set filetype=text
+    autocmd BufReadPost,BufNewFile *.md  set filetype=markdown
+    autocmd BufReadPost,BufNewFile *.py  set filetype=python
+    autocmd BufReadPost,BufNewFile *.R   set filetype=R
+    autocmd BufReadPost,BufNewFile *.tex set filetype=tex
+augroup end
+
+" Filetype settings
+" Note: at some point this should be moved to .vim/after/ftplugin/tex.vim
+augroup filetype_settings
+    autocmd!
+    autocmd FileType text,tex,markdown setlocal textwidth=99 
+    autocmd FileType text,tex,markdown let g:goyo_width=99
+    autocmd FileType python,R   setlocal textwidth=79
+
+    " Latex no indent environments (Abstract, theorem, etc)
+    autocmd FileType tex set indentkeys-=o
+    " Shift+d: Compile tex file using latexmk
+    autocmd FileType tex nmap <buffer> <C-T> :!latexmk -pdf %<CR>
+    " Open tex file in Skim
+    autocmd FileType tex nmap <buffer> <S-T> :!open -a skim %:r.pdf<CR><CR><D-S-->
+
+    " Vimwiki autocommands
+    autocmd FileType markdown,vimwiki nnoremap <leader>md :<C-u>silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR>:silent call system('open -a "Google Chrome" '.expand('%:p:r:S').'.html')<CR> 
+    " \:<C-u>silent call system('open -a "Google Chrome" %')
+    autocmd FileType vimwiki set syntax=markdown
+augroup end
+
 " https://vi.stackexchange.com/a/17550
 augroup my_autocmds
     autocmd!
-    autocmd FileType markdown,vimwiki nnoremap <leader>md :<C-u>silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/style.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR>:silent call system('open -a "Google Chrome" '.expand('%:p:r:S').'.html')<CR> 
-    " \:<C-u>silent call system('open -a "Google Chrome" %')
 
     " Start new file in Insert Mode
     autocmd BufNewFile * startinsert
@@ -355,6 +382,13 @@ augroup my_autocmds
     " Start Insert Mode for Geeknote
     autocmd BufEnter *.markdown startinsert 
 
+    " Load NERD Tree on startup
+    autocmd VimEnter * silent! autocmd! FileExplorer
+    autocmd BufEnter,BufNew *
+        \  if isdirectory(expand('<amatch>'))
+        \|   call plug#load('nerdtree')
+        \|   execute 'autocmd! nerd_loader'
+        \| endif
 augroup END
 
 " Focus
@@ -385,17 +419,6 @@ augroup END
 endfunction
 
 call s:focus()
-
-" Load NERD Tree on startup
-augroup nerd_loader
-  autocmd!
-  autocmd VimEnter * silent! autocmd! FileExplorer
-  autocmd BufEnter,BufNew *
-        \  if isdirectory(expand('<amatch>'))
-        \|   call plug#load('nerdtree')
-        \|   execute 'autocmd! nerd_loader'
-        \| endif
-augroup END
 
 " }}}
 " Commands and Functions {{{

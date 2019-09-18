@@ -125,7 +125,7 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 # alias ohmyzsh="mate ~/.oh-my-zsh
 alias skim='open -a skim'
 alias vim='nvim'
-alias vi='nvim'
+alias vi='nvim -u NONE' # Load vim without settings
 alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
 # Call Python 3 by default. This does not and should not change the symlink to
 # /usr/local/lib/python
@@ -206,6 +206,7 @@ source ~/.dotfiles/zsh/my_custom_commands.sh
 #}}}
 # Key Bindings {{{
 bindkey '^[[A' fzf-history-widget
+bindkey -v # Vim mode for zsh command line
 # }}}
 # Other {{{
 # Solves problem with Tmux and Conda environments

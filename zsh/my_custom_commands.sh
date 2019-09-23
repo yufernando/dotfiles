@@ -32,9 +32,16 @@ vman() {
     unset MANDWIDTH
 }
 
-chrome() {
-    open -a "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome" "$1"
-# '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
+function chrome() {
+    case $1 in 
+        app)
+            PORT=${2:-http://localhost:8888}
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$PORT
+            ;;
+        *)
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$1
+            ;;
+    esac
 }
 
 function note() {

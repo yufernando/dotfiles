@@ -78,7 +78,7 @@ plugins=(
   osx 
   kubectl 
   zsh-autosuggestions
-  # zsh-syntax-highlighting
+  zsh-syntax-highlighting
 )
 
 #}}}

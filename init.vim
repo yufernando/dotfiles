@@ -20,9 +20,8 @@ set textwidth=79
 " syntax enable
 syntax off
 set number
-set ruler
-set background=dark
 set number relativenumber
+set ruler
 
 " Indentation:
 set tabstop=4       " The width of a TAB is set to 4.
@@ -107,6 +106,10 @@ let g:vimtex_view_method = 'skim'
 
 " Neoterm
 let g:neoterm_autoscroll = '1'
+let g:neoterm_default_mod='belowright'
+let g:neoterm_size = 16
+let g:neoterm_keep_term_open = 1
+" command! -nargs=+ TT Topen | T
 
 " For Limelight to work with colorscheme (:help cterm-colors)
 let g:limelight_conceal_ctermfg = 'gray'
@@ -203,8 +206,9 @@ let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
 " True colors
 
 " Gruvbox
-colorscheme gruvbox
 set background=dark
+let g:gruvbox_color_column='bg0'
+colorscheme gruvbox
 
 "colorscheme apprentice
 "colorscheme one
@@ -240,14 +244,21 @@ nnoremap <silent> <leader>L :NERDTreeFind<CR>
 " Slimux Send Selection
 nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
 vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
-"nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
+nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
+nnoremap <silent> mm :!python %<CR>
+nmap m<CR> :!tmux send-keys -t .1 "python %:p"; tmux send-keys -t .1 C-m<CR><CR>
+
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
 " Neoterm Send Selection
-"nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
+nmap gx <Plug>(neoterm-repl-send)
+xmap gx <Plug>(neoterm-repl-send)
+nmap gxx <Plug>(neoterm-repl-send-line)
+nnoremap <leader>t :Ttoggle<CR>
+" nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
-nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
-vnoremap <silent> <leader><CR> :TREPLSendSelection<CR>
+" nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
+" vnoremap <silent> <leader><CR> :TREPLSendSelection<CR>
 
 " Escape key to jk
 inoremap jj <Esc>`^
@@ -334,7 +345,7 @@ nnoremap <leader>g :Goyo<CR>
 " Vimwiki
 " Todo Toggle conflicts with Choosing keyboard language
 " From: https://github.com/vimwiki/vimwiki/blob/master/doc/vimwiki.txt
-nmap <Leader>tt <Plug>VimwikiToggleListItem
+" nmap <Leader>tt <Plug>VimwikiToggleListItem
 nmap <Leader>w<Leader>g <Plug>VimwikiMakeDiaryNote<Esc>:Goyo<CR>i
 
 " }}}
@@ -391,11 +402,14 @@ augroup my_autocmds
         \| endif
 augroup END
 
-" Focus
+" Focus function
 function! s:focus()
 augroup focus
 autocmd!
+
 set cursorline
+highlight CursorLine ctermbg=236
+" highlight Colorcolumn ctermbg=NONE
 " let &l:colorcolumn='+' . join(range(1, 255), ',+')
 
 " Make current window more obvious by turning off/adjusting some features in non-current windows.
@@ -418,12 +432,14 @@ set cursorline
 augroup END
 endfunction
 
+" Call focus function to set greyed columns on and off
 call s:focus()
 
 " }}}
 " Commands and Functions {{{
 
 function! s:goyo_enter()
+    " Uncomment these lines to turn on gray colorcolumns
     augroup focus
       autocmd!
     augroup END
@@ -453,6 +469,7 @@ function! s:goyo_leave()
     endfor
     Limelight!
     call deoplete#custom#option('auto_complete', v:true)
+    " Uncomment this line to turn on gray colorcolumns
     call s:focus()
 endfunction
 

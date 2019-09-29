@@ -1,6 +1,3 @@
----
-title: "Dotfiles"
----
 # Description 
 This repo contains my dotfiles. After cloning the repo, the file `install.sh` creates symlinks to the respective file locations.
 

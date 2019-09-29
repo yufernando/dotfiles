@@ -24,6 +24,7 @@ ln -svf $DIR/jupyter_notebook_config.py ~/.jupyter/jupyter_notebook_config.py
 ln -svf $DIR/plugin.jupyterlab-settings ~/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/plugin.jupyterlab-settings
 ln -svf $DIR/settings.json              ~/Library/Application\Support/Code/User/settings.json
 ln -svf $DIR/karabiner.json             ~/.config/karabiner/karabiner.json
+ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.sty
 
 # Italics in iTerm and Tmux
 # https://apple.stackexchange.com/a/267261

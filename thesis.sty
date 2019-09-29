@@ -1,0 +1,34 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{examplepackage}[2019/09/27 Thesis LaTeX package]
+
+\RequirePackage[T1]{fontenc}                % Works better with accents
+\RequirePackage[bitstream-charter]{mathdesign} % Font (inspired by Chad Jones style)
+\RequirePackage{microtype}                  % Improves general appearance of text
+\renewcommand{\baselinestretch}{1.5}	    % Spacing 
+\RequirePackage[margin=1in]{geometry}		% Margins
+\RequirePackage{amsmath}				    % Math 
+\RequirePackage{amsthm}				        % Theorem
+    \newtheorem{claim}{Claim} 
+    \newtheorem{corollary}{Corollary} 
+    \newtheorem{theorem}{Theorem}
+\RequirePackage{bbm}                        % Indicator function 
+\RequirePackage{graphicx}				    % Figures
+    \graphicspath{{/Users/Fer/Dropbox/Research/diversification/figs/}}
+\RequirePackage[longnamesfirst]{natbib}		% Bibliography.  
+    \setlength{\bibsep}{6.5pt}			    % Reduce spacing in bibliography entries.  
+\RequirePackage{comment}				    % Comment out entire block
+\RequirePackage[svgnames]{xcolor}           % Color palette for title and sections
+\RequirePackage{sectsty}                    % Sets color of sections
+    \sectionfont{\color{DarkBlue}}
+    \subsectionfont{\color{DarkBlue}}
+\renewcommand{\abstractname}{\color{DarkBlue}Abstract}
+\renewcommand{\figurename}{\color{DarkBlue}Figure}
+\renewcommand{\tablename}{\color{DarkBlue}Table}
+\RequirePackage{natbib}                     % Bibliography
+\RequirePackage[inline,shortlabels]{enumitem} % Lists in same line
+\RequirePackage[title]{appendix}            % Appendix
+\RequirePackage{datetime}       
+\newdateformat{monthyeardate}{%             % Date format below title
+  \monthname[\THEMONTH], \THEYEAR}
+
+\endinput

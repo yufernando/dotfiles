@@ -1,0 +1,17 @@
+{
+    "telemetry.enableTelemetry": false,
+    "python.pythonPath": "/Users/Fer/anaconda3/envs/ds1/bin/python",
+    "window.zoomLevel": 1,
+    "workbench.colorTheme": "Visual Studio Dark",
+    "zenMode.fullScreen": false,
+    "editor.minimap.enabled": false,
+    "vim.textwidth": 100,
+    "zenMode.centerLayout": false,
+    "latex-workshop.view.pdf.viewer": "tab",
+    "files.associations": {
+        "*.wiki": "markdown"
+    },
+    "zenMode.hideStatusBar": false,
+    "python.dataScience.sendSelectionToInteractiveWindow": false,
+    "explorer.confirmDelete": false
+}

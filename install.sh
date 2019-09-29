@@ -11,15 +11,19 @@ DIR=$PWD
 # Create Symlinks
 
 ln -svf $DIR/bash_profile               ~/.bash_profile
-ln -svf $DIR/init.vim                   ~/.config/nvim/init.vim
-ln -svf $DIR/tmux.conf                  ~/.tmux.conf
-ln -svf $DIR/vimrc                      ~/.vimrc
+ln -svf $DIR/gitconfig                  ~/.gitconfig
 ln -svf $DIR/zshrc                      ~/.zshrc
+ln -svf $DIR/vimrc                      ~/.vimrc
+ln -svf $DIR/init.vim                   ~/.config/nvim/init.vim
 ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim        
-ln -svf $DIR/jupyter_notebook_config.py ~/.jupyter/jupyter_notebook_config.py
+ln -svf $DIR/tmux.conf                  ~/.tmux.conf
 ln -svf $DIR/tmux/tunes.js              ~/.tmux/tunes.js
+ln -svf $DIR/stata_kernel.conf          ~/.stata_kernel.conf
 ln -svf $DIR/latexmkrc                  ~/.latexmkrc
+ln -svf $DIR/jupyter_notebook_config.py ~/.jupyter/jupyter_notebook_config.py
 ln -svf $DIR/plugin.jupyterlab-settings ~/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/plugin.jupyterlab-settings
+ln -svf $DIR/settings.json              ~/Library/Application\Support/Code/User/settings.json
+ln -svf $DIR/karabiner.json             ~/.config/karabiner/karabiner.json
 
 # Italics in iTerm and Tmux
 # https://apple.stackexchange.com/a/267261

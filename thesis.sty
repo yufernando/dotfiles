@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{examplepackage}[2019/09/27 Thesis LaTeX package]
+\ProvidesPackage{thesis}[2019/09/27 Thesis LaTeX package]
 
 \RequirePackage[T1]{fontenc}                % Works better with accents
 \RequirePackage[bitstream-charter]{mathdesign} % Font (inspired by Chad Jones style)
@@ -24,11 +24,11 @@
 \renewcommand{\abstractname}{\color{DarkBlue}Abstract}
 \renewcommand{\figurename}{\color{DarkBlue}Figure}
 \renewcommand{\tablename}{\color{DarkBlue}Table}
-\RequirePackage{natbib}                     % Bibliography
 \RequirePackage[inline,shortlabels]{enumitem} % Lists in same line
 \RequirePackage[title]{appendix}            % Appendix
 \RequirePackage{datetime}       
 \newdateformat{monthyeardate}{%             % Date format below title
   \monthname[\THEMONTH], \THEYEAR}
+\usepackage{subfiles}
 
 \endinput

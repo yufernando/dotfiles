@@ -13,5 +13,6 @@
     },
     "zenMode.hideStatusBar": false,
     "python.dataScience.sendSelectionToInteractiveWindow": false,
-    "explorer.confirmDelete": false
+    "explorer.confirmDelete": false,
+    "zenMode.hideLineNumbers": false
 }

@@ -28,8 +28,11 @@
 \RequirePackage[inline,shortlabels]{enumitem} % Lists in same line
 \RequirePackage[title]{appendix}            % Appendix
 \RequirePackage{datetime}       
-\newdateformat{monthyeardate}{%             % Date format below title
+\newdateformat{monthyeardate}{              % Date format below title
   \monthname[\THEMONTH], \THEYEAR}
-\usepackage{subfiles}
+\RequirePackage{subfiles}
+\RequirePackage{authblk}                    % Blocks of author and affiliation
+    \renewcommand*{\Affilfont}{\normalsize\normalfont}
+
 
 \endinput

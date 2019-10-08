@@ -23,6 +23,9 @@ set number
 set number relativenumber
 set ruler
 
+" Case insensitive search
+set ignorecase
+
 " Indentation:
 set tabstop=4       " The width of a TAB is set to 4.
                     " Still it is a \t. It is just that
@@ -97,6 +100,7 @@ Plug 'vimwiki/vimwiki'
 "Plug 'lervag/vimtex'                " Latex
 "Plug 'w0rp/ale'                     " Code syntax
 "Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
+Plug 'bkad/camelcasemotion'
 call plug#end()
 " }}}
 " Plugin Modifications {{{
@@ -195,6 +199,14 @@ let g:vimwiki_list = [ferwiki]
 let g:jupytext_fmt = 'py'
 let g:jupytext_fmt = 'python' "convert to .py files
 let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
+
+" CamelCaseMotion: treat _ as word separator
+omap <silent> iw <Plug>CamelCaseMotion_iw
+xmap <silent> iw <Plug>CamelCaseMotion_iw
+omap <silent> ib <Plug>CamelCaseMotion_ib
+xmap <silent> ib <Plug>CamelCaseMotion_ib
+omap <silent> ie <Plug>CamelCaseMotion_ie
+xmap <silent> ie <Plug>CamelCaseMotion_ie
 
 "}}}
 " UI Customization {{{

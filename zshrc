@@ -74,9 +74,9 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 
 plugins=(
-  git 
-  osx 
-  kubectl 
+  # git 
+  # osx # to control spotify
+  # kubectl # For Kubernetes on Google Cloud
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
@@ -137,18 +137,22 @@ alias python='python3'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/Fer/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/Fer/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/Fer/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/Fer/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+# __conda_setup="$('/Users/Fer/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/Fer/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/Users/Fer/anaconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/Fer/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
 # <<< conda initialize <<<
+
+# Note: the script above caused tmux to take too long to initialize: instead I followedd
+# https://github.com/conda/conda/blob/master/CHANGELOG.md#440-2017-12-20
+. "/Users/Fer/anaconda3/etc/profile.d/conda.sh"
 conda deactivate
 
 # TeX and X11 directories are added to path from /etc/paths.d
@@ -210,7 +214,7 @@ bindkey -v # Vim mode for zsh command line
 # }}}
 # Other {{{
 # Solves problem with Tmux and Conda environments
-[[ -z $TMUX ]] || conda deactivate; #conda activate base
+# [[ -z $TMUX ]] || source deactivate; #conda activate base
 
 # Run rbenv to manage Ruby versions
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi

@@ -129,8 +129,9 @@ alias vi='nvim -u NONE' # Load vim without settings
 alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
 # Call Python 3 by default. This does not and should not change the symlink to
 # /usr/local/lib/python
-alias python='python3'
-# alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app='
+# alias python='python3'
+
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
 #}}}
 # Path {{{

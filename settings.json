@@ -1,8 +1,7 @@
 {
     "telemetry.enableTelemetry": false,
-    "python.pythonPath": "/Users/Fer/anaconda3/envs/ds1/bin/python",
+    "python.pythonPath": "/Users/Fer/anaconda3/envs/ds0/bin/python",
     "window.zoomLevel": 1,
-    "workbench.colorTheme": "Visual Studio Dark",
     "zenMode.fullScreen": false,
     "editor.minimap.enabled": false,
     "vim.textwidth": 100,
@@ -22,14 +21,22 @@
     "vim.camelCaseMotion.enable": true,
     "vim.visualModeKeyBindings": [
         {
-            "before": ["<C-`>"],
-            "after": ["<Esc>"]
+            "before": [
+                "<C-`>"
+            ],
+            "after": [
+                "<Esc>"
+            ]
         }
     ],
     "vim.insertModeKeyBindings": [
         {
-            "before": ["<C-`>"],
-            "after": ["<Esc>"]
+            "before": [
+                "<C-`>"
+            ],
+            "after": [
+                "<Esc>"
+            ]
         }
     ],
     "vim.neovimPath": "/usr/local/bin/nvim",
@@ -71,14 +78,17 @@
         "macroeconomía",
         "macroeconómicos",
         "marroquinería",
+        "microeconómica",
         "microeconómico",
         "neoclásica",
         "optimización",
         "paradigmático",
+        "performance",
         "poliamidas",
         "preselección",
         "prevalencia",
         "priorización",
+        "prospectos",
         "rankear",
         "recesivo",
         "redituable",
@@ -87,6 +97,7 @@
         "regulatorios",
         "similaridad",
         "sofisticación",
+        "stock",
         "subfigure",
         "subnacionales",
         "subsector",
@@ -102,6 +113,151 @@
         "\\\\hyphenation{[A-Za-z0-9, -]+}",
         "\\w+{",
         "\\\\textwidth",
-        "itemizecolor"],
+        "itemizecolor"
+    ],
     "rewrap.wrappingColumn": 100,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "cSpell.language": ",es",
+    "cSpell.enabled": false,
+    // Controls the font family.
+    "editor.fontFamily": "OperatorMono-Book, Fira Code, Victor Mono, Menlo, Monaco, 'Courier New', monospace",
+    // Controls the font size in pixels.
+    "editor.fontSize": 13,
+    // Enables/Disables font ligatures.
+    "editor.fontLigatures": true,
+    // Controls the font size in pixels.
+    "workbench.colorTheme": "Operator Mono Dark Theme",
+    // Controls the font weight.
+    "editor.fontWeight": "400", //Normal = 400
+    // Latex-Tools Compilers
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "lualatexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-lualatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk_rconly",
+            "command": "latexmk",
+            "args": [
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "xelatexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-xelatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk 🔃",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "latexmk (latexmkrc)",
+            "tools": [
+                "latexmk_rconly"
+            ]
+        },
+        {
+            "name": "latexmk (lualatex)",
+            "tools": [
+                "lualatexmk"
+            ]
+        },
+        {
+            "name": "pdflatex ➞ bibtex ➞ pdflatex × 2",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "xelatexmk (xelatex)",
+            "tools": [
+                "xelatexmk"
+            ]
+        }
+    ],
+    "workbench.settings.useSplitJSON": true,
+    // Prettier
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.singleQuote": true,
+    "prettier.jsxSingleQuote": true,
+    // ESLint
+    "editor.codeActionsOnSave": {
+        // For ESLint
+        "source.fixAll.eslint": true,
+        // For TSLint
+        "source.fixAll.tslint": true,
+        // For Stylelint
+        "source.fixAll.stylelint": true
+    },
+    // VSCode
+    "editor.formatOnSave": true,
+    // Vetur
+    "vetur.validation.template": false,
+    "vetur.format.defaultFormatterOptions": {
+        "prettyhtml": {
+          "printWidth": 100, // No line exceeds 100 characters
+          "singleQuote": false // Prefer double quotes over single quotes
+        }
+    },
+    "editor.tabSize": 2
 }

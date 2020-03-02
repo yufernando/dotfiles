@@ -117,6 +117,7 @@ c.LabApp.browser = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chro
 ## The notebook manager class to use.
 #c.NotebookApp.contents_manager_class = 'notebook.services.contents.largefilemanager.LargeFileManager'
 c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager"
+# Note: disable this for conda environments that don't have Jupytext installed
 
 ## Extra keyword arguments to pass to `set_secure_cookie`. See tornado's
 #  set_secure_cookie docs for details.

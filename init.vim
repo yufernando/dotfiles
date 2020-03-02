@@ -278,6 +278,10 @@ inoremap jk <Esc>`^
 inoremap kj <Esc>`^
 inoremap <C-c> <Esc>`^
 
+" Insert blank lines below and above: https://superuser.com/a/607168 (Tim Pope)
+nnoremap <silent> ]<Space> :<C-u>put =repeat(nr2char(10),v:count)<Bar>execute "'[-1"<CR>
+nnoremap <silent> [<Space> :<C-u>put!=repeat(nr2char(10),v:count)<Bar>execute "']+1"<CR>
+
 " Maps for Spanish Keyboard
 inoremap ç \
 

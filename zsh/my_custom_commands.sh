@@ -32,17 +32,20 @@ vman() {
     unset MANDWIDTH
 }
 
-function chrome() {
-    case $1 in 
-        app)
-            PORT=${2:-http://localhost:8888}
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$PORT
-            ;;
-        *)
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$1
-            ;;
-    esac
-}
+# function chrome() {
+#     case $1 in 
+#         app)
+#             PORT=${2:-http://localhost:8888}
+#             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$PORT
+#             ;;
+#         --headless)
+#             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --headless
+#             ;;
+#         *)
+#             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$1
+#             ;;
+#     esac
+# }
 
 function note() {
     case $1 in 

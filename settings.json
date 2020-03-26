@@ -259,5 +259,7 @@
           "singleQuote": false // Prefer double quotes over single quotes
         }
     },
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "search.useIgnoreFiles": false,
+    "editor.largeFileOptimizations": false
 }

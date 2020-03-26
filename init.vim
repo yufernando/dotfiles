@@ -101,6 +101,8 @@ Plug 'vimwiki/vimwiki'
 "Plug 'w0rp/ale'                     " Code syntax
 "Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
 Plug 'bkad/camelcasemotion'
+Plug 'posva/vim-vue'                 " Vue syntax highlighting
+
 call plug#end()
 " }}}
 " Plugin Modifications {{{

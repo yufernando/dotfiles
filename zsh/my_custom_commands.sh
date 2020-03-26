@@ -48,7 +48,7 @@ vman() {
 # }
 
 function note() {
-    case $1 in 
+    case "$1" in 
         cabinet)
             shift
             echo "Creating note in Cabinet with title \"$*\"."
@@ -65,6 +65,10 @@ function note() {
             shift
             echo "Editing note with content \"$*\"."
             geeknote edit --note "$*" --content "WRITE" 
+            ;;
+        "")
+            echo "Creating a new note in Inbox with title \"Note from terminal\"."
+            geeknote create --title "Note from terminal"
             ;;
         *)
             echo "Creating a new note in Inbox with title \"$*\"."
@@ -86,3 +90,19 @@ DIR=$PWD
 
 echo "Exported $DIR/$1.pdf" 
 }
+
+# Create docker container
+# This command pulls the jupyter/scipy-notebook image from Docker Hub if it is
+# not already present on the local host. It then starts an ephemeral container
+# running a Jupyter Notebook server and exposes the server on host port 8888.
+# The command mounts the current working directory on the host as
+# /home/jovyan/work in the container. The server logs appear in the terminal.
+# Visiting http://<hostname>:10000/?token=<token> in a browser loads
+# JupyterLab, where hostname is the name of the computer running docker and
+# token is the secret token printed in the console. Docker destroys the
+# container after notebook server exit, but any files written to ~/work in the
+# container remain intact on the host.:
+function dockerlab() {
+docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan/work jupyter/scipy-notebook
+}
+

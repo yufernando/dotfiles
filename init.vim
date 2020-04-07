@@ -92,6 +92,7 @@ Plug 'davidhalter/jedi'
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'
@@ -210,8 +211,14 @@ xmap <silent> ib <Plug>CamelCaseMotion_ib
 omap <silent> ie <Plug>CamelCaseMotion_ie
 xmap <silent> ie <Plug>CamelCaseMotion_ie
 
+" Go automatic imports
+let g:go_fmt_command = "goimports"
+
 "}}}
 " UI Customization {{{
+
+" Blinking Cursor (from :help guicursor)
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 
 " let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"

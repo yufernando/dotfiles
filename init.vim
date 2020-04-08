@@ -18,7 +18,8 @@ set nocompatible     " Loads .vimrc as your own .vimrc. Was used for compatibili
 set textwidth=79
 
 " syntax enable
-syntax off
+" syntax off
+" syntax on
 set number
 set number relativenumber
 set ruler
@@ -211,8 +212,14 @@ xmap <silent> ib <Plug>CamelCaseMotion_ib
 omap <silent> ie <Plug>CamelCaseMotion_ie
 xmap <silent> ie <Plug>CamelCaseMotion_ie
 
-" Go automatic imports
+" Vim-go: Go automatic imports
 let g:go_fmt_command = "goimports"
+" Vim-go: Syntax highlighting
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
 
 "}}}
 " UI Customization {{{

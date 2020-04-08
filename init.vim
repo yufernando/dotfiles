@@ -42,10 +42,10 @@ set splitbelow      " Split below
 set splitright      " Split to the right, feels more natural 
 
 set statusline=
-set statusline+=%#LineNr#
-set statusline+=%f
-set statusline+=\ %{FugitiveStatusline()}
-set laststatus=0    " Hide status bar
+set statusline+=%#LineNr#   " Status line background color
+set statusline+=%f          " file name in status line
+set statusline+=\ %{FugitiveStatusline()} " Git info in status line
+set laststatus=0            " Hide status bar
 
 set foldmethod=marker " Fold with three brackets
 
@@ -228,7 +228,7 @@ set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinko
 
 " Gruvbox
 set background=dark
-let g:gruvbox_color_column='bg0'
+" let g:gruvbox_color_column='bg0'
 colorscheme gruvbox
 
 "colorscheme apprentice
@@ -405,7 +405,7 @@ augroup filetype_settings
     autocmd FileType markdown,vimwiki nnoremap <leader>md :<C-u>silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR>:silent call system('open -a "Google Chrome" '.expand('%:p:r:S').'.html')<CR> 
     " \:<C-u>silent call system('open -a "Google Chrome" %')
     autocmd FileType vimwiki set syntax=markdown
-augroup end
+augroup END
 
 " https://vi.stackexchange.com/a/17550
 augroup my_autocmds
@@ -434,7 +434,8 @@ autocmd!
 
 set cursorline
 highlight CursorLine ctermbg=236
-" highlight Colorcolumn ctermbg=NONE
+" Set color of greyed-out columns to the right
+highlight Colorcolumn ctermbg=236
 " let &l:colorcolumn='+' . join(range(1, 255), ',+')
 
 " Make current window more obvious by turning off/adjusting some features in non-current windows.

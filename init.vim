@@ -396,9 +396,9 @@ augroup filetype_settings
 
     " Latex no indent environments (Abstract, theorem, etc)
     autocmd FileType tex set indentkeys-=o
-    " Shift+d: Compile tex file using latexmk
-    autocmd FileType tex nmap <buffer> <C-T> :!latexmk -pdf %<CR>
-    " Open tex file in Skim
+    " Ctrl+t: Compile tex file using latexmk
+    autocmd FileType tex nmap <buffer> <C-T> :w<CR> :<C-u>silent call system('pdflatex '.expand('%'))<CR>
+    " Shift+t:Open tex file in Skim
     autocmd FileType tex nmap <buffer> <S-T> :!open -a skim %:r.pdf<CR><CR><D-S-->
 
     " Vimwiki autocommands

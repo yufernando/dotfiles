@@ -126,6 +126,9 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 alias skim='open -a skim'
 alias vim='nvim'
 alias vi='nvim -u NONE' # Load vim without settings
+# Set neovim server name to use with neovim-remote (nvr)
+# https://github.com/mhinz/neovim-remote)
+export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
 # Call Python 3 by default. This does not and should not change the symlink to
 # /usr/local/lib/python
@@ -154,7 +157,7 @@ alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 # Note: the script above caused tmux to take too long to initialize: instead I followedd
 # https://github.com/conda/conda/blob/master/CHANGELOG.md#440-2017-12-20
 . "/Users/Fer/anaconda3/etc/profile.d/conda.sh"
-conda deactivate
+# conda deactivate
 
 # TeX and X11 directories are added to path from /etc/paths.d
 
@@ -162,7 +165,8 @@ conda deactivate
 PATH="/usr/local/bin:$PATH"
 
 # Use Anaconda Python 3 before /usr/local
-PATH="/Users/Fer/anaconda3/bin:$PATH"
+# Disabled in 2020. Instead, conda activate before using python
+# PATH="/Users/Fer/anaconda3/bin:$PATH"
 
 # Add Latexmk to path
 PATH="$PATH:/Library/TeX/texbin"

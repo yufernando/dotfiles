@@ -196,6 +196,12 @@ if [ -f '/Users/Fer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Fer/g
 typeset -gxU path # equivalent to 'export PATH' but also keep unique entries
 export PATH
 
+# Pipenv
+PATH="$PATH:$HOME/.local/bin"
+
+# Linuxbrew
+PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"
+
 # CS50 tutorial: add to path so it finds cs50.h
 export LIBRARY_PATH=/usr/local/lib
 # Configure clang

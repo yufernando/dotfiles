@@ -6,7 +6,18 @@ DIR=$PWD
 
 # Installation
 
-# git clone git@github.com:yufernando/dotfiles.git
+./install.sh
+
+# Configuration
+
+# Create config files
+#Vim
+mkdir -p ~/.config/nvim/
+touch ~/.config/nvim/init.vim
+#Tmux
+touch ~/.tmux.conf
+#zshrc
+touch ~/.zshrc
 
 # Create Symlinks
 

@@ -11,6 +11,8 @@ sudo apt-get install build-essential
 echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/fer/.zprofile
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 brew install gcc
+#install pip
+sudo apt install python3-pip
 
 # Install VIM
 sudo apt install neovim

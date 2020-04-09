@@ -135,6 +135,7 @@ alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --
 # Call Python 3 by default. This does not and should not change the symlink to
 # /usr/local/lib/python
 # alias python='python3'
+alias pip='pip3'
 
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 

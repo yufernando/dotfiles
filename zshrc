@@ -180,9 +180,6 @@ PATH="$PATH:/Library/Frameworks/Python.framework/Versions/2.7/bin"
 # Add Visual Studio Code (code)
 PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
-# Vimgolf
-PATH="$PATH:/Users/Fer/.gem/ruby/2.3.0/bin"
-
 # Dotfiles
 PATH="$PATH:/Users/Fer/.dotfiles/"
 
@@ -193,7 +190,6 @@ if [ -f '/Users/Fer/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/Fer/google-
 if [ -f '/Users/Fer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Fer/google-cloud-sdk/completion.zsh.inc'; fi
 
 typeset -gxU path # equivalent to 'export PATH' but also keep unique entries
-export PATH
 
 # CS50 tutorial: add to path so it finds cs50.h
 export LIBRARY_PATH=/usr/local/lib
@@ -207,6 +203,13 @@ export C_INCLUDE_PATH=/usr/local/include
 # Extended globbing options: allows ^(file.txt) to select everything but file.txt
 # set -o gives full list of options
 setopt extendedglob
+
+# Ruby
+PATH="$PATH:$HOME/.rbenv/versions/2.6.1/bin"
+# Vimgolf
+PATH="$PATH:/Users/Fer/.gem/ruby/2.3.0/bin"
+
+export PATH
 
 # }}}
 # Source files {{{

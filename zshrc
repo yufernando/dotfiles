@@ -125,6 +125,8 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 # alias ohmyzsh="mate ~/.oh-my-zsh
 alias skim='open -a skim'
 alias vim='nvim'
+# For Linux: when installing with linuxbrew
+# alias vim = './home/linuxbrew/.linuxbrew/Cellar/neovim/0.4.3_1/bin/nvim'
 alias vi='nvim -u NONE' # Load vim without settings
 # Set neovim server name to use with neovim-remote (nvr)
 # https://github.com/mhinz/neovim-remote)

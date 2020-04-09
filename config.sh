@@ -14,6 +14,8 @@ DIR=$PWD
 #Vim
 mkdir -p ~/.config/nvim/
 touch ~/.config/nvim/init.vim
+mkdir -p ~/.vim/autoload/
+touch ~/.vim/autoload/autocmds.vim
 #Tmux
 touch ~/.tmux.conf
 #zshrc
@@ -44,3 +46,5 @@ tic -o ~/.terminfo tmux-256color.terminfo.txt
 tic -o ~/.terminfo tmux.terminfo.txt
 
 echo "Installation complete! Relogin please"
+
+# After installing Vim, run :PlugInstall

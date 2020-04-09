@@ -2,8 +2,21 @@
 
 # In Linux
 
+# Install utilities
+#curl
+sudo apt install curl
+#homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+sudo apt-get install build-essential
+echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/fer/.zprofile
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+brew install gcc
+
 # Install VIM
 sudo apt install neovim
+# Install vim-plug
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Install git
 sudo apt install git

@@ -156,7 +156,7 @@ alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
 # Note: the script above caused tmux to take too long to initialize: instead I followedd
 # https://github.com/conda/conda/blob/master/CHANGELOG.md#440-2017-12-20
-. "/Users/Fer/anaconda3/etc/profile.d/conda.sh"
+. "$HOME/anaconda3/etc/profile.d/conda.sh"
 # conda deactivate
 
 # TeX and X11 directories are added to path from /etc/paths.d

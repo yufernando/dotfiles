@@ -6,7 +6,7 @@ DIR=$PWD
 
 # Installation
 
-./install.sh
+#./install.sh
 
 # Configuration
 

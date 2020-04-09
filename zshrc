@@ -134,7 +134,7 @@ export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
 # Call Python 3 by default. This does not and should not change the symlink to
 # /usr/local/lib/python
-# alias python='python3'
+alias python='python3'
 alias pip='pip3'
 
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"

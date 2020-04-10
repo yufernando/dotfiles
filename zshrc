@@ -209,6 +209,9 @@ PATH="$PATH:$HOME/.rbenv/versions/2.6.1/bin"
 # Vimgolf
 PATH="$PATH:/Users/Fer/.gem/ruby/2.3.0/bin"
 
+# Rust and Cargo package manager
+export PATH="$HOME/.cargo/bin:$PATH"
+
 export PATH
 
 # }}}

@@ -134,8 +134,8 @@ let g:deoplete#enable_at_startup = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_folding_level = 2    " Do not fold title
 let g:vim_markdown_folding_disabled = 1
-let g:tex_conceal = ""
 let g:vim_markdown_math = 1             " Avoid math syntax conceal
+let g:tex_conceal = ""
 set conceallevel=2                      " Highlight Bold and Italic 
 
 " Deoplete Jedi
@@ -230,16 +230,16 @@ set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinko
 " Possible fix for for italics in Vim
 let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-set termguicolors
+" set termguicolors
 
 " Gruvbox
+"colorscheme apprentice
+"colorscheme one
+colorscheme gruvbox
 set background=dark
 " let g:gruvbox_color_column='bg0'
 let g:gruvbox_italic=1
-colorscheme gruvbox
-
-"colorscheme apprentice
-"colorscheme one
+" let g:gruvbox_bold=1
 
 " Comments in italics
 highlight Comment cterm=italic
@@ -442,7 +442,7 @@ autocmd!
 set cursorline
 highlight CursorLine ctermbg=236
 " Set color of greyed-out columns to the right
-highlight Colorcolumn ctermbg=236
+" highlight Colorcolumn ctermbg=236
 " let &l:colorcolumn='+' . join(range(1, 255), ',+')
 
 " Make current window more obvious by turning off/adjusting some features in non-current windows.
@@ -485,9 +485,9 @@ function! s:goyo_enter()
           \   'showmode': &showmode
           \ }
     
+    " set statusline=\ 
     set colorcolumn=""
     set showbreak=
-    " set statusline=\ 
     set nocursorline
     set noshowmode
     call deoplete#custom#option('auto_complete', v:false)

@@ -74,13 +74,9 @@ Plug 'tpope/vim-surround'           " Edit surrounding text
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github
 Plug 'tpope/vim-vinegar'            " File browser
-Plug 'takac/vim-hardtime'           " Block repeat keys
 Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
-Plug 'epeli/slimux'                 " Send comands to tmux window
-Plug 'kassio/neoterm'               " Terminal in Vim
 Plug 'mhinz/vim-startify'           " Startup buffer
 Plug 'godlygeek/tabular'
-" Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
 " Deoplete
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -94,6 +90,7 @@ Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'posva/vim-vue'                 " Vue syntax highlighting
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'
@@ -102,8 +99,11 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'lervag/vimtex'                " Latex
 "Plug 'w0rp/ale'                     " Code syntax
 "Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
-Plug 'bkad/camelcasemotion'
-Plug 'posva/vim-vue'                 " Vue syntax highlighting
+" Plug 'bkad/camelcasemotion'
+" Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
+" Plug 'epeli/slimux'                 " Send comands to tmux window
+" Plug 'kassio/neoterm'               " Terminal in Vim
+" Plug 'takac/vim-hardtime'           " Block repeat keys
 
 call plug#end()
 " }}}

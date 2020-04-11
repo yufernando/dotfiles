@@ -227,19 +227,20 @@ let g:go_highlight_operators = 1
 " Blinking Cursor (from :help guicursor)
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 
-" Possible fix for for italics in Vim
-let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-" set termguicolors
-
 " Gruvbox
-"colorscheme apprentice
-"colorscheme one
-colorscheme gruvbox
+" colorscheme apprentice
+" colorscheme one
 set background=dark
 " let g:gruvbox_color_column='bg0'
-let g:gruvbox_italic=1
-" let g:gruvbox_bold=1
+let g:gruvbox_italic=1 "This should go before colorscheme gruvbox
+colorscheme gruvbox
+" let g:gruvbox_bold=1 "Enabled by default
+
+" TermGui colors for Gruvbox: https://github.com/morhetz/gruvbox/wiki/Terminal-specific
+" The first two lines are recommended for standard Vim
+" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
 
 " Comments in italics
 highlight Comment cterm=italic

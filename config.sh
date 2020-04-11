@@ -45,6 +45,7 @@ mv ~/.terminfo ~/.terminfo-backup
 rm -rf ~/.terminfo
 tic -x -o ~/.terminfo $DIR/terminfo/xterm-256color.terminfo
 tic -x -o ~/.terminfo $DIR/terminfo/tmux-256color.terminfo
+tic -x -o ~/.terminfo $DIR/terminfo/tmux.terminfo
 # Check with
 # export $TERM
 # echo `tput sitm`italics`tput ritm`

@@ -40,10 +40,10 @@ ln -svf $DIR/karabiner.json             ~/.config/karabiner/karabiner.json
 ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.sty
 
 # Italics in iTerm and Tmux
-# https://apple.stackexchange.com/a/267261
-tic -o ~/.terminfo xterm-256color.terminfo.txt
-tic -o ~/.terminfo tmux-256color.terminfo.txt
-tic -o ~/.terminfo tmux.terminfo.txt
+# https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
+mv ~/.terminfo ~/.terminfo-backup
+tic -x -o ~/.terminfo $DIR/terminfo/xterm-256color-italic.terminfo
+tic -x -o ~/.terminfo $DIR/terminfo/tmux-256color.terminfo
 
 echo "Installation complete! Relogin please"
 

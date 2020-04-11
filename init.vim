@@ -227,15 +227,15 @@ let g:go_highlight_operators = 1
 " Blinking Cursor (from :help guicursor)
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 
-" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-" set termguicolors
-
-" True colors
+" Possible fix for for italics in Vim
+let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
 
 " Gruvbox
 set background=dark
 " let g:gruvbox_color_column='bg0'
+let g:gruvbox_italic=1
 colorscheme gruvbox
 
 "colorscheme apprentice

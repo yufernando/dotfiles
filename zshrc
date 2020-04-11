@@ -111,6 +111,9 @@ export EDITOR="$VISUAL"
 
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd -t d . $HOME"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
 #}}}
 # Aliases {{{
@@ -217,6 +220,7 @@ export PATH
 # }}}
 # Source files {{{
 
+# Load oh-my-zsh: largest file, slow down startup
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/zsh/my_custom_commands.sh
 
@@ -226,6 +230,7 @@ bindkey '^[[A' fzf-history-widget
 bindkey -v # Vim mode for zsh command line
 # }}}
 # Other {{{
+
 # Solves problem with Tmux and Conda environments
 # [[ -z $TMUX ]] || source deactivate; #conda activate base
 
@@ -236,9 +241,6 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # NVM: Node package manager
-# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
 #}}}

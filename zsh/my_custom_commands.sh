@@ -47,6 +47,7 @@ vman() {
 #     esac
 # }
 
+# Create Evernote notes from terminal
 function note() {
     case "$1" in 
         cabinet)
@@ -106,3 +107,10 @@ function dockerlab() {
 docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan/work jupyter/scipy-notebook
 }
 
+# Set default tmux session name
+tmux () {
+    if [ "$#" -eq 0 ]
+        then command tmux new -s "tmux"
+        else command tmux "$@"
+    fi
+}

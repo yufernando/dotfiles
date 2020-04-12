@@ -73,8 +73,6 @@ Plug 'junegunn/fzf.vim'             " Fuzzy finder for Vim
 Plug 'tpope/vim-surround'           " Edit surrounding text
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github
-Plug 'tpope/vim-vinegar'            " File browser
-Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
 Plug 'mhinz/vim-startify'           " Startup buffer
 Plug 'godlygeek/tabular'
 " Deoplete
@@ -104,6 +102,8 @@ Plug 'posva/vim-vue'                 " Vue syntax highlighting
 " Plug 'epeli/slimux'                 " Send comands to tmux window
 " Plug 'kassio/neoterm'               " Terminal in Vim
 " Plug 'takac/vim-hardtime'           " Block repeat keys
+" Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
+" Plug 'tpope/vim-vinegar'            " File browser
 
 call plug#end()
 " }}}

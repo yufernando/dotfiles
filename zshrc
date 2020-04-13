@@ -13,6 +13,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="agnostergit"
 ZSH_THEME="robbyrussell-userhost"
+# ZSH_THEME="robbyrussell"
 
 # Display username
 #DEFAULT_USER=`whoami`
@@ -225,7 +226,7 @@ source ~/.dotfiles/zsh/my_custom_commands.sh
 #}}}
 # Key Bindings {{{
 bindkey -v # Vim mode for zsh command line
-bindkey '^[[A' fzf-history-widget
+# bindkey '^[[A' fzf-history-widget
 # }}}
 # Other {{{
 # Solves problem with Tmux and Conda environments

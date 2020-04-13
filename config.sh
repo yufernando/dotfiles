@@ -26,7 +26,7 @@ touch ~/.zshrc
 ln -svf $DIR/bash_profile               ~/.bash_profile
 ln -svf $DIR/gitconfig                  ~/.gitconfig
 ln -svf $DIR/zshrc                      ~/.zshrc
-ln -svf $DIR/vimrc                      ~/.vimrc
+# ln -svf $DIR/vimrc                      ~/.vimrc #sudo vim error
 ln -svf $DIR/init.vim                   ~/.config/nvim/init.vim
 ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim        
 ln -svf $DIR/tmux.conf                  ~/.tmux.conf

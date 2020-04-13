@@ -32,20 +32,24 @@ vman() {
     unset MANDWIDTH
 }
 
-# function chrome() {
-#     case $1 in 
-#         app)
-#             PORT=${2:-http://localhost:8888}
-#             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$PORT
-#             ;;
-#         --headless)
-#             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --headless
-#             ;;
-#         *)
-#             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$1
-#             ;;
-#     esac
-# }
+function chromeapp() {
+    if [[ $# -eq 0 ]] ; then
+		/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=http://localhost:8888
+    else
+    case $1 in 
+        app)
+            PORT=${2:-http://localhost:8888}
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$PORT
+            ;;
+        --headless)
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --headless
+            ;;
+        *)
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$1
+            ;;
+    esac
+	fi
+}
 
 # Create Evernote notes from terminal
 function note() {
@@ -114,3 +118,20 @@ tmux () {
         else command tmux "$@"
     fi
 }
+
+# Tmux hostname in pane title after ssh
+# ssh() {
+#     if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+#         # echo "This is a Tmux session."
+#         tmux set -g pane-border-status top
+#         # tmux set -g pane-border-format "$(echo $* | cut -d . -f 1)"
+#         # tmux set -g pane-border-format "#{pane_index} #{pane_current_command}"
+#         tmux set -g pane-border-format "#T"
+#         tmux select-pane -T "$(echo $* | cut -d . -f 1)"
+#         command ssh "$@"
+#         # tmux set-window-option automatic-rename "on" 1>/dev/null
+#     else
+#         # echo "This is not a Tmux session."
+#         command ssh "$@"
+#     fi
+# }

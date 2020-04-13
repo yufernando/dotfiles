@@ -38,7 +38,6 @@ ln -svf $DIR/plugin.jupyterlab-settings ~/.jupyter/lab/user-settings/@jupyterlab
 ln -svf $DIR/settings.json              ~/Library/Application\Support/Code/User/settings.json
 ln -svf $DIR/karabiner.json             ~/.config/karabiner/karabiner.json
 ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.sty
-ln -svf $DIR/oh-my-zsh/robbyrussell.zsh-theme           ~/.oh-my-zsh/custom/themes/robbyrussell.zsh-theme
 ln -svf $DIR/oh-my-zsh/robbyrussell-userhost.zsh-theme  ~/.oh-my-zsh/custom/themes/robbyrussell-userhost.zsh-theme
 
 # Italics in iTerm and Tmux

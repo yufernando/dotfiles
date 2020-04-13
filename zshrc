@@ -12,7 +12,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="agnostergit"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="robbyrussell-userhost"
 
 # Display username
 #DEFAULT_USER=`whoami`

@@ -220,11 +220,12 @@ setopt extendedglob
 
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/zsh/my_custom_commands.sh
+# source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 #}}}
 # Key Bindings {{{
-bindkey '^[[A' fzf-history-widget
 bindkey -v # Vim mode for zsh command line
+bindkey '^[[A' fzf-history-widget
 # }}}
 # Other {{{
 # Solves problem with Tmux and Conda environments

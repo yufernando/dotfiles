@@ -2,7 +2,7 @@
 " ╚╗╔╝║║║║
 "  ╚╝ ╩╩ ╩
 
-" Setum {{{
+" Setup {{{
 
 " Transition to Neovim
 set runtimepath^=~/.vim runtimepath+=~/.vim/after

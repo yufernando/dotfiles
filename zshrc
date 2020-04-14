@@ -124,6 +124,9 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh
+
+# Allows sudo vim to open nvim
+ alias sudo='sudo '
 alias skim='open -a skim'
 alias vim='nvim'
 # For Linux: when installing with linuxbrew
@@ -145,18 +148,19 @@ alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/Users/Fer/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/Users/Fer/anaconda3/etc/profile.d/conda.sh" ]; then
-#         . "/Users/Fer/anaconda3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/Users/Fer/anaconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
+__conda_setup="$('/home/fer/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/fer/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/fer/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/fer/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
 # <<< conda initialize <<<
+# source /opt/conda/etc/profile.d/conda.sh  # commented out by conda initialize
 
 # Note: the script above caused tmux to take too long to initialize: instead I followedd
 # https://github.com/conda/conda/blob/master/CHANGELOG.md#440-2017-12-20

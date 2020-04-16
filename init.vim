@@ -74,7 +74,10 @@ Plug 'tpope/vim-surround'           " Edit surrounding text
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github
 Plug 'mhinz/vim-startify'           " Startup buffer
-Plug 'godlygeek/tabular'
+Plug 'morhetz/gruvbox'
+Plug 'vimwiki/vimwiki'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'posva/vim-vue'                 " Vue syntax highlighting
 " Deoplete
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -83,12 +86,8 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'davidhalter/jedi'
 Plug 'deoplete-plugins/deoplete-jedi'
-Plug 'morhetz/gruvbox'
-Plug 'vimwiki/vimwiki'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'posva/vim-vue'                 " Vue syntax highlighting
+" Plug 'davidhalter/jedi-vim'
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'
@@ -104,6 +103,7 @@ Plug 'posva/vim-vue'                 " Vue syntax highlighting
 " Plug 'takac/vim-hardtime'           " Block repeat keys
 " Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
 " Plug 'tpope/vim-vinegar'            " File browser
+" Plug 'godlygeek/tabular'
 
 call plug#end()
 " }}}
@@ -129,6 +129,35 @@ let g:limelight_conceal_ctermfg = 'gray'
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
+set completeopt+=noinsert " First result is suggested
+set completeopt-=preview  " Disable preview window in the bottom
+" command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
+" map TAB, C-j to down in popup and C-k to up in popup
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+call deoplete#custom#option({
+      \ 'auto_complete_popup': 'manual',
+      \ })
+inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<Tab>" :
+    \ deoplete#complete()
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Deoplete Jedi
+let g:python_host_prog  = '/usr/local/bin/python'
+let g:python3_host_prog = '/Users/Fer/anaconda3/envs/ds/bin/python' 
+
+" Jedi-Vim
+" let g:jedi#auto_vim_configuration = 0
+" let g:jedi#documentation_command = '<Leader>_K'
+" let g:jedi#completions_enabled = 0
+" let g:jedi#auto_close_doc = 0
 
 " Plasticboy markdown
 let g:vim_markdown_frontmatter = 1
@@ -137,11 +166,6 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_math = 1             " Avoid math syntax conceal
 let g:tex_conceal = ""
 set conceallevel=2                      " Highlight Bold and Italic 
-
-" Deoplete Jedi
-let g:python_host_prog  = '/Users/Fer/anaconda3/envs/ds/bin/python' 
-let g:python3_host_prog = '/Users/Fer/anaconda3/envs/ds/bin/python' 
-command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
 
 " FZF preview window
 command! -bang -nargs=? -complete=dir Files

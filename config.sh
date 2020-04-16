@@ -28,8 +28,6 @@ ln -svf $DIR/gitconfig                  ~/.gitconfig
 ln -svf $DIR/zshrc                      ~/.zshrc
 ln -svf $DIR/vimrc                      ~/.vimrc
 ln -svf $DIR/init.vim                   ~/.config/nvim/init.vim
-sudo ln -s /home/fer/.dotfiles/init.vim /root/.config/nvim/init.vim
-sudo ln -s /home/fer/.dotfiles/zshrc    /root/.zshrc
 ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim        
 ln -svf $DIR/tmux.conf                  ~/.tmux.conf
 ln -svf $DIR/tmux/tunes.js              ~/.tmux/tunes.js
@@ -41,7 +39,17 @@ ln -svf $DIR/settings.json              ~/Library/Application\Support/Code/User/
 ln -svf $DIR/karabiner.json             ~/.config/karabiner/karabiner.json
 ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.sty
 ln -svf $DIR/oh-my-zsh/robbyrussell-userhost.zsh-theme  ~/.oh-my-zsh/custom/themes/robbyrussell-userhost.zsh-theme
+
+#Remote server
+sudo ln -s /home/fer/.dotfiles/zshrc    /root/.zshrc
+sudo ln -s /home/fer/.dotfiles/init.vim /root/.config/nvim/init.vim
 sudo ln -svf $DIR/nginx/ferserver       /etc/nginx/sites-enabled/ferserver
+
+#Jupyterhub
+ln -svf $DIR/jupyterhub/jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
+#.dotfiles -> /srv -> /systemd
+sudo ln -svf $DIR/jupyterhub/jupyterhub.service /srv/jupyterhub/jupyterhub.service
+sudo ln -svf /srv/jupyterhub/jupyterhub.service /etc/systemd/system/jupyterhub.service  
 
 # Italics in iTerm and Tmux
 # https://apple.stackexchange.com/a/267261

@@ -23,7 +23,6 @@ map $http_upgrade $connection_upgrade {
 	''      close;
 }
 
-
 # Default server configuration
 #
 server {

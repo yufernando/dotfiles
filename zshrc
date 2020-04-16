@@ -129,6 +129,7 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
  alias sudo='sudo '
 alias skim='open -a skim'
 alias vim='nvim'
+# alias vim='~/nvim.appimage'
 # For Linux: when installing with linuxbrew
 # alias vim = './home/linuxbrew/.linuxbrew/Cellar/neovim/0.4.3_1/bin/nvim'
 alias vi='nvim -u NONE' # Load vim without settings

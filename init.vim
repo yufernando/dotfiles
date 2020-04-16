@@ -128,7 +128,36 @@ let g:limelight_conceal_ctermfg = 'gray'
 "call neomake#configure#automake('nw', 1000)
 
 " Deoplete
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
+" set completeopt+=noinsert " First result is suggested
+" set completeopt-=preview  " Disable preview window in the bottom
+" command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
+" map TAB, C-j to down in popup and C-k to up in popup
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+" inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+" call deoplete#custom#option({
+"       \ 'auto_complete_popup': 'manual',
+"       \ })
+" inoremap <silent><expr> <TAB>
+"     \ pumvisible() ? "\<C-n>" :
+"     \ <SID>check_back_space() ? "\<Tab>" :
+"     \ deoplete#complete()
+" function! s:check_back_space() abort
+"     let col = col('.') - 1
+"     return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+
+" Deoplete Jedi
+" let g:python_host_prog  = '/usr/bin/python' 
+" let g:python3_host_prog  = '/usr/bin/python3' 
+
+" Jedi-Vim
+" let g:jedi#auto_vim_configuration = 0
+" let g:jedi#documentation_command = '<Leader>_K'
+" let g:jedi#completions_enabled = 0
+" let g:jedi#auto_close_doc = 0
 
 " Plasticboy markdown
 let g:vim_markdown_frontmatter = 1
@@ -137,11 +166,6 @@ let g:vim_markdown_folding_disabled = 1
 let g:tex_conceal = ""
 let g:vim_markdown_math = 1             " Avoid math syntax conceal
 set conceallevel=2                      " Highlight Bold and Italic 
-
-" Deoplete Jedi
-let g:python_host_prog  = '/usr/bin/python' 
-let g:python3_host_prog  = '/usr/bin/python3' 
-command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
 
 " FZF preview window
 command! -bang -nargs=? -complete=dir Files

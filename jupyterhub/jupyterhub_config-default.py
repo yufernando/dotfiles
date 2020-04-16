@@ -96,6 +96,17 @@
 #    - pam: jupyterhub.auth.PAMAuthenticator
 #c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator'
 
+# Test: This Authenticator allows everyone with user=password
+# Source: https://www.youtube.com/watch?v=gSVvxOchT8Y&t=2114s
+# from jupyterhub.auth import Authenticator
+# class SecureAuthenticator(Authenticator):
+#     def authenticate(self, handler, data):
+#         username = data['username']
+#         # check password
+#         if data['username'] == data['password']:
+#             return username
+# c.JupyterHub.authenticator_class = SecureAuthenticator
+
 ## The base URL of the entire application.
 #  
 #  Add this to the beginning of all JupyterHub URLs. Use base_url to run
@@ -988,9 +999,9 @@ c.Authenticator.admin_users = {'fer'}
 #  
 #  If empty, does not perform any additional restriction.
 #c.Authenticator.whitelist = set()
-c.Authenticator.whitelist = {'guest','jeremy'}
+#c.Authenticator.whitelist = {'jeremy','guest'}
 # Use server's adduser command line tool to manage users
-c.LocalAuthenticator.create_system_users = True
+#c.LocalAuthenticator.create_system_users = True
 
 #------------------------------------------------------------------------------
 # CryptKeeper(SingletonConfigurable) configuration

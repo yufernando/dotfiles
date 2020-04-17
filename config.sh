@@ -39,6 +39,7 @@ ln -svf $DIR/settings.json              ~/Library/Application\Support/Code/User/
 ln -svf $DIR/karabiner.json             ~/.config/karabiner/karabiner.json
 ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.sty
 ln -svf $DIR/rc.conf                    ~/.config/ranger/rc.conf
+ln -svf ~/.dotfiles/zsh/robbyrussell-userhost.zsh-theme ~/.oh-my-zsh/custom/themes/robbyrussell-userhost.zsh-theme
 
 # Italics in iTerm and Tmux
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be

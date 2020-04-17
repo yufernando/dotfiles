@@ -42,8 +42,8 @@ ln -svf $DIR/rc.conf                    ~/.config/ranger/rc.conf
 
 # Italics in iTerm and Tmux
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-mv ~/.terminfo ~/.terminfo-backup
-rm -rf ~/.terminfo
+# mv ~/.terminfo ~/.terminfo-backup
+# rm -rf ~/.terminfo
 tic -x -o ~/.terminfo $DIR/terminfo/xterm-256color.terminfo
 tic -x -o ~/.terminfo $DIR/terminfo/tmux-256color.terminfo
 tic -x -o ~/.terminfo $DIR/terminfo/tmux.terminfo

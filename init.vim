@@ -79,14 +79,14 @@ Plug 'vimwiki/vimwiki'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'posva/vim-vue'                 " Vue syntax highlighting
 " Deoplete
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'deoplete-plugins/deoplete-jedi'
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" Plug 'deoplete-plugins/deoplete-jedi'
 " Plug 'davidhalter/jedi-vim'
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
@@ -128,30 +128,30 @@ let g:limelight_conceal_ctermfg = 'gray'
 "call neomake#configure#automake('nw', 1000)
 
 " Deoplete
-let g:deoplete#enable_at_startup = 1
-set completeopt+=noinsert " First result is suggested
-set completeopt-=preview  " Disable preview window in the bottom
+" let g:deoplete#enable_at_startup = 1
+" set completeopt+=noinsert " First result is suggested
+" set completeopt-=preview  " Disable preview window in the bottom
 " command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
 " map TAB, C-j to down in popup and C-k to up in popup
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+" inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 
-call deoplete#custom#option({
-      \ 'auto_complete_popup': 'manual',
-      \ })
-inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<Tab>" :
-    \ deoplete#complete()
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" call deoplete#custom#option({
+"       \ 'auto_complete_popup': 'manual',
+"       \ })
+" inoremap <silent><expr> <TAB>
+"     \ pumvisible() ? "\<C-n>" :
+"     \ <SID>check_back_space() ? "\<Tab>" :
+"     \ deoplete#complete()
+" function! s:check_back_space() abort
+"     let col = col('.') - 1
+"     return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 " Deoplete Jedi
-let g:python_host_prog  = '/usr/local/bin/python'
-let g:python3_host_prog = '/Users/Fer/anaconda3/envs/ds/bin/python' 
+" let g:python_host_prog  = '/usr/local/bin/python'
+" let g:python3_host_prog = '/Users/Fer/anaconda3/envs/ds/bin/python' 
 
 " Jedi-Vim
 " let g:jedi#auto_vim_configuration = 0

@@ -1,6 +1,7 @@
 # Description 
 This repository contains scripts to install useful tools (zsh, tmux, etc) and dotfiles for configuration.
 
+# New text
 Begin by cloning the repository into a hidden folder in the home directory:
 
 ```

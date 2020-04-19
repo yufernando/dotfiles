@@ -242,6 +242,8 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # NVM: Node package manager
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
+# Option --no-use delays initialization of nvm so session loads faster
+# As a result, nvm must be called every time I work on node: nvm use 13.9.0
 #}}}

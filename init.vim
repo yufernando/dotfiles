@@ -202,6 +202,7 @@ let g:ale_enabled = 0
 " NERD Tree hide help message
 let NERDTreeMinimalUI=1
 let NERDTreeShowBookmarks=1
+let g:NERDTreeQuitOnOpen=1 " Close NERDTree after opening file ('o')
 
 " Vim wiki
 " Not needed, I already use plasticboy markdown
@@ -300,8 +301,8 @@ nnoremap <silent> <leader>L :NERDTreeFind<CR>
 nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
 vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
 nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
-nnoremap <silent> mm :!python %<CR>
-nmap m<CR> :!tmux send-keys -t .1 "python %:p"; tmux send-keys -t .1 C-m<CR><CR>
+nnoremap <silent> mm :!python3 %<CR>
+nmap m<CR> :!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
 
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
@@ -395,8 +396,8 @@ nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 
 " VIMRC
-nnoremap <leader>d :e ~/.dotfiles/init.vim<CR>
-nnoremap <leader>D :source ~/.dotfiles/init.vim<CR>
+nnoremap <leader>d :e ~/.config/nvim/init.vim<CR>
+nnoremap <leader>D :source ~/.config/nvim/init.vim<CR>
 
 " Goyo
 nnoremap <leader>g :Goyo<CR>

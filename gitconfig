@@ -3,3 +3,15 @@
 	email = yufernando@gmail.com
 [gui]
 	recentrepo = /Users/Fer/Dropbox/Research/Diversification
+[diff]
+    tool = nvim
+[difftool]
+    prompt = true
+[difftool "nvim"]
+    cmd = nvim -d -c \"wincmd l\" -c \"cd $GIT_PREFIX\" $LOCAL $REMOTE
+[merge]
+    tool = nvim
+[mergetool]
+    prompt = false
+[mergetool "nvim"]
+    cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'

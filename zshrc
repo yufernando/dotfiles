@@ -110,7 +110,8 @@ export EDITOR="$VISUAL"
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+# Smart case: case insensitive only if all lowercase
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --smart-case'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"

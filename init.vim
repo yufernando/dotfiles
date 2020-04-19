@@ -260,7 +260,6 @@ set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinko
 set background=dark
 " let g:gruvbox_color_column='bg0'
 let g:gruvbox_italic=1 "This should go before colorscheme gruvbox
-colorscheme gruvbox
 " let g:gruvbox_bold=1 "Enabled by default
 
 " TermGui colors for Gruvbox: https://github.com/morhetz/gruvbox/wiki/Terminal-specific
@@ -495,6 +494,53 @@ endfunction
 
 " Call focus function to set greyed columns on and off
 call s:focus()
+
+augroup aug_nerd_tree
+  au!
+
+  " Auto launch tree when vim is run with directory as argument
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+  " Exit vim when the only buffer remaining is NerdTree
+  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+  " Use arrow keys to navigate
+  autocmd FileType nerdtree nmap <buffer> l o
+  autocmd FileType nerdtree nmap <buffer> L O
+  autocmd FileType nerdtree nmap <buffer> h p
+  autocmd FileType nerdtree nmap <buffer> H P
+
+  " Disable cursorline in NERDtree to avoid lags
+  " built-in g:NERDTreeHighlightCursorline does not work
+  autocmd FileType nerdtree setlocal nocursorline
+augroup END
+
+fun s:PatchGruvboxScheme()
+  " hi! ColorColumn ctermfg=255 ctermbg=203 guifg=#F8F8F2 guibg=#FF5555
+
+  " Show NERDTree directory nodes in yellow/green
+  " hi! __DirectoryNode cterm=bold ctermfg=214 gui=bold guifg=#E7A427
+  hi! __DirectoryNode cterm=bold ctermfg=106 gui=bold guifg=#689d69
+  " hi! link NerdTreeDir Directory
+  hi! link NerdTreeDir __DirectoryNode
+  " hi! link NERDTreeFlags Normal
+
+  " Show NERDTree toggle icons as white
+  " hi! link NERDTreeOpenable Normal
+  " hi! link NERDTreeOpenable Directory
+  " hi! link NERDTreeClosable Directory
+  hi! link NERDTreeOpenable __DirectoryNode
+  hi! link NERDTreeClosable __DirectoryNode
+endf
+
+" Customime color scheme after it was loaded
+augroup aug_color_scheme
+  au!
+
+  autocmd ColorScheme gruvbox call s:PatchGruvboxScheme()
+augroup END
+colorscheme gruvbox
 
 " }}}
 " Commands and Functions {{{

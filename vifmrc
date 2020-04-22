@@ -178,10 +178,10 @@ command! reload :write | restart
 
 " Pdf
 filetype *.pdf
-       \ {Open in Preview}
-       \ open -a Preview.app,
-       \ {Open in Skim}
-       \ open -a Skim.app,
+   \ {Open in Preview}
+   \ open -a Preview.app,
+   \ {Open in Skim}
+   \ open -a Skim.app,
 fileviewer *.pdf pdftotext -nopgbrk %c -
 
 " PostScript
@@ -192,40 +192,40 @@ filetype *.djvu open -a MacDjView.app
 
 " Audio
 filetype *.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus
-       \ {Play using MPlayerX}
-       \ open -a MPlayerX.app,
-       \ {Open in iTunes}
-       \ open -a iTunes.app,
-       \ {Open in QuickTime Player}
-       \ open -a QuickTime\ Player.app,
+   \ {Play using MPlayerX}
+   \ open -a MPlayerX.app,
+   \ {Open in iTunes}
+   \ open -a iTunes.app,
+   \ {Open in QuickTime Player}
+   \ open -a QuickTime\ Player.app,
 fileviewer *.mp3 mp3info
 fileviewer *.flac soxi
 
 " Video
 filetype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
-        \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
-        \*.as[fx]
-       \ {Open in VLC}
-       \ open -a VLC.app,
-       \ {Open in QuickTime Player}
-       \ open -a QuickTime\ Player.app,
-       \ {Open in MPlayerX}
-       \ open -a MPlayerX.app,
+    \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
+    \*.as[fx]
+   \ {Open in VLC}
+   \ open -a VLC.app,
+   \ {Open in QuickTime Player}
+   \ open -a QuickTime\ Player.app,
+   \ {Open in MPlayerX}
+   \ open -a MPlayerX.app,
 fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
-          \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
-          \*.as[fx]
-         \ ffprobe -pretty %c 2>&1
+      \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
+      \*.as[fx]
+     \ ffprobe -pretty %c 2>&1
 
 " Web
 filetype *.html,*.htm
-       \ {Open in Safari}
-       \ open -a Safari.app,
-       \ {Open in Firefox}
-       \ open -a Firefox.app,
-       \ {Open in Chrome}
-       \ open -a Google\ Chrome.app,
-       \ {Open in vim}
-       \ vim,
+   \ {Open in Safari}
+   \ open -a Safari.app,
+   \ {Open in Firefox}
+   \ open -a Firefox.app,
+   \ {Open in Chrome}
+   \ open -a Google\ Chrome.app,
+   \ {Open in vim}
+   \ vim,
 fileviewer *.html,*.htm w3m -dump -T text/html
 
 " Object
@@ -237,29 +237,29 @@ fileviewer *.[1-8] man ./%c | col -b
 
 " Image
 filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,
-       \ open -a Preview.app,
+   \ open -a Preview.app,
 fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
-         \ identify %f
+     \ identify %f
 
 " MD5
 filetype *.md5
-       \ {Check MD5 hash sum}
-       \ md5sum -c %f %S,
+   \ {Check MD5 hash sum}
+   \ md5sum -c %f %S,
 
 " SHA1
 filetype *.sha1
-       \ {Check SHA1 hash sum}
-       \ sha1sum -c %f %S,
+   \ {Check SHA1 hash sum}
+   \ sha1sum -c %f %S,
 
 " SHA256
 filetype *.sha256
-       \ {Check SHA256 hash sum}
-       \ sha256sum -c %f %S,
+   \ {Check SHA256 hash sum}
+   \ sha256sum -c %f %S,
 
 " SHA512
 filetype *.sha512
-       \ {Check SHA512 hash sum}
-       \ sha512sum -c %f %S,
+   \ {Check SHA512 hash sum}
+   \ sha512sum -c %f %S,
 
 " Torrent
 filetype *.torrent open -a Transmission.app
@@ -320,23 +320,42 @@ fileviewer *.docx docx2txt.pl %f -
 " For OS X:
 " filetype * open
 
+" ------------------------------------------------------------------------------
+"  Imported from other vifmrc's
+
+" don't show side borders ('s'), and don't show margins
+" set tuioptions-=s
+" set tuioptions-=p
+
+" vertical border
+" set fillchars=vborder:" "
+
+" view columns
+" set viewcolumns=-{name}..,6{size},11{perms},-12{mtime}
+" hide parent dir, and use right pane for preview
+set dotdirs=""
+set millerview
+set milleroptions=lsize:2,csize:5
+" fileviewer */,.*/,../
+"     \ [ -z "$(find %c -maxdepth 0 -empty)" ]
+"     " \ && ls --group-directories-first --color %c 2>&1 | sed -e 's/^/ /'
+"     \ && ls %c 2>&1 | sed -e 's/^/ /'
+"     \ || echo -e " empty directory..."
+" view
 " Preview Directories
-
 " Normal dirs
-fileview */ tree %c -L 2
-
+fileview */ tree %c -L 1
 " Hidden dirs  
-fileview *./ tree %c -L 2
-
+fileview *./ tree %c -L 1
 " .. Parent dir
-fileview ../ tree %c -L 2
+fileview ../ tree %c -L 1
 
 " ------------------------------------------------------------------------------
 
 " What should be saved automatically between vifm sessions.  Drop "savedirs"
 " value if you don't want vifm to remember last visited directories for you.
 set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
-    \phistory,fhistory,dirstack,registers,bookmarks,bmarks
+\phistory,fhistory,dirstack,registers,bookmarks,bmarks
 
 " ------------------------------------------------------------------------------
 

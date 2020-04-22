@@ -131,15 +131,18 @@ let g:limelight_conceal_ctermfg = 'gray'
 let g:deoplete#enable_at_startup = 1
 set completeopt+=noinsert " First result is suggested
 set completeopt-=preview  " Disable preview window in the bottom
-" command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
+
 " map TAB, C-j to down in popup and C-k to up in popup
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 
-call deoplete#custom#option({
-      \ 'auto_complete_popup': 'manual',
-      \ })
+command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
+command! DeopleteEnable  call deoplete#custom#option('auto_complete', v:true)
+command! DeopleteHide    call deoplete#custom#option({'auto_complete_popup':'manual'})
+command! DeopleteShow    call deoplete#custom#option({'auto_complete_popup':'auto'})
+DeopleteHide
+
 inoremap <silent><expr> <TAB>
     \ pumvisible() ? "\<C-n>" :
     \ <SID>check_back_space() ? "\<Tab>" :
@@ -437,6 +440,7 @@ augroup filetype_settings
 
     " Vimwiki autocommands
     autocmd FileType markdown,vimwiki nnoremap <leader>md :<C-u>silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR>:silent call system('open -a "Google Chrome" '.expand('%:p:r:S').'.html')<CR> 
+    autocmd FileType markdown,vimwiki nnoremap <leader>mdd :<C-u>silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR><CR>
     " \:<C-u>silent call system('open -a "Google Chrome" %')
     autocmd FileType vimwiki set syntax=markdown
 augroup END

@@ -40,6 +40,7 @@ ln -svf $DIR/karabiner.json             ~/.config/karabiner/karabiner.json
 ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.sty
 ln -svf $DIR/ranger/rc.conf             ~/.config/ranger/rc.conf
 ln -svf $DIR/ranger/commands.py         ~/.config/ranger/commands.py
+ln -svf $DIR/vifmrc                     ~/.config/vifm/vifmrc
 
 # Italics in iTerm and Tmux
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be

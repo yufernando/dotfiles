@@ -16,10 +16,12 @@
 [mergetool "nvim"]
     cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [alias]
-	lg = !"git lg1"
-	lg1 = !"git lg1-specific --all"
-	lg2 = !"git lg2-specific --all"
-	lg3 = !"git lg3-specific --all"
-	lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(cyan)%aD%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
-	lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)%n''         %C(cyan)%aD%C(reset) %C(green)(%ar)%C(reset)'
-	lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset)%C(auto)%d%C(reset)%n''         %C(cyan)%aD%C(reset) %C(green)(%ar)%C(reset) %C(cyan)(committed: %cD)%C(reset)%n''         %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+    logadog = log --all --decorate --oneline --graph
+	lg = !"git log1"
+	log1 = !"git log1-specific --all"
+	log2 = !"git log2-specific --all"
+	log3 = !"git log3-specific --all"
+	log1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(cyan)%aD%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+	log2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)%n''         %C(cyan)%aD%C(reset) %C(green)(%ar)%C(reset)'
+	log3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset)%C(auto)%d%C(reset)%n''         %C(cyan)%aD%C(reset) %C(green)(%ar)%C(reset) %C(cyan)(committed: %cD)%C(reset)%n''         %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+

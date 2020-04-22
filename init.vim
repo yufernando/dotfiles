@@ -87,6 +87,7 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 Plug 'deoplete-plugins/deoplete-jedi'
+Plug 'christoomey/vim-tmux-navigator'
 " Plug 'davidhalter/jedi-vim'
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'

@@ -439,10 +439,9 @@ augroup filetype_settings
     " Shift+t:Open tex file in Skim
     autocmd FileType tex nmap <buffer> <S-T> :!open -a skim %:r.pdf<CR><CR><D-S-->
 
-    " Vimwiki autocommands
-    autocmd FileType markdown,vimwiki nnoremap <leader>md :<C-u>silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR>:silent call system('open -a "Google Chrome" '.expand('%:p:r:S').'.html')<CR> 
-    autocmd FileType markdown,vimwiki nnoremap <leader>mdd :<C-u>silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR><CR>
-    " \:<C-u>silent call system('open -a "Google Chrome" %')
+    " Preview Markdown and Vimwiki in HTML
+    autocmd FileType markdown,vimwiki nnoremap <leader>md  :<C-u>w<CR>:silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o /tmp/'.expand('%:t:r').'.html')<CR>:silent call system('open -a "Google Chrome" /tmp/'.expand('%:t:r').'.html')<CR> 
+    autocmd FileType markdown,vimwiki nnoremap <leader>mdd :<C-u>w<CR>:silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o /tmp/'.expand('%:t:r').'.html')<CR><CR>
     autocmd FileType vimwiki set syntax=markdown
 augroup END
 

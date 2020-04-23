@@ -143,6 +143,9 @@ alias python='python3'
 
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
+# Vifm mode: moves to current working directory after exiting
+alias vifm='vicd'
+
 #}}}
 # Path {{{
 

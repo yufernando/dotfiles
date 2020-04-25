@@ -546,6 +546,9 @@ augroup aug_color_scheme
 augroup END
 colorscheme gruvbox
 
+" Edit crontab: https://superuser.com/a/907889
+autocmd filetype crontab setlocal nobackup nowritebackup
+
 " }}}
 " Commands and Functions {{{
 

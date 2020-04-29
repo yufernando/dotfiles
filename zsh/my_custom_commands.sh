@@ -33,22 +33,127 @@ vman() {
 }
 
 function chromeapp() {
-    if [[ $# -eq 0 ]] ; then
-		/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=http://localhost:8888
-    else
-    case $1 in 
-        app)
-            PORT=${2:-http://localhost:8888}
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$PORT
+    usage="Chromeapp: opens Google Chrome in app mode.
+
+    Usage: chromeapp <mode> [options]
+        chromeapp -h                    Display help.
+        chromeapp [url]                 Open url.
+        chromeapp
+        chromeapp localhost             Open localhost:8888.
+        chromeapp           -p [port]
+        chromeapp localhost -p [port]   Open localhost on given port.
+        chromeapp        -c [container]
+        chromeapp docker -c [container] Open JupyterLab running in container."
+
+    while getopts ':hc:p:' option; do
+        CONTAINER='bioaretian'
+        case "$option" in
+            h) # Display help 
+                echo "$usage"
+                return 0
+                ;;
+            c)  # Open running JupyterLab in Docker container in Chrome
+                CONTAINER=$OPTARG
+                # Check if container is running
+                if ! docker ps --format "{{.Names}}" | grep -wq $CONTAINER
+                then
+                    echo "Container '$CONTAINER' not found!";
+                    return 1
+                fi
+
+                # Get token and launch
+                TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
+                URL="http://localhost:8888/?$TOKEN"
+                echo "Opening JupyterLab running in Docker container '$CONTAINER'..."
+                /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
+                return 0
+                ;;
+            p)
+                PORT=${OPTARG:-8888}
+                URL="http://localhost:$PORT"
+                /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
+                return 0
+                ;;
+            \?) # incorrect option
+                echo "Error: Invalid option"
+                return 1
+                ;;
+            :)
+                echo "Invalid Option: -$OPTARG requires an argument" 1>&2
+                return 1
+                ;;
+        esac
+    done
+    shift $((OPTIND -1))
+
+    subcommand=$1; shift  # Remove 'chromeapp' from the argument list
+    case "$subcommand" in
+        localhost)
+            PORT=8888
+
+            # Process options
+            while getopts ":p:" opt; do
+              case ${opt} in
+                p )
+                  PORT=$OPTARG
+                  ;;
+                \? )
+                  echo "Invalid Option: -$OPTARG" 1>&2
+                  return 1
+                  ;;
+                : )
+                  echo "Invalid Option: -$OPTARG requires an argument" 1>&2
+                  return 1
+                  ;;
+              esac
+            done
+            shift $((OPTIND -1))
+
+            URL="http://localhost:$PORT"
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
             ;;
-        --headless)
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --headless
+
+        docker)  # Open running JupyterLab in Docker container in Chrome
+            CONTAINER=bioaretian
+
+            # Process options
+            while getopts ":c:" opt; do
+              case ${opt} in
+                c )
+                  CONTAINER=$OPTARG
+                  ;;
+                \? )
+                  echo "Invalid Option: -$OPTARG" 1>&2
+                  return 1
+                  # exit 1
+                  ;;
+                : )
+                  echo "Invalid Option: -$OPTARG requires an argument" 1>&2
+                  return 1
+                  # exit 1
+                  ;;
+              esac
+            done
+            shift $((OPTIND -1))
+
+            # Check if container is running
+            if ! docker ps --format "{{.Names}}" | grep -wq $CONTAINER
+            then
+                echo "Container '$CONTAINER' not found!";
+                return 1
+            fi
+
+            # Get token and launch
+            TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
+            URL="http://localhost:8888/?$TOKEN"
+            echo "Opening JupyterLab running in Docker container '$CONTAINER'..."
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
             ;;
         *)
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$1
+            URL=${subcommand:-http://localhost:8888}
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
             ;;
     esac
-	fi
 }
 
 # Create Evernote notes from terminal
@@ -108,7 +213,7 @@ echo "Exported $DIR/$1.pdf"
 # container after notebook server exit, but any files written to ~/work in the
 # container remain intact on the host.:
 function dockerlab() {
-docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan/work jupyter/scipy-notebook
+    docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan/work jupyter/scipy-notebook
 }
 
 # Set default tmux session name

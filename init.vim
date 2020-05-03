@@ -134,7 +134,7 @@ set completeopt+=noinsert " First result is suggested
 set completeopt-=preview  " Disable preview window in the bottom
 
 " map TAB, C-j to down in popup and C-k to up in popup
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 

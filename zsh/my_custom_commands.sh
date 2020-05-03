@@ -33,17 +33,18 @@ vman() {
 }
 
 function chromeapp() {
-    usage="Chromeapp: opens Google Chrome in app mode.
+    usage="Google Chrome in app mode.
 
-    Usage: chromeapp <mode> [options]
-        chromeapp -h                    Display help.
-        chromeapp [url]                 Open url.
-        chromeapp
-        chromeapp localhost             Open localhost:8888.
-        chromeapp           -p [port]
-        chromeapp localhost -p [port]   Open localhost on given port.
-        chromeapp        -c [container]
-        chromeapp docker -c [container] Open JupyterLab running in container."
+Usage: 
+    chromeapp -h                    Display help.
+    chromeapp [url]                 Open url.
+    chromeapp
+    chromeapp localhost             Open localhost:8888.
+    chromeapp           -p [port]
+    chromeapp localhost -p [port]   Open localhost on given port.
+    chromeapp        -c [container]
+    chromeapp docker -c [container] Open JupyterLab running in container.
+    chromeapp docker            Open JupyterLab running in bioaretian container."
 
     while getopts ':hc:p:' option; do
         CONTAINER='bioaretian'

@@ -46,6 +46,7 @@ server {
 	server_name aretian.dev www.aretian.dev;
 
 	root /home/fer/aretian/docs/docs/.vuepress/dist;
+	# root /var/www/html;
 
 	# Add index.php to the list if you are using PHP
 	index index.html index.htm index.nginx-debian.html;
@@ -97,9 +98,9 @@ server {
 	#	deny all;
 	#}
 
-    location /static {
-        alias /home/fer/aretian/docs/docs/vuepress/dist;
-    }
+    # location /static {
+    #     alias /home/fer/aretian/docs/docs/vuepress/dist;
+    # }
 
 
 

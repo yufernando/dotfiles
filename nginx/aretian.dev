@@ -99,7 +99,7 @@ server {
 
 
 
-}
+# }
 
 
 # Virtual Host configuration for example.com
@@ -121,7 +121,7 @@ server {
 #	}
 #}
 
-server {
+# server {
     if ($host = www.aretian.dev) {
         return 301 https://$host$request_uri;
     } # managed by Certbot

@@ -74,7 +74,7 @@ Plug 'tpope/vim-surround'           " Edit surrounding text
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github
 "Plug 'tpope/vim-vinegar'            " File browser
-Plug 'takac/vim-hardtime'           " Block repeat keys
+" Plug 'takac/vim-hardtime'           " Block repeat keys
 Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
 "Plug 'epeli/slimux'                 " Send comands to tmux window
 "Plug 'kassio/neoterm'               " Terminal in Vim
@@ -229,8 +229,8 @@ let g:jupytext_fmt = 'python' "convert to .py files
 let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
 
 " CamelCaseMotion: treat _ as word separator
-omap <silent> iw <Plug>CamelCaseMotion_iw
-xmap <silent> iw <Plug>CamelCaseMotion_iw
+" omap <silent> iw <Plug>CamelCaseMotion_iw
+" xmap <silent> iw <Plug>CamelCaseMotion_iw
 omap <silent> ib <Plug>CamelCaseMotion_ib
 xmap <silent> ib <Plug>CamelCaseMotion_ib
 omap <silent> ie <Plug>CamelCaseMotion_ie

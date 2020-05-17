@@ -75,13 +75,21 @@ server {
         # return 301 /docs;
 	# }
 
-    location /docs {
+    # location /docs {
         # autoindex on;
-        alias /home/fer/aretian/docs/docs/.vuepress/dist/;
-        try_files $uri $uri/ =404;
-        auth_basic "Restricted Access";
-        auth_basic_user_file /etc/nginx/.htpasswd;
-    }
+        # alias /home/fer/aretian/docs/docs/.vuepress/dist/;
+        # try_files $uri $uri/ =404;
+        # auth_basic "Restricted Access";
+        # auth_basic_user_file /etc/nginx/.htpasswd;
+    # }
+
+    # location /docs/admin {
+        # autoindex on;
+        # alias /home/fer/aretian/docs-admin/docs/.vuepress/dist/;
+        # try_files $uri $uri/ =404;
+        # auth_basic "Restricted Access";
+        # auth_basic_user_file /etc/nginx/.htpasswd-admin;
+    # }
 
 	location /jupyter/ {    
 	# NOTE important to also set base url of jupyterhub to /jupyter in its config
@@ -128,6 +136,8 @@ server {
 	#location ~ /\.ht {
 	#	deny all;
 	#}
+
+
 
 }
 
@@ -178,6 +188,47 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/aretian.dev/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+# Docs server
+server {
+	server_name docs.aretian.dev;
+	root /home/fer/aretian/docs/docs/.vuepress/dist;
+	index index.html index.htm index.nginx-debian.html;
+
+    auth_basic "Restricted Access";
+    auth_basic_user_file /etc/nginx/.htpasswd;
+
+    location / {
+        try_files $uri $uri/ =404;
+        # auth_basic "Restricted Access";
+        # auth_basic_user_file /etc/nginx/.htpasswd;
+    }
+
+    location /admin {
+        # autoindex on;
+        alias /home/fer/aretian/docs-admin/docs/.vuepress/dist/;
+        try_files $uri $uri/ =404;
+        auth_basic "Restricted Access";
+        auth_basic_user_file /etc/nginx/.htpasswd-admin;
+    }
+
+    location /genomics {
+        # autoindex on;
+        alias /home/fer/aretian/docs-genomics/docs/.vuepress/dist/;
+        try_files $uri $uri/ =404;
+        auth_basic "Restricted Access";
+        auth_basic_user_file /etc/nginx/.htpasswd-genomics;
+    }
+
+    listen [::]:443 ssl; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/aretian.dev/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/aretian.dev/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
 }
 
 # Managed by Certbot
@@ -208,6 +259,21 @@ server {
     listen [::]:80;
 
 	server_name staging.aretian.dev;
+    return 404; # managed by Certbot
+
+
+}
+
+server {
+    if ($host = docs.aretian.dev) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+	server_name docs.aretian.dev;
+
+    listen [::]:80;
+    listen 80;
     return 404; # managed by Certbot
 
 

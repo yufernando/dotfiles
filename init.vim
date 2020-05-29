@@ -78,16 +78,10 @@ Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'posva/vim-vue'                 " Vue syntax highlighting
-" Deoplete
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
 " Plug 'davidhalter/jedi-vim'
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
@@ -129,28 +123,32 @@ let g:limelight_conceal_ctermfg = 'gray'
 "call neomake#configure#automake('nw', 1000)
 
 " Deoplete
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 0
+" Also include snippets with short names
+call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
 set completeopt+=noinsert " First result is suggested
 set completeopt-=preview  " Disable preview window in the bottom
 
-" map TAB, C-j to down in popup and C-k to up in popup
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+command! Autocomplete  call deoplete#custom#option('auto_complete', v:true)
+command! AutocompleteOff call deoplete#custom#option('auto_complete', v:false)
+" command! Popup           call deoplete#custom#option({'auto_complete_popup':'auto'})
+" command! PopupOff        call deoplete#custom#option({'auto_complete_popup':'manual'})
+" AutocompleteOff
 
-command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
-command! DeopleteEnable  call deoplete#custom#option('auto_complete', v:true)
-command! DeopleteHide    call deoplete#custom#option({'auto_complete_popup':'manual'})
-command! DeopleteShow    call deoplete#custom#option({'auto_complete_popup':'auto'})
-DeopleteHide
-
-inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<Tab>" :
-    \ deoplete#complete()
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+function AutocompleteToggle()
+    if deoplete#is_enabled() == 0
+        call deoplete#enable()
+        AutocompleteOff
+        echo 'Deoplete On. Repeat keys: Autocomplete On. <C-n>: Activate manually.'
+    else
+        if deoplete#custom#_get().option.auto_complete
+            AutocompleteOff
+            echo 'Autocomplete Off.'
+        else
+            Autocomplete
+            echo 'Autocomplete On.'
+        endif
+    endif
 endfunction
 
 " Deoplete Jedi
@@ -284,6 +282,7 @@ set linebreak " Do not split words in linebreak
 set breakindent " Indent line breaks
 set breakindentopt=shift:1 " Add space to linebreaks to make them more evident
 let &showbreak='⤷ '        "Arrow pointing downwards U+2935
+set formatoptions-=t " Disable break lines but keep textwidth and colorcolumn
 
 " Colorcolumn and cursorline
 " set cursorline
@@ -353,10 +352,10 @@ nnoremap <leader>ru :Rgup<CR>
 nnoremap <leader>rd :Rgdrop<CR>
 
 " ALE Linting
-nmap <leader>A <Plug>(ale_toggle)
-nmap <leader>a <Plug>(ale_detail)
-nmap <silent> <leader>k <Plug>(ale_previous)
-nmap <silent> <leader>j <Plug>(ale_next)
+" nmap <leader>A <Plug>(ale_toggle)
+" nmap <leader>a <Plug>(ale_detail)
+" nmap <silent> <leader>k <Plug>(ale_previous)
+" nmap <silent> <leader>j <Plug>(ale_next)
 
 " Navigate splits
 nnoremap <C-h> <C-w>h
@@ -410,6 +409,14 @@ nnoremap <leader>g :Goyo<CR>
 " From: https://github.com/vimwiki/vimwiki/blob/master/doc/vimwiki.txt
 " nmap <Leader>tt <Plug>VimwikiToggleListItem
 nmap <Leader>w<Leader>g <Plug>VimwikiMakeDiaryNote<Esc>:Goyo<CR>i
+
+" Deoplete Enable Autocomplete
+nnoremap <leader>a :call AutocompleteToggle()<CR>
+" Activate manual complete (Open popup)
+inoremap <expr> <C-n> deoplete#manual_complete()
+" C-j to down and C-k to up in popup
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 
 " }}}
 " Autocommands {{{

@@ -181,7 +181,7 @@ c.JupyterHub.bind_url = 'http://:8000/jupyter'
 
 ## File in which to store the cookie secret.
 #c.JupyterHub.cookie_secret_file = 'jupyterhub_cookie_secret'
-#c.JupyterHub.cookie_secret_file = '/srv/jupyterhub/jupyterhub_cookie_secret'
+c.JupyterHub.cookie_secret_file = '/srv/jupyterhub/jupyterhub_cookie_secret'
 
 ## The location of jupyterhub data files (e.g. /usr/local/share/jupyterhub)
 #c.JupyterHub.data_files_path = '/home/fer/miniconda3/share/jupyterhub'
@@ -488,15 +488,14 @@ c.ConfigurableHTTPProxy.command = '/home/fer/miniconda3/bin/configurable-http-pr
 from dockerspawner import DockerSpawner
 c.JupyterHub.spawner_class = DockerSpawner
 c.DockerSpawner.remove_containers = True
+c.DockerSpawner.image = 'jupyterhub/singleuser'
 
 # The docker instances need access to the Hub, so the default loopback port doesn't work:
-from jupyter_client.localinterfaces import public_ips
-c.JupyterHub.hub_ip = public_ips()[0]
-c.JupyterHub.port = 443
 
 # Carol Willig fix
-# c.JupyterHub.hub_ip = public_ips()[0]
-# c.JupyterHub.port = 8000 
+from jupyter_client.localinterfaces import public_ips
+c.JupyterHub.hub_ip = public_ips()[0]
+c.JupyterHub.port = 8000 
 
 # Minrk fix
 # import netifaces
@@ -508,13 +507,13 @@ c.JupyterHub.port = 443
 #  
 #  When setting this, you should also set ssl_key
 #c.JupyterHub.ssl_cert = ''
-c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/aretian.dev/fullchain.pem'
+# c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/aretian.dev/fullchain.pem'
 
 ## Path to SSL key file for the public facing interface of the proxy
 #  
 #  When setting this, you should also set ssl_cert
 #c.JupyterHub.ssl_key = ''
-c.JupyterHub.ssl_key = '/etc/letsencrypt/live/aretian.dev/privkey.pem'
+# c.JupyterHub.ssl_key = '/etc/letsencrypt/live/aretian.dev/privkey.pem'
 
 ## Host to send statsd metrics to. An empty string (the default) disables sending
 #  metrics.

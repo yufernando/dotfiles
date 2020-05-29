@@ -1,11 +1,11 @@
 # Jupyterhub
-c.JupyterHub.bind_url = 'http://:8000/jupyter'
+# c.JupyterHub.bind_url = 'http://:8000/jupyter'
 
 # Uncomment 3 lines when serving directly (without nginx):
-# c.JupyterHub.bind_url = 'https://aretian.dev/jupyter'
-# c.JupyterHub.port = 443
-# c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/aretian.dev/fullchain.pem'
-# c.JupyterHub.ssl_key = '/etc/letsencrypt/live/aretian.dev/privkey.pem'
+c.JupyterHub.bind_url = 'https://aretian.dev/jupyter'
+c.JupyterHub.port = 443
+c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/aretian.dev/fullchain.pem'
+c.JupyterHub.ssl_key = '/etc/letsencrypt/live/aretian.dev/privkey.pem'
 
 # General Settings
 # c.LocalAuthenticator.create_system_users = True

@@ -11,11 +11,12 @@ upstream jupyter {
     server 127.0.0.1:8888;
 }
 
+# Default server configuration
 server {
     listen 80;
     server_name 172.104.208.35;
 
-    root /home/fer/aretian-platform/dist;
+    root /home/fer/aretian/aretian-platform/dist;
 
     index index.html index.htm;
 

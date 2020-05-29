@@ -2,7 +2,7 @@
 
 # Sets iTerm transparency
 
-function transparency() { 
+function transparency { 
 
 echo "Setting transparency to $1."
 
@@ -21,7 +21,7 @@ end tell"
 
 # Vim Man Pager: opens man pages in vim
 # https://stackoverflow.com/a/40849153
-vman() {
+function vman {
     export MANPAGER="col -b" # for FreeBSD/MacOS
     export MANWIDTH=109
 
@@ -32,7 +32,7 @@ vman() {
     unset MANDWIDTH
 }
 
-function chromeapp() {
+function chromeapp {
     usage="Google Chrome in app mode.
 
 Usage: 
@@ -158,7 +158,7 @@ Usage:
 }
 
 # Create Evernote notes from terminal
-function note() {
+function note {
     case "$1" in 
         cabinet)
             shift
@@ -190,7 +190,7 @@ function note() {
 
 # Script to convert RISE presentation to pdf
 
-function risetopdf() {
+function risetopdf {
 
 echo "Converting RISE presentation $1.ipynb to PDF"
 
@@ -213,12 +213,12 @@ echo "Exported $DIR/$1.pdf"
 # token is the secret token printed in the console. Docker destroys the
 # container after notebook server exit, but any files written to ~/work in the
 # container remain intact on the host.:
-function dockerlab() {
+function dockerlab {
     docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan/work jupyter/scipy-notebook
 }
 
 # Set default tmux session name
-tmux () {
+function tmux {
     if [ "$#" -eq 0 ]
         then command tmux new -s "tmux"
         else command tmux "$@"
@@ -243,9 +243,7 @@ tmux () {
 # }
 
 # Stores current working directory to access after exiting Vifm
-vicd()
-{
-    local dst="$(command vifm --choose-dir - "$@")"
+function vicd {
     if [ -z "$dst" ]; then
         echo 'Directory picking cancelled/failed'
         return 1

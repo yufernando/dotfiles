@@ -123,8 +123,6 @@
     "cSpell.enabled": false,
     // Controls the font family.
     "editor.fontFamily": "OperatorMono-Book, Fira Code, Victor Mono, Menlo, Monaco, 'Courier New', monospace",
-    // Controls the font size in pixels.
-    "editor.fontSize": 13,
     // Enables/Disables font ligatures.
     "editor.fontLigatures": true,
     // Controls the font size in pixels.
@@ -259,7 +257,8 @@
           "singleQuote": false // Prefer double quotes over single quotes
         }
     },
-    "editor.tabSize": 2,
     "search.useIgnoreFiles": false,
-    "editor.largeFileOptimizations": false
+    "editor.largeFileOptimizations": false,
+    "editor.dragAndDrop": false,
+    "workbench.startupEditor": "newUntitledFile"
 }

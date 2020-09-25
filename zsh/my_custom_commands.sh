@@ -244,6 +244,7 @@ function tmux {
 
 # Stores current working directory to access after exiting Vifm
 function vicd {
+    local dst="$(command vifm --choose-dir - "$@")"
     if [ -z "$dst" ]; then
         echo 'Directory picking cancelled/failed'
         return 1

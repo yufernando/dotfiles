@@ -1,6 +1,5 @@
 {
     "telemetry.enableTelemetry": false,
-    "python.pythonPath": "/Users/Fer/anaconda3/envs/ds0/bin/python",
     "window.zoomLevel": 1,
     "zenMode.fullScreen": false,
     "editor.minimap.enabled": false,
@@ -260,5 +259,6 @@
     "search.useIgnoreFiles": false,
     "editor.largeFileOptimizations": false,
     "editor.dragAndDrop": false,
-    "workbench.startupEditor": "newUntitledFile"
+    "workbench.startupEditor": "newUntitledFile",
+    "editor.tabSize": 2
 }

@@ -4,3 +4,5 @@ c.ConfigurableHTTPProxy.auth_token = '/srv/jupyterhub/proxy_auth_token'
 c.ConfigurableHTTPProxy.command = '/home/fer/miniconda3/bin/configurable-http-proxy'
 c.Spawner.default_url = '/lab' 
 c.Authenticator.admin_users = {'fer'}
+# Add user's conda environments to path: https://github.com/jupyterhub/jupyterhub/issues/2136#issuecomment-420642694
+# c.Spawner.cmd="/srv/jupyterhub/launch-script.sh"

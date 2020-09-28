@@ -227,6 +227,9 @@ setopt extendedglob
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/zsh/my_custom_commands.sh
 # source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#
+# Order dotfiles first after ls: https://superuser.com/a/866223
+alias la='LC_COLLATE=C ls -lAFh'
 
 #}}}
 # Key Bindings {{{

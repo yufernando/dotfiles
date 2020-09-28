@@ -16,8 +16,8 @@
 [mergetool "nvim"]
     cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [alias]
-    logadog = log --all --decorate --oneline --graph
-	lg = !"git log1"
+    adog = log --all --decorate --oneline --graph
+	lg = !"git log2"
 	log1 = !"git log1-specific --all"
 	log2 = !"git log2-specific --all"
 	log3 = !"git log3-specific --all"

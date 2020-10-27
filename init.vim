@@ -80,16 +80,17 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'posva/vim-vue'                 " Vue syntax highlighting
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plug 'deoplete-plugins/deoplete-jedi'
+Plug 'davidhalter/jedi-vim' " Has Go To Definition
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
-" Plug 'davidhalter/jedi-vim'
+Plug 'dense-analysis/ale' "Linter
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'
 "Plug 'goerz/jupytext.vim'
 "Plug 'vim-pandoc/vim-pandoc-syntax'
 "Plug 'lervag/vimtex'                " Latex
-"Plug 'w0rp/ale'                     " Code syntax
 "Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
 " Plug 'bkad/camelcasemotion'
 " Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
@@ -122,11 +123,26 @@ let g:limelight_conceal_ctermfg = 'gray'
 " Neomake: When writing a buffer (no delay), and on normal mode changes (after 1s).
 "call neomake#configure#automake('nw', 1000)
 
+
+" SQL Completion: disable <C-c> binding
+let g:omni_sql_no_default_maps = 1
+
+" Linter
+let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']} "pydocstyle, bandit, mypy
+" let g:ale_fixers = {'*': [], 'python':['black', isort']}
+" let g:ale_fix_on_save = 1
+" Disable ALE by default. Enable with :ALEToggle (leader+z)
+let g:ale_enabled = 0
+
+" UltiSnips: since we are using Deoplete, <tab> doesn't work
+let g:UltiSnipsExpandTrigger="<C-l>"
+
 " Deoplete
 let g:deoplete#enable_at_startup = 0
 " Also include snippets with short names
 call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
-set completeopt+=noinsert " First result is suggested
+set completeopt+=noinsert " Do not insert text while scrolling the menu
+set completeopt-=noselect " Select first result
 set completeopt-=preview  " Disable preview window in the bottom
 
 command! Autocomplete  call deoplete#custom#option('auto_complete', v:true)
@@ -151,14 +167,26 @@ function AutocompleteToggle()
     endif
 endfunction
 
+" Tabs for autocompletion
+" inoremap <silent><expr> <TAB>
+" 	    \ pumvisible() ? "\<C-n>" :
+" 	    \ <SID>check_back_space() ? "\<Tab>" :
+" 	    \ deoplete#complete()
+" function! s:check_back_space() abort
+"     let col = col('.') - 1
+"     return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+
 " Deoplete Jedi
 let g:python_host_prog  = '/usr/local/bin/python'
-let g:python3_host_prog = '/Users/Fer/anaconda3/envs/ds/bin/python' 
+let g:python3_host_prog = '/Users/fer/anaconda3/envs/ds/bin/python'
 
 " Jedi-Vim
 " let g:jedi#auto_vim_configuration = 0
 " let g:jedi#documentation_command = '<Leader>_K'
-" let g:jedi#completions_enabled = 0
+" Disable next line when using together with deoplete-jedi
+let g:jedi#completions_enabled = 0 
+let g:jedi#goto_command = 'gd'
 " let g:jedi#auto_close_doc = 0
 
 " Plasticboy markdown
@@ -197,9 +225,6 @@ let s:startify_ascii_header=[
                 \]
 let g:startify_custom_header = map(s:startify_ascii_header +
         \ startify#fortune#boxed(), '"           ".v:val')
-
-" Disable ALE by default. Enable with :ALEToggle
-let g:ale_enabled = 0
 
 " NERD Tree hide help message
 let NERDTreeMinimalUI=1
@@ -352,8 +377,8 @@ nnoremap <leader>ru :Rgup<CR>
 nnoremap <leader>rd :Rgdrop<CR>
 
 " ALE Linting
-" nmap <leader>A <Plug>(ale_toggle)
-" nmap <leader>a <Plug>(ale_detail)
+nmap <leader>z <Plug>(ale_toggle) \| :echo 'Linter enabled.'<CR>
+" nmap <leader>Z <Plug>(ale_detail)
 " nmap <silent> <leader>k <Plug>(ale_previous)
 " nmap <silent> <leader>j <Plug>(ale_next)
 
@@ -417,6 +442,7 @@ inoremap <expr> <C-n> deoplete#manual_complete()
 " C-j to down and C-k to up in popup
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <silent><expr><CR> pumvisible() ? "<C-E>\<CR>" : "\<CR>"
 
 " }}}
 " Autocommands {{{
@@ -447,8 +473,14 @@ augroup filetype_settings
     autocmd FileType tex nmap <buffer> <S-T> :!open -a skim %:r.pdf<CR><CR><D-S-->
 
     " Preview Markdown and Vimwiki in HTML
-    autocmd FileType markdown,vimwiki nnoremap <leader>md  :<C-u>w<CR>:silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o /tmp/'.expand('%:t:r').'.html')<CR>:silent call system('open -a "Google Chrome" /tmp/'.expand('%:t:r').'.html')<CR> 
-    autocmd FileType markdown,vimwiki nnoremap <leader>mdd :<C-u>w<CR>:silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o /tmp/'.expand('%:t:r').'.html')<CR><CR>
+    autocmd FileType markdown,vimwiki nnoremap <silent> <leader>md :<C-u>w<CR>:silent call system('mkdir -p ${TMPDIR}md-preview-${PPID}; pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR>:silent call system('open -a "Google Chrome" ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR> :echom 'Previewing Markdown File.'<CR> 
+    " Convert to HTML in the background
+    autocmd FileType markdown,vimwiki nnoremap <silent> <leader>mdd :<C-u>w<CR>:silent call system('mkdir -p ${TMPDIR}md-preview-${PPID}; pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR><CR> :echom 'Markdown Preview Updated.'<CR>
+    " To autorefresh include this header in Markdown or Wiki file
+    " ---
+    "header-includes: <meta http-equiv="refresh" content="3"/>
+    " ---
+
     autocmd FileType vimwiki set syntax=markdown
 augroup END
 

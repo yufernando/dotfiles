@@ -1,264 +1,260 @@
 {
-    "telemetry.enableTelemetry": false,
-    "window.zoomLevel": 1,
-    "zenMode.fullScreen": false,
-    "editor.minimap.enabled": false,
-    "vim.textwidth": 100,
-    "editor.wordWrap": "on",
-    "editor.wordWrapColumn": 100,
-    "zenMode.centerLayout": false,
-    "latex-workshop.view.pdf.viewer": "tab",
-    "files.associations": {
-        "*.wiki": "markdown"
+  "telemetry.enableTelemetry": false,
+  "window.zoomLevel": 1,
+  "zenMode.fullScreen": false,
+  "editor.minimap.enabled": false,
+  "zenMode.centerLayout": false,
+  "latex-workshop.view.pdf.viewer": "tab",
+  "files.associations": {
+    "*.wiki": "markdown"
+  },
+  "zenMode.hideStatusBar": false,
+  "python.dataScience.sendSelectionToInteractiveWindow": false,
+  "explorer.confirmDelete": false,
+  "zenMode.hideLineNumbers": false,
+  "explorer.confirmDragAndDrop": false,
+  "latex-workshop.latex.recipe.default": "lastUsed",
+
+  // Spelling
+  "cSpell.userWords": [
+    "Hausmann",
+    "Helvetica",
+    "Hotelería",
+    "Indec",
+    "Lualatex",
+    "Macroeconómico",
+    "Ricardiano",
+    "apropiabilidad",
+    "autopartes",
+    "autopartista",
+    "biodiesel",
+    "competitivamente",
+    "complejizan",
+    "complementariedades",
+    "contracara",
+    "conurbano",
+    "correlaciona",
+    "correlacionan",
+    "correlacione",
+    "cuentapropistas",
+    "desagregación",
+    "determinístico",
+    "discrecionalidad",
+    "econométrico",
+    "estadísticamente",
+    "exógeno",
+    "gravitacional",
+    "grifería",
+    "idiosincráticas",
+    "idiosincrático",
+    "idiosincráticos",
+    "impactos",
+    "imprevisibilidad",
+    "judicialización",
+    "macroeconomía",
+    "macroeconómicos",
+    "marroquinería",
+    "microeconómica",
+    "microeconómico",
+    "neoclásica",
+    "optimización",
+    "paradigmático",
+    "performance",
+    "poliamidas",
+    "preselección",
+    "prevalencia",
+    "priorización",
+    "prospectos",
+    "rankear",
+    "recesivo",
+    "redituable",
+    "regulatoria",
+    "regulatorio",
+    "regulatorios",
+    "similaridad",
+    "sofisticación",
+    "stock",
+    "subfigure",
+    "subnacionales",
+    "subsector",
+    "subsectores",
+    "subóptimas"
+  ],
+  "cSpell.ignoreRegExpList": [
+    "\\\\cite{[A-Za-z0-9, -]+}",
+    "\\\\begin{\\w+}",
+    "\\\\end{\\w+}",
+    "\\\\usepackage{\\w+}",
+    "\\\\bibliographystyle{\\w+}",
+    "\\\\hyphenation{[A-Za-z0-9, -]+}",
+    "\\w+{",
+    "\\\\textwidth",
+    "itemizecolor"
+  ],
+  "rewrap.wrappingColumn": 100,
+  "cSpell.language": ",es",
+  "cSpell.enabled": false,
+  // Controls the font family.
+  "editor.fontFamily": "OperatorMono-Book, Fira Code, Victor Mono, Menlo, Monaco, 'Courier New', monospace",
+  // Enables/Disables font ligatures.
+  "editor.fontLigatures": true,
+  // Controls the font size in pixels.
+  "workbench.colorTheme": "Operator Mono Dark Theme",
+  // Controls the font weight.
+  "editor.fontWeight": "400", //Normal = 400
+  // Latex-Tools Compilers
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
     },
-    "zenMode.hideStatusBar": false,
-    "python.dataScience.sendSelectionToInteractiveWindow": false,
-    "explorer.confirmDelete": false,
-    "zenMode.hideLineNumbers": false,
-    "explorer.confirmDragAndDrop": false,
-    "latex-workshop.latex.recipe.default": "lastUsed",
-    "vim.camelCaseMotion.enable": true,
-    "vim.visualModeKeyBindings": [
-        {
-            "before": [
-                "<C-`>"
-            ],
-            "after": [
-                "<Esc>"
-            ]
-        }
-    ],
-    "vim.insertModeKeyBindings": [
-        {
-            "before": [
-                "<C-`>"
-            ],
-            "after": [
-                "<Esc>"
-            ]
-        }
-    ],
-    "vim.neovimPath": "/usr/local/bin/nvim",
-    "cSpell.userWords": [
-        "Hausmann",
-        "Helvetica",
-        "Hotelería",
-        "Indec",
-        "Lualatex",
-        "Macroeconómico",
-        "Ricardiano",
-        "apropiabilidad",
-        "autopartes",
-        "autopartista",
-        "biodiesel",
-        "competitivamente",
-        "complejizan",
-        "complementariedades",
-        "contracara",
-        "conurbano",
-        "correlaciona",
-        "correlacionan",
-        "correlacione",
-        "cuentapropistas",
-        "desagregación",
-        "determinístico",
-        "discrecionalidad",
-        "econométrico",
-        "estadísticamente",
-        "exógeno",
-        "gravitacional",
-        "grifería",
-        "idiosincráticas",
-        "idiosincrático",
-        "idiosincráticos",
-        "impactos",
-        "imprevisibilidad",
-        "judicialización",
-        "macroeconomía",
-        "macroeconómicos",
-        "marroquinería",
-        "microeconómica",
-        "microeconómico",
-        "neoclásica",
-        "optimización",
-        "paradigmático",
-        "performance",
-        "poliamidas",
-        "preselección",
-        "prevalencia",
-        "priorización",
-        "prospectos",
-        "rankear",
-        "recesivo",
-        "redituable",
-        "regulatoria",
-        "regulatorio",
-        "regulatorios",
-        "similaridad",
-        "sofisticación",
-        "stock",
-        "subfigure",
-        "subnacionales",
-        "subsector",
-        "subsectores",
-        "subóptimas"
-    ],
-    "cSpell.ignoreRegExpList": [
-        "\\\\cite{[A-Za-z0-9, -]+}",
-        "\\\\begin{\\w+}",
-        "\\\\end{\\w+}",
-        "\\\\usepackage{\\w+}",
-        "\\\\bibliographystyle{\\w+}",
-        "\\\\hyphenation{[A-Za-z0-9, -]+}",
-        "\\w+{",
-        "\\\\textwidth",
-        "itemizecolor"
-    ],
-    "rewrap.wrappingColumn": 100,
-    "[html]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    {
+      "name": "lualatexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-lualatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
     },
-    "cSpell.language": ",es",
-    "cSpell.enabled": false,
-    // Controls the font family.
-    "editor.fontFamily": "OperatorMono-Book, Fira Code, Victor Mono, Menlo, Monaco, 'Courier New', monospace",
-    // Enables/Disables font ligatures.
-    "editor.fontLigatures": true,
-    // Controls the font size in pixels.
-    "workbench.colorTheme": "Operator Mono Dark Theme",
-    // Controls the font weight.
-    "editor.fontWeight": "400", //Normal = 400
-    // Latex-Tools Compilers
-    "latex-workshop.latex.tools": [
-        {
-            "name": "latexmk",
-            "command": "latexmk",
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "-pdf",
-                "-outdir=%OUTDIR%",
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "lualatexmk",
-            "command": "latexmk",
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "-lualatex",
-                "-outdir=%OUTDIR%",
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "latexmk_rconly",
-            "command": "latexmk",
-            "args": [
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "pdflatex",
-            "command": "pdflatex",
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "bibtex",
-            "command": "bibtex",
-            "args": [
-                "%DOCFILE%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "xelatexmk",
-            "command": "latexmk",
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "-xelatex",
-                "-outdir=%OUTDIR%",
-                "%DOC%"
-            ],
-            "env": {}
-        }
-    ],
-    "latex-workshop.latex.recipes": [
-        {
-            "name": "latexmk 🔃",
-            "tools": [
-                "latexmk"
-            ]
-        },
-        {
-            "name": "latexmk (latexmkrc)",
-            "tools": [
-                "latexmk_rconly"
-            ]
-        },
-        {
-            "name": "latexmk (lualatex)",
-            "tools": [
-                "lualatexmk"
-            ]
-        },
-        {
-            "name": "pdflatex ➞ bibtex ➞ pdflatex × 2",
-            "tools": [
-                "pdflatex",
-                "bibtex",
-                "pdflatex",
-                "pdflatex"
-            ]
-        },
-        {
-            "name": "xelatexmk (xelatex)",
-            "tools": [
-                "xelatexmk"
-            ]
-        }
-    ],
-    "workbench.settings.useSplitJSON": true,
-    // Prettier
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "prettier.singleQuote": true,
-    "prettier.jsxSingleQuote": true,
-    // ESLint
-    "editor.codeActionsOnSave": {
-        // For ESLint
-        "source.fixAll.eslint": true,
-        // For TSLint
-        "source.fixAll.tslint": true,
-        // For Stylelint
-        "source.fixAll.stylelint": true
+    {
+      "name": "latexmk_rconly",
+      "command": "latexmk",
+      "args": ["%DOC%"],
+      "env": {}
     },
-    // VSCode
-    "editor.formatOnSave": true,
-    // Vetur
-    "vetur.validation.template": false,
-    "vetur.format.defaultFormatterOptions": {
-        "prettyhtml": {
-          "printWidth": 100, // No line exceeds 100 characters
-          "singleQuote": false // Prefer double quotes over single quotes
-        }
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {}
     },
-    "search.useIgnoreFiles": false,
-    "editor.largeFileOptimizations": false,
-    "editor.dragAndDrop": false,
-    "workbench.startupEditor": "newUntitledFile",
-    "editor.tabSize": 2
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": ["%DOCFILE%"],
+      "env": {}
+    },
+    {
+      "name": "xelatexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-xelatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk 🔃",
+      "tools": ["latexmk"]
+    },
+    {
+      "name": "latexmk (latexmkrc)",
+      "tools": ["latexmk_rconly"]
+    },
+    {
+      "name": "latexmk (lualatex)",
+      "tools": ["lualatexmk"]
+    },
+    {
+      "name": "pdflatex ➞ bibtex ➞ pdflatex × 2",
+      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+    },
+    {
+      "name": "xelatexmk (xelatex)",
+      "tools": ["xelatexmk"]
+    }
+  ],
+  "workbench.settings.useSplitJSON": true,
+
+  "search.useIgnoreFiles": false,
+  "editor.largeFileOptimizations": false,
+  "editor.dragAndDrop": false,
+  "workbench.startupEditor": "newUntitledFile",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+
+  // SideBar Location
+  "workbench.sideBar.location": "left",
+
+  // Vim Settings
+  "vim.textwidth": 100,
+  "editor.wordWrap": "on",
+  "editor.wordWrapColumn": 100,
+  "vim.camelCaseMotion.enable": true,
+  "vim.visualModeKeyBindings": [
+    {
+      "before": ["<C-`>"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["<C-`>"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.neovimPath": "/usr/local/bin/nvim",
+
+  //   VUE + JAVASCRIPT
+  //***************************
+
+  // Eslint configuration
+  // https://eslint.vuejs.org/user-guide/#faq
+  // Vetur
+  "vetur.validation.template": false,
+  "eslint.validate": ["javascript", "vue"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.eslint": true
+  },
+  "eslint.alwaysShowStatus": true,
+
+  // General formatting
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.singleQuote": true,
+
+  //   PYTHON
+  //***************************
+
+  // Python formatting
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "python.formatting.provider": "black",
+  // Python Linting: Disable pylint, enable flake 8
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true,
+  "python.linting.flake8Path": "/Users/fer/.local/pipx/venvs/flake8/bin/flake8",
+  // Python interpreter
+  "python.defaultInterpreterPath": "/Users/fer/.pyenv/versions/3.8.5/bin/python",
+
+  // Disable when developing Vue projects, it will conflict with npm esling module
+  "editor.formatOnSave": true
 }

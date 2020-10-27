@@ -150,7 +150,7 @@ export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
 # Call Python 3 by default. This does not and should not change the symlink to
 # /usr/local/lib/python
-alias python='python3'
+# alias python='python3'
 # alias pip='pip3'
 
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
@@ -241,6 +241,8 @@ export PATH
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/zsh/my_custom_commands.sh
 
+# Initialize Pyenv
+eval "$(pyenv init -)"
 #}}}
 # Key Bindings {{{
 bindkey '^[[A' fzf-history-widget
@@ -259,6 +261,7 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # NVM: Node package manager
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" 
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"            # This loads nvm
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
 # Option --no-use delays initialization of nvm so session loads faster
 # As a result, nvm must be called every time I work on node: nvm use 13.9.0

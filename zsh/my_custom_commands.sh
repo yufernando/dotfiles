@@ -19,6 +19,41 @@ end tell"
 
 }
 
+function tt { 
+
+echo "Increasing transparency."
+
+osascript -e "
+tell application \"iTerm\"
+    repeat with aWindow in windows
+        tell aWindow
+            tell current session
+                set old_transparency to transparency
+                set transparency to old_transparency + 0.05
+            end tell
+        end tell
+    end repeat
+end tell"
+
+}
+
+function TT { 
+
+echo "Reducing transparency."
+
+osascript -e "
+tell application \"iTerm\"
+    repeat with aWindow in windows
+        tell aWindow
+            tell current session
+                set old_transparency to transparency
+                set transparency to old_transparency - 0.05
+            end tell
+        end tell
+    end repeat
+end tell"
+
+}
 # Vim Man Pager: opens man pages in vim
 # https://stackoverflow.com/a/40849153
 function vman {

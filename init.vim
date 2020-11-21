@@ -135,7 +135,7 @@ let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']} "pydocstyle
 let g:ale_enabled = 0
 
 " UltiSnips: since we are using Deoplete, <tab> doesn't work
-let g:UltiSnipsExpandTrigger="<C-l>"
+let g:UltiSnipsExpandTrigger="<C-t>"
 
 " Deoplete
 let g:deoplete#enable_at_startup = 0
@@ -145,23 +145,38 @@ set completeopt+=noinsert " Do not insert text while scrolling the menu
 set completeopt-=noselect " Select first result
 set completeopt-=preview  " Disable preview window in the bottom
 
-command! Autocomplete  call deoplete#custom#option('auto_complete', v:true)
-command! AutocompleteOff call deoplete#custom#option('auto_complete', v:false)
+
+" command! Autocomplete  call deoplete#custom#option('auto_complete', v:true) \| echo "hello world"
+" command! AutocompleteOff call deoplete#custom#option('auto_complete', v:false)
 " command! Popup           call deoplete#custom#option({'auto_complete_popup':'auto'})
 " command! PopupOff        call deoplete#custom#option({'auto_complete_popup':'manual'})
 " AutocompleteOff
+"
+function AutocompleteOn()
+    call deoplete#custom#option('auto_complete', v:true)
+    call jedi#configure_call_signatures()
+    let g:jedi#show_call_signatures = "1" "Show function helper
+endfunction
+
+function AutocompleteOff()
+    call deoplete#custom#option('auto_complete', v:false)
+    let g:jedi#show_call_signatures = "0" "Hide function helper
+endfunction
 
 function AutocompleteToggle()
     if deoplete#is_enabled() == 0
         call deoplete#enable()
-        AutocompleteOff
-        echo 'Deoplete On. Repeat keys: Autocomplete On. <C-n>: Activate manually.'
+        call AutocompleteOn()
+        ALEEnable
+        echo 'Autocomplete On. Linter On.'
+        " call AutocompleteOff()
+        " echo 'Deoplete On. Repeat keys: Autocomplete On. <C-n>: Activate manually.'
     else
         if deoplete#custom#_get().option.auto_complete
-            AutocompleteOff
+            call AutocompleteOff()
             echo 'Autocomplete Off.'
         else
-            Autocomplete
+            call AutocompleteOn()
             echo 'Autocomplete On.'
         endif
     endif
@@ -182,11 +197,15 @@ let g:python_host_prog  = '/usr/local/bin/python'
 let g:python3_host_prog = '/Users/fer/anaconda3/envs/ds/bin/python'
 
 " Jedi-Vim
+let g:jedi#auto_initialization = 0 " Disable init at startup
+" Manually set function helper
+" let g:jedi#show_call_signatures = "1" "0: do not show function helper
+" Disable completions when using together with deoplete-jedi
+let g:jedi#completions_enabled = 0 " Disable completions
+let g:jedi#goto_command = 'gd'
+nnoremap gd :call jedi#goto()<CR>
 " let g:jedi#auto_vim_configuration = 0
 " let g:jedi#documentation_command = '<Leader>_K'
-" Disable next line when using together with deoplete-jedi
-let g:jedi#completions_enabled = 0 
-let g:jedi#goto_command = 'gd'
 " let g:jedi#auto_close_doc = 0
 
 " Plasticboy markdown
@@ -325,11 +344,12 @@ nnoremap <silent> <leader>l :NERDTreeToggle<CR>
 nnoremap <silent> <leader>L :NERDTreeFind<CR> 
 
 " Slimux Send Selection
-nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
-vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
-nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
+" nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
+" vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
+" nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
 nnoremap <silent> mm :w<CR>:!python3 %<CR>
-nmap m<CR> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
+nnoremap m<CR> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
+nnoremap <F5> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
 
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
@@ -377,7 +397,8 @@ nnoremap <leader>ru :Rgup<CR>
 nnoremap <leader>rd :Rgdrop<CR>
 
 " ALE Linting
-nmap <leader>z <Plug>(ale_toggle) \| :echo 'Linter enabled.'<CR>
+" Toggle Linter
+noremap <leader>z :ALEToggle \| :echo ale_enabled ? "Linter On." : "Linter Off." <CR>
 " nmap <leader>Z <Plug>(ale_detail)
 " nmap <silent> <leader>k <Plug>(ale_previous)
 " nmap <silent> <leader>j <Plug>(ale_next)
@@ -475,7 +496,7 @@ augroup filetype_settings
     " Preview Markdown and Vimwiki in HTML
     autocmd FileType markdown,vimwiki nnoremap <silent> <leader>md :<C-u>w<CR>:silent call system('mkdir -p ${TMPDIR}md-preview-${PPID}; pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR>:silent call system('open -a "Google Chrome" ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR> :echom 'Previewing Markdown File.'<CR> 
     " Convert to HTML in the background
-    autocmd FileType markdown,vimwiki nnoremap <silent> <leader>mdd :<C-u>w<CR>:silent call system('mkdir -p ${TMPDIR}md-preview-${PPID}; pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR><CR> :echom 'Markdown Preview Updated.'<CR>
+    autocmd FileType markdown,vimwiki nnoremap <silent> <leader>mD :<C-u>w<CR>:silent call system('mkdir -p ${TMPDIR}md-preview-${PPID}; pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR><CR> :echom 'Markdown Preview Updated.'<CR>
     " To autorefresh include this header in Markdown or Wiki file
     " ---
     "header-includes: <meta http-equiv="refresh" content="3"/>
@@ -534,6 +555,10 @@ highlight CursorLine ctermbg=236
 
 augroup END
 endfunction
+
+" Toggle Background (colocolumn)
+command! Background :let &cc = &cc == '' ? '+'.join(range(1,255), ',+') : ''
+command! CC :let &cc = &cc == '' ? '+'.join(range(1,255), ',+') : ''
 
 " Call focus function to set greyed columns on and off
 call s:focus()

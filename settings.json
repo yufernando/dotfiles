@@ -8,8 +8,7 @@
   "files.associations": {
     "*.wiki": "markdown"
   },
-  "zenMode.hideStatusBar": false,
-  "python.dataScience.sendSelectionToInteractiveWindow": false,
+"zenMode.hideStatusBar": false,
   "explorer.confirmDelete": false,
   "zenMode.hideLineNumbers": false,
   "explorer.confirmDragAndDrop": false,
@@ -227,7 +226,7 @@
   // https://eslint.vuejs.org/user-guide/#faq
   // Vetur
   "vetur.validation.template": false,
-  "eslint.validate": ["javascript", "vue"],
+  "eslint.validate": ["javascript", "vue", "html"],
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
     "source.fixAll.eslint": true
@@ -247,6 +246,8 @@
     "editor.defaultFormatter": "ms-python.python"
   },
   "python.formatting.provider": "black",
+  // Path to Black, you can use a custom version of Black by modifying this setting to include the full path.
+  "python.formatting.blackPath": "/Users/fer/.pyenv/versions/3.8.5/bin/black",
   // Python Linting: Disable pylint, enable flake 8
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
@@ -256,5 +257,6 @@
   "python.defaultInterpreterPath": "/Users/fer/.pyenv/versions/3.8.5/bin/python",
 
   // Disable when developing Vue projects, it will conflict with npm esling module
-  "editor.formatOnSave": true
+  // "editor.formatOnSave": true,
+"jupyter.sendSelectionToInteractiveWindow": false
 }

@@ -79,10 +79,17 @@ Usage:
     chromeapp localhost -p [port]   Open localhost on given port.
     chromeapp        -c [container]
     chromeapp docker -c [container] Open JupyterLab running in container.
-    chromeapp docker            Open JupyterLab running in bioaretian container."
+    chromeapp docker                Open JupyterLab running in jupyterlab container."
+
+    # chromeapp with no arguments
+    if [[ $# -eq 0 ]] ; then
+        URL=${subcommand:-http://localhost:8888}
+        /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
+        return 0
+    fi
 
     while getopts ':hc:p:' option; do
-        CONTAINER='bioaretian'
+        CONTAINER='jupyterlab'
         case "$option" in
             h) # Display help 
                 echo "$usage"
@@ -111,7 +118,7 @@ Usage:
                 return 0
                 ;;
             \?) # incorrect option
-                echo "Error: Invalid option"
+                echo "Error: Invalid option. Usage: chromeapp -h."
                 return 1
                 ;;
             :)
@@ -150,7 +157,7 @@ Usage:
             ;;
 
         docker)  # Open running JupyterLab in Docker container in Chrome
-            CONTAINER=bioaretian
+            CONTAINER=jupyterlab
 
             # Process options
             while getopts ":c:" opt; do
@@ -190,6 +197,40 @@ Usage:
             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
             ;;
     esac
+}
+
+# Run JupyterLab from Docker Container
+# This command pulls the yufernando/jupyterlabok image from Docker Hub if it is
+# not already present on the local host. It then starts an ephemeral container
+# running a Jupyter Notebook server and exposes the server on host port 8888.
+# The command mounts the current working directory on the host as
+# /home/jovyan/work in the container. The server logs appear in the terminal.
+# Visiting http://<hostname>:10000/?token=<token> in a browser loads
+# JupyterLab, where hostname is the name of the computer running docker and
+# token is the secret token printed in the console. Docker destroys the
+# container after notebook server exit, but any files written to ~/work in the
+# container remain intact on the host.:
+function dockerlab {
+    # Check if preexisting container is running
+    CONTAINER='jupyterlab'
+    if ! docker ps --format "{{.Names}}" | grep -wq $CONTAINER
+    then
+        echo "Container '$CONTAINER' not found. Running yufernando/jupyterlab with ID:";
+        docker run -d --rm -p 8888:8888 -v "$PWD":/home/jovyan/work -e JUPYTER_ENABLE_LAB=yes --name jupyterlab yufernando/jupyterlab
+        echo ""
+        echo "  Mounted: $PWD --> /home/jovyan/work"
+        echo ""
+        # Wait until Jupyterlab is initialized by checking logs
+        echo 'Jupyterlab initializing...'
+        RUNNING=""
+        while [[ -z $RUNNING ]]; do
+            RUNNING=`docker logs $CONTAINER 2>&1| grep -o "Or copy and paste one of these URLs"`
+            sleep .5
+        done
+    fi
+
+    # Open JupyterLab running in container with Chrome
+    chromeapp docker jupyterlab
 }
 
 # Create Evernote notes from terminal
@@ -235,21 +276,6 @@ DIR=$PWD
 `npm bin`/decktape rise http://localhost:8888/notebooks/$1.ipynb\?token\=$token $DIR/$1.pdf
 
 echo "Exported $DIR/$1.pdf" 
-}
-
-# Create docker container
-# This command pulls the jupyter/scipy-notebook image from Docker Hub if it is
-# not already present on the local host. It then starts an ephemeral container
-# running a Jupyter Notebook server and exposes the server on host port 8888.
-# The command mounts the current working directory on the host as
-# /home/jovyan/work in the container. The server logs appear in the terminal.
-# Visiting http://<hostname>:10000/?token=<token> in a browser loads
-# JupyterLab, where hostname is the name of the computer running docker and
-# token is the secret token printed in the console. Docker destroys the
-# container after notebook server exit, but any files written to ~/work in the
-# container remain intact on the host.:
-function dockerlab {
-    docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan/work jupyter/scipy-notebook
 }
 
 # Set default tmux session name

@@ -212,13 +212,17 @@ Usage:
 # container remain intact on the host.:
 function dockerlab {
     # Check if preexisting container is running
+    NOCOLOR='\033[0m'
+    GREEN='\033[0;32m'
     CONTAINER='jupyterlab'
-    if ! docker ps --format "{{.Names}}" | grep -wq $CONTAINER
+    if docker ps --format "{{.Names}}" | grep -wq $CONTAINER
     then
-        echo "Container '$CONTAINER' not found. Running yufernando/jupyterlab with ID:";
+        echo "Found Docker container '$CONTAINER' already running."
+    else
+        echo "Container '$CONTAINER' not found. Attempting to run Docker image yufernando/jupyterlab...";
         docker run -d --rm -p 8888:8888 -v "$PWD":/home/jovyan/work -e JUPYTER_ENABLE_LAB=yes --name jupyterlab yufernando/jupyterlab
         echo ""
-        echo "  Mounted: $PWD --> /home/jovyan/work"
+        echo "  Mounted: ${GREEN}$PWD${NOCOLOR} --> /home/jovyan/work"
         echo ""
         # Wait until Jupyterlab is initialized by checking logs
         echo 'Jupyterlab initializing...'

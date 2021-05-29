@@ -221,6 +221,9 @@ export C_INCLUDE_PATH=/usr/local/include
 # set -o gives full list of options
 setopt extendedglob
 
+# Bioinformatics: add bioinfo programs to path
+export PATH="$PATH:/opt/ont-guppy-cpu/bin"
+
 # }}}
 # Source files {{{
 

@@ -25,3 +25,8 @@
 	log2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)%n''         %C(cyan)%aD%C(reset) %C(green)(%ar)%C(reset)'
 	log3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset)%C(auto)%d%C(reset)%n''         %C(cyan)%aD%C(reset) %C(green)(%ar)%C(reset) %C(cyan)(committed: %cD)%C(reset)%n''         %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
 
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process

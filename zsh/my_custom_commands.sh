@@ -211,16 +211,50 @@ Usage:
 # container after notebook server exit, but any files written to ~/work in the
 # container remain intact on the host.:
 function dockerlab {
+
+    usage="Run Jupyter Lab in a Docker Container.
+
+Usage: 
+    dockerlab -h                    Display help.
+    dockerlab                       Use image: yufernando/jupyterlab.
+    dockerlab bioaretian            Use image: yufernando/bioaretian.
+    dockerlab [container]           Use image: yufernando/[container]."
+
+    while getopts ':h' option; do
+        case "$option" in
+            h) # Display help 
+                echo "$usage"
+                return 0
+                ;;
+            \?) # incorrect option
+                echo "Error: Invalid option. Usage: dockerlab -h."
+                return 1
+                ;;
+            :)
+                echo "Invalid Option: -$OPTARG requires an argument" 1>&2
+                return 1
+                ;;
+        esac
+    done
+    shift $((OPTIND -1))
+
+    if [[ $# -eq 0 ]] 
+    then
+        CONTAINER='jupyterlab'
+    else 
+        CONTAINER=$1
+    fi
+
     # Check if preexisting container is running
     NOCOLOR='\033[0m'
     GREEN='\033[0;32m'
-    CONTAINER='jupyterlab'
+    # CONTAINER='jupyterlab'
     if docker ps --format "{{.Names}}" | grep -wq $CONTAINER
     then
         echo "Found Docker container '$CONTAINER' already running."
     else
-        echo "Container '$CONTAINER' not found. Attempting to run Docker image yufernando/jupyterlab...";
-        docker run -d --rm -p 8888:8888 -v "$PWD":/home/jovyan/work -e JUPYTER_ENABLE_LAB=yes --name jupyterlab yufernando/jupyterlab
+        echo "Container '$CONTAINER' not found. Attempting to run Docker image yufernando/$CONTAINER...";
+        docker run -d --rm -p 8888:8888 -v "$PWD":/home/jovyan/work -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER yufernando/$CONTAINER
         echo ""
         echo "  Mounted: ${GREEN}$PWD${NOCOLOR} --> /home/jovyan/work"
         echo ""
@@ -234,7 +268,7 @@ function dockerlab {
     fi
 
     # Open JupyterLab running in container with Chrome
-    chromeapp docker jupyterlab
+    chromeapp docker -c $CONTAINER
 }
 
 # Create Evernote notes from terminal

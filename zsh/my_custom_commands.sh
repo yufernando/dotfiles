@@ -84,7 +84,10 @@ Usage:
     # chromeapp with no arguments
     if [[ $# -eq 0 ]] ; then
         URL=${subcommand:-http://localhost:8888}
-        /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
+        # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+        # --new-window --incognito --app=$URL #Incognito was opening two
+        # windows
+        /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=$URL
         return 0
     fi
 
@@ -108,13 +111,15 @@ Usage:
                 TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
                 URL="http://localhost:8888/?$TOKEN"
                 echo "Opening JupyterLab running in Docker container '$CONTAINER'..."
-                /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
+                # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
+                /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=$URL > /dev/null
                 return 0
                 ;;
             p)
                 PORT=${OPTARG:-8888}
                 URL="http://localhost:$PORT"
-                /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
+                # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
+                /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=$URL
                 return 0
                 ;;
             \?) # incorrect option
@@ -153,7 +158,8 @@ Usage:
             shift $((OPTIND -1))
 
             URL="http://localhost:$PORT"
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
+            # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=$URL
             ;;
 
         docker)  # Open running JupyterLab in Docker container in Chrome
@@ -190,17 +196,19 @@ Usage:
             TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
             URL="http://localhost:8888/?$TOKEN"
             echo "Opening JupyterLab running in Docker container '$CONTAINER'..."
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
+            # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=$URL > /dev/null
             ;;
         *)
             URL=${subcommand:-http://localhost:8888}
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
+            # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=$URL
             ;;
     esac
 }
 
 # Run JupyterLab from Docker Container
-# This command pulls the yufernando/jupyterlabok image from Docker Hub if it is
+# This command pulls the yufernando/jupyterlab image from Docker Hub if it is
 # not already present on the local host. It then starts an ephemeral container
 # running a Jupyter Notebook server and exposes the server on host port 8888.
 # The command mounts the current working directory on the host as

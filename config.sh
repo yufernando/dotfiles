@@ -43,10 +43,10 @@ ln -svf $DIR/oh-my-zsh/robbyrussell-userhost.zsh-theme  ~/.oh-my-zsh/custom/them
 #Remote server
 sudo ln -s /home/fer/.dotfiles/zshrc    /root/.zshrc
 sudo ln -s /home/fer/.dotfiles/init.vim /root/.config/nvim/init.vim
-sudo ln -svf $DIR/nginx/ferserver       /etc/nginx/sites-enabled/ferserver
+#sudo ln -svf $DIR/nginx/ferserver       /etc/nginx/sites-enabled/ferserver
 
 #Jupyterhub
-ln -svf $DIR/jupyterhub/jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
+sudo ln -svf $DIR/jupyterhub/jupyterhub_config-default.py /srv/jupyterhub/jupyterhub_config.py
 #.dotfiles -> /srv -> /systemd
 sudo ln -svf $DIR/jupyterhub/jupyterhub.service /srv/jupyterhub/jupyterhub.service
 sudo ln -svf /srv/jupyterhub/jupyterhub.service /etc/systemd/system/jupyterhub.service  

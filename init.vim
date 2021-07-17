@@ -63,7 +63,7 @@ set virtualedit=block "Allow cursor to move when there is no text in visual bloc
 " }}}
 " Plugins {{{
 
-call plug#begin('~/.vim/plugged')
+call plug#begin()
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " Tree browser
 Plug 'junegunn/goyo.vim'            " Focused editing

@@ -5,7 +5,7 @@
 # Install utilities
 #curl
 sudo apt update
-sudo apt install -Y curl python3-pip neovim git tmux zsh
+sudo apt install -Y curl python3-pip neovim git tmux zsh fzf 
 #homebrew
 #/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 #sudo apt-get install build-essential
@@ -13,6 +13,10 @@ sudo apt install -Y curl python3-pip neovim git tmux zsh
 #eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 #brew install gcc
 #install pip
+
+# Install fd
+wget https://github.com/sharkdp/fd/releases/download/v8.2.1/fd-musl_8.2.1_amd64.deb
+sudo dpkg -i fd-musl_8.2.1_amd64.deb
 
 # Install vim-plug
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \

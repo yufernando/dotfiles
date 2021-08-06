@@ -5,16 +5,20 @@ contains scripts to install useful tools (zsh, tmux, etc) and dotfiles for confi
 
 # Installation instructions
 
+`ssh` into your Linux box:
+
+`ssh root@ip-address`
+
 Clone the repository into a hidden folder in the home directory:
 
 ```
-cd ~
-git clone https://github.com/yufernando/dotfiles .dotfiles
+git clone https://github.com/yufernando/dotfiles ~/.dotfiles
 ```
 
 Run the scripts. The argument `host` defines the server name, in this example `test-server`:
 
 ```
+cd ~/.dotfiles
 make install host=test-server
 ```
 

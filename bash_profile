@@ -20,5 +20,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)

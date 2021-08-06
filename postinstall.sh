@@ -7,5 +7,5 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 mkdir -p ~/.oh-my-zsh/custom/themes
 ln -svf $PWD/oh-my-zsh/robbyrussell-userhost.zsh-theme  ~/.oh-my-zsh/custom/themes/robbyrussell-userhost.zsh-theme
 
-# Relink zshrc
-ln -svf $PWD/zshrc                      ~/.zshrc
+# Relink zshrc: not necessary if oh-my-zsh installation with --unattended option
+#ln -svf $PWD/zshrc                      ~/.zshrc

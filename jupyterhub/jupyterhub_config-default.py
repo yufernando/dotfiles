@@ -16,3 +16,7 @@ c.JupyterHub.template_paths=['/srv/jupyterhub']
 # import os
 # os.environ['JUPYTER_CONFIG_DIR'] = '/usr/local/etc/jupyter/nbconfig'
 # c.Spawner.env_keep.append('JUPYTER_CONFIG_DIR')
+
+# Memory limit
+c.Spawner.mem_limit = '6G' 
+c.Spawner.mem_guarantee = '4G' 

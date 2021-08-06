@@ -4,7 +4,7 @@
 #----------------------------------------------------------------
 apt install -y unattended-upgrades
 dpkg-reconfigure --priority=low unattended-upgrades
-adduser fer
+adduser --gecos "" fer
 adduser fer sudo
 
 # Disable root login and password identification

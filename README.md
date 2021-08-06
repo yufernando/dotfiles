@@ -9,15 +9,17 @@ contains scripts to install useful tools (zsh, tmux, etc) and dotfiles for confi
 
 `ssh root@ip-address`
 
-1. Install `make`:
+2. Clone the `ubuntu` branch of the repository into a hidden folder in the home directory:
+
 ```
+git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
+```
+
+3. Install `make`: 
+
+```
+apt update && apt upgrade
 apt install make
-```
-
-2. Clone the repository into a hidden folder in the home directory:
-
-```
-git clone https://github.com/yufernando/dotfiles ~/.dotfiles
 ```
 
 4. Run the scripts. The argument `host` defines the server name, in this example `test-server`:
@@ -26,6 +28,11 @@ git clone https://github.com/yufernando/dotfiles ~/.dotfiles
 cd ~/.dotfiles
 make install host=test-server
 ```
+
+5. Post-installation: 
+
+- Relogin to test configuration success. 
+- Open vim and run `:PlugInstall` to install plugins.
 
 # Running the scripts separately
 

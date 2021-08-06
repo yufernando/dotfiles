@@ -38,11 +38,11 @@ ln -svf $DIR/latexmkrc                  ~/.latexmkrc
 
 # Root User
 
-sudo ln -svf $DIR/zshrc                 /root/.zshrc
-sudo mkdir -p /root/.config/nvim
-sudo ln -svf $DIR/init.vim              /root/.config/nvim/init.vim
-sudo mkdir -p /root/.vim
-sudo ln -svf $DIR/vim/autocmds.vim      /root/.vim/autoload/autocmds.vim        
+# sudo ln -svf $DIR/zshrc                 /root/.zshrc
+# sudo mkdir -p /root/.config/nvim
+# sudo ln -svf $DIR/init.vim              /root/.config/nvim/init.vim
+# sudo mkdir -p /root/.vim
+# sudo ln -svf $DIR/vim/autocmds.vim      /root/.vim/autoload/autocmds.vim        
 # sudo ln -svf $DIR/nginx/ferserver       /etc/nginx/sites-enabled/ferserver
 
 #Jupyterhub

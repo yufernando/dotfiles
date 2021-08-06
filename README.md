@@ -11,11 +11,15 @@ mv dotfiles .dotfiles
 
 # Installation
 
-The script `install.sh` installs useful utilities.
+```
+make install
+```
 
-`./install.sh`
+# Details
 
-# Configuration
+You can run the scripts individually.
+
+## Configuration
 
 After cloning the repo, the file `config.sh` creates symlinks to the respective file locations.
 
@@ -31,3 +35,10 @@ ln -svf ~/.dotfiles/tmux.conf    ~/.tmux.conf
 ln -svf ~/.dotfiles/vimrc        ~/.vimrc
 ln -svf ~/.dotfiles/zshrc        ~/.zshrc
 ```
+
+## Installation of programs
+
+The script `install.sh` installs useful utilities.
+
+`./install.sh`
+

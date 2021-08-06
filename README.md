@@ -1,30 +1,40 @@
 # Description 
-This repository contains scripts to install useful tools (zsh, tmux, etc) and dotfiles for configuration.
 
-Begin by cloning the repository into a hidden folder in the home directory:
+This repository contains scripts to setup and configure an Ubuntu Linux Machine. It
+contains scripts to install useful tools (zsh, tmux, etc) and dotfiles for configuration.
+
+# Installation instructions
+
+Clone the repository into a hidden folder in the home directory:
 
 ```
 cd ~
-git clone https://github.com/yufernando/dotfiles
-mv dotfiles .dotfiles
+git clone https://github.com/yufernando/dotfiles .dotfiles
 ```
 
-# Installation
+Run the scripts. The argument `host` defines the server name, in this example `test-server`:
 
 ```
-make install
+make install host=test-server
 ```
 
-# Details
+# Running the scripts separately
 
 You can run the scripts individually.
 
-## Configuration
+### Setup
 
-After cloning the repo, the file `config.sh` creates symlinks to the respective file locations.
+`0_setup.sh` sets basic information including hostname and timezone.
 
+### Hardening
+
+`1_harden.sh` sets up the ufw firewall and configures ssh.
+
+### Configuration
+
+The file `2_config.sh` creates symlinks to the respective file locations.
 ```
-./config.sh
+./2_config.sh
 ```
 
 This creates symlinks such as:
@@ -36,9 +46,10 @@ ln -svf ~/.dotfiles/vimrc        ~/.vimrc
 ln -svf ~/.dotfiles/zshrc        ~/.zshrc
 ```
 
-## Installation of programs
+### Installation of programs
 
-The script `install.sh` installs useful utilities.
+The script `3_install.sh` installs useful utilities, including `oh-my-zsh` to customize the
+`zsh` shell.
 
-`./install.sh`
+`./3_install.sh`
 

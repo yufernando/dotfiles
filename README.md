@@ -32,7 +32,7 @@ make install host=test-server
 5. Post-installation: 
 
 - Relogin to test configuration success. 
-- Open vim and run `:PlugInstall` to install plugins.
+- Open vim and run `:PlugInstall` to install plugins for both root and sudo user.
 
 # Running the scripts separately
 

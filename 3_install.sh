@@ -11,11 +11,10 @@
 #echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/fer/.zprofile
 #eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 #brew install gcc
-#install pip
-sudo apt install python3-pip
 
-# Install VIM
-sudo apt install neovim
+# Install pip and neovim
+sudo apt -y install python3-pip neovim
+
 # Install vim-plug
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'

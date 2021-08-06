@@ -21,7 +21,7 @@ apt install -y ufw
 ufw default allow outgoing
 ufw default deny incoming
 ufw allow ssh
-ufw enable
+yes | ufw enable
 
 # Install and configure Fail2ban
 apt install -y fail2ban

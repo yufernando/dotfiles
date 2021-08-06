@@ -1,4 +1,4 @@
-# Description 
+# Dotfiles
 
 This repository contains scripts to setup and configure an Ubuntu Linux Machine. It
 contains scripts to install useful tools (zsh, tmux, etc) and dotfiles for configuration.

@@ -347,9 +347,9 @@ nnoremap <silent> <leader>L :NERDTreeFind<CR>
 " nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
 " vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
 " nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
-nnoremap <silent> mm :w<CR>:!python3 %<CR>
-nnoremap m<CR> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
-nnoremap <F5> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
+nnoremap <silent> mm    :w<CR>:!python3 %<CR>
+nnoremap <silent> m<CR> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
+nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
 
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 

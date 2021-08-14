@@ -74,7 +74,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 
 plugins=(
-  # git 
+  git 
   # osx # to control spotify
   # kubectl # For Kubernetes on Google Cloud
   zsh-autosuggestions

@@ -45,6 +45,6 @@ ln -svf $DIR/latexmkrc                  ~/.latexmkrc
 
 # Italics in iTerm and Tmux
 # https://apple.stackexchange.com/a/267261
-tic -o ~/.terminfo $DIR/tmux/xterm-256color.terminfo.txt
-tic -o ~/.terminfo $DIR/tmux/tmux-256color.terminfo.txt
-tic -o ~/.terminfo $DIR/tmux/tmux.terminfo.txt
+tic -o ~/.terminfo $DIR/tmux/xterm-256color.terminfo.txt || true
+tic -o ~/.terminfo $DIR/tmux/tmux-256color.terminfo.txt || true
+tic -o ~/.terminfo $DIR/tmux/tmux.terminfo.txt || true

@@ -16,12 +16,13 @@ all:
 	./2_config.sh
 	./3_install.sh
 	# sudo -u $(user) -H sh -c "./4_config_install_user.sh" $(user)
-	sudo -u $(user) -H sh -c 'cd /home/$(user)
-		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles
-		cd .dotfiles
-		./2_config.sh
-		./3_install.sh
-		./4_copy_ssh $(user)'
+	sudo -u $(user) -H sh -c \
+		"cd /home/$(user); \
+		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
+		cd .dotfiles; \
+		./2_config.sh; \
+		./3_install.sh; \
+		./4_copy_ssh $(user)"
 	echo "Installation complete. Relogin"
 
 .PHONY: config_install
@@ -30,11 +31,12 @@ config_install:
 	./2_config.sh
 	./3_install.sh
 	# User
-	sudo -u $(user) -H sh -c 'cd /home/$(user)
-		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles
-		cd .dotfiles
-		./2_config.sh
-		./3_install.sh'
+	sudo -u $(user) -H sh -c \
+		"cd /home/$(user); \
+		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
+		cd .dotfiles; \
+		./2_config.sh; \
+		./3_install.sh"
 
 .PHONY: clean
 clean:

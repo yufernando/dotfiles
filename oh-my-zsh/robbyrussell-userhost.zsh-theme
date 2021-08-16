@@ -1,4 +1,4 @@
-PROMPT='%(!.%{%F{yellow}%}.)$USER@%{$fg[white]%}%M '
+PROMPT='%(!.%{%F{yellow}%}.)$USERNAME@%{$fg[white]%}%M '
 PROMPT+="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 PROMPT+='%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%}% %{$reset_color%}'
 

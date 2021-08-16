@@ -225,17 +225,19 @@ function dockerlab {
 Usage: 
     dockerlab -h                    Display help.
     dockerlab                       Use image: yufernando/jupyterlab.
-    dockerlab -v [DIR]              Mount directory DIR.
+    dockerlab -v [DIR]              Mount directory DIR. (Default: PWD)
     dockerlab -n                    Do not mount directory.
     dockerlab yufernando/bioaretian Use image yufernando/bioaretian.
     dockerlab [IMG]                 Use image IMG.
-    dockerlab -d                    Detached mode: do not open Chrome."
+    dockerlab -d                    Detached mode: do not open Chrome.
+    dockerlab -i                    Inteactive mode: open zsh shell."
 
     # Set PWD as mounted directory
     MOUNT_DIR=$PWD
     OPENCHROME=true
+    OPENZSH=false
 
-    while getopts 'dhnv:' option; do
+    while getopts 'dhinv:' option; do
         case "$option" in
             d) # Detached. do not open Chrome.
                 OPENCHROME=false
@@ -243,6 +245,9 @@ Usage:
             h) # Display help 
                 echo "$usage"
                 return 0
+                ;;
+            i) # Open zsh in interactive mode
+                OPENZSH=true
                 ;;
             n) # No mount
                 MOUNT_DIR=""
@@ -307,8 +312,10 @@ Usage:
     # Open JupyterLab running in container with Chrome
     if [[ $OPENCHROME = true ]]; then
         chromeapp docker -c $CONTAINER
-    else
-        return 0
+    fi
+
+    if [[ $OPENZSH = true ]]; then
+        docker exec -it $CONTAINER zsh
     fi
 }
 

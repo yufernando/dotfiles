@@ -1,6 +1,11 @@
 # Makefile
-# Arguments: host=hostname
-# Example: make all host=test-server
+# Arguments: 
+# 	host=hostname
+# 	user=username
+# Example: make all host=test-server user=fer
+
+# Defaults
+user := fer
 
 .PHONY: all
 all: 
@@ -8,16 +13,12 @@ all:
 	./1_harden.sh
 	./2_config.sh
 	./3_install.sh
-	sudo -u fer -H sh -c "./4_config_install_fer.sh"
+	sudo -u $(user) -H sh -c "./4_config_install_user.sh" $(user)
 	echo "Installation complete. Relogin"
 
-.PHONY: config
-config:
-	./2_config.sh
-
-.PHONY: install
-install:
-	./3_install.sh
+.PHONY: config_install_user
+config_install_user:
+	sudo -u $(user) -H sh -c "./4_config_install_user.sh" $(user)
 
 .PHONY: clean
 clean:

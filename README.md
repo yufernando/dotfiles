@@ -26,7 +26,7 @@ apt install make
 
 ```
 cd ~/.dotfiles
-make install host=test-server
+make all host=test-server
 ```
 
 5. Post-installation: 
@@ -53,6 +53,8 @@ The file `2_config.sh` creates symlinks to the respective file locations.
 ./2_config.sh
 ```
 
+Equivalent to `make config`.
+
 This creates symlinks such as:
 ```
 ln -svf ~/.dotfiles/bash_profile ~/.bash_profile
@@ -68,4 +70,6 @@ The script `3_install.sh` installs useful utilities, including `oh-my-zsh` to cu
 `zsh` shell.
 
 `./3_install.sh`
+
+Equivalent to `make install`.
 

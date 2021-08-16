@@ -27,7 +27,9 @@ all:
 
 .PHONY: config_install
 config_install:
-	git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git ~/.dotfiles
+	if [[ ! -d ~/.dotfiles ]]; then
+		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git ~/.dotfiles
+	fi
 	cd ~/.dotfiles
 	./2_config.sh
 	./3_install.sh

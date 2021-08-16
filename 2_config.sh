@@ -1,14 +1,14 @@
 #!/bin/bash
+#
+# CONFIGURATION (2_config.sh)
+# Create symlinks to configure programs
+#----------------------------------------------------------------
 
-echo "Installing dotfiles..."
+echo ""
+echo "2. CONFIGURATION: Creating symlinks."
+echo ""
 
 DIR=$PWD
-
-# Installation
-
-#./install.sh
-
-# Configuration
 
 # Create config files
 #Vim
@@ -35,14 +35,6 @@ ln -svf $DIR/latexmkrc                  ~/.latexmkrc
 #ln -svf $DIR/jupyter_notebook_config.py ~/.jupyter/jupyter_notebook_config.py
 #ln -svf $DIR/plugin.jupyterlab-settings ~/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/plugin.jupyterlab-settings
 #ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.sty
-
-# Root User
-
-# sudo ln -svf $DIR/zshrc                 /root/.zshrc
-# sudo mkdir -p /root/.config/nvim
-# sudo ln -svf $DIR/init.vim              /root/.config/nvim/init.vim
-# sudo mkdir -p /root/.vim
-# sudo ln -svf $DIR/vim/autocmds.vim      /root/.vim/autoload/autocmds.vim        
 # sudo ln -svf $DIR/nginx/ferserver       /etc/nginx/sites-enabled/ferserver
 
 #Jupyterhub
@@ -56,7 +48,3 @@ ln -svf $DIR/latexmkrc                  ~/.latexmkrc
 tic -o ~/.terminfo xterm-256color.terminfo.txt
 tic -o ~/.terminfo tmux-256color.terminfo.txt
 tic -o ~/.terminfo tmux.terminfo.txt
-
-echo "Installation complete! Relogin please"
-
-# After installing Vim, run :PlugInstall

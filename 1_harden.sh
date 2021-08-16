@@ -1,7 +1,12 @@
 #!/bin/bash
-
-# SERVER HARDENING
+#
+# SERVER HARDENING (1_harden.sh)
+# Configure SSH, setup ufw firewall and fail2ban
 #----------------------------------------------------------------
+echo ""
+echo "1. HARDENING: setting up SSH, firewall and fail2ban."
+echo ""
+
 apt install -y unattended-upgrades
 dpkg-reconfigure --priority=low unattended-upgrades
 adduser --gecos "" fer

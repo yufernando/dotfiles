@@ -1,7 +1,12 @@
 #!/bin/bash
-
-# GENERAL CONFIGURATION
+#
+# GENERAL CONFIGURATION (0_setup.sh)
+# Configure hostname, ip and date
 #----------------------------------------------------------------
+echo ""
+echo "SETUP: configuring hostname, ip and date."
+echo ""
+
 # Get Hostname
 HOSTNAME=$1
 

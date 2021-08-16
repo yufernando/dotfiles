@@ -22,11 +22,12 @@ apt update && apt upgrade
 apt install make
 ```
 
-4. Run the scripts. The argument `host` defines the server name, in this example `test-server`:
+4. Run the scripts. The argument `host` defines the server name, in this example `test-server`. The
+   argument `user` defines the local user to configure in addition to `root`:
 
 ```
 cd ~/.dotfiles
-make all host=test-server
+make all host=test-server user=fer
 ```
 
 5. Post-installation: 

@@ -16,8 +16,8 @@ all:
 	sudo -u $(user) -H sh -c "./4_config_install_user.sh" $(user)
 	echo "Installation complete. Relogin"
 
-.PHONY: config_install_user
-config_install_user:
+.PHONY: config_install
+config_install:
 	sudo -u $(user) -H sh -c "./4_config_install_user.sh" $(user)
 
 .PHONY: clean

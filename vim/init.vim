@@ -73,27 +73,27 @@ Plug 'junegunn/fzf.vim'             " Fuzzy finder for Vim
 Plug 'tpope/vim-surround'           " Edit surrounding text
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github
-Plug 'tpope/vim-vinegar'            " File browser
-Plug 'takac/vim-hardtime'           " Block repeat keys
+"Plug 'tpope/vim-vinegar'            " File browser
+" Plug 'takac/vim-hardtime'           " Block repeat keys
 Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
-Plug 'epeli/slimux'                 " Send comands to tmux window
-Plug 'kassio/neoterm'               " Terminal in Vim
+"Plug 'epeli/slimux'                 " Send comands to tmux window
+"Plug 'kassio/neoterm'               " Terminal in Vim
 Plug 'mhinz/vim-startify'           " Startup buffer
-Plug 'godlygeek/tabular'
+"Plug 'godlygeek/tabular'
 " Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
 " Deoplete
 " if has('nvim')
-  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " else
-  " Plug 'Shougo/deoplete.nvim'
-  " Plug 'roxma/nvim-yarp'
-  " Plug 'roxma/vim-hug-neovim-rpc'
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
 " endif
-Plug 'davidhalter/jedi'
-Plug 'deoplete-plugins/deoplete-jedi'
+" Plug 'davidhalter/jedi'
+" Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'
@@ -102,7 +102,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'lervag/vimtex'                " Latex
 "Plug 'w0rp/ale'                     " Code syntax
 "Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
-Plug 'bkad/camelcasemotion'
+"Plug 'bkad/camelcasemotion'
 Plug 'posva/vim-vue'                 " Vue syntax highlighting
 
 call plug#end()
@@ -128,7 +128,36 @@ let g:limelight_conceal_ctermfg = 'gray'
 "call neomake#configure#automake('nw', 1000)
 
 " Deoplete
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
+" set completeopt+=noinsert " First result is suggested
+" set completeopt-=preview  " Disable preview window in the bottom
+" command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
+" map TAB, C-j to down in popup and C-k to up in popup
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+" inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+" call deoplete#custom#option({
+"       \ 'auto_complete_popup': 'manual',
+"       \ })
+" inoremap <silent><expr> <TAB>
+"     \ pumvisible() ? "\<C-n>" :
+"     \ <SID>check_back_space() ? "\<Tab>" :
+"     \ deoplete#complete()
+" function! s:check_back_space() abort
+"     let col = col('.') - 1
+"     return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+
+" Deoplete Jedi
+" let g:python_host_prog  = '/usr/bin/python' 
+" let g:python3_host_prog  = '/usr/bin/python3' 
+
+" Jedi-Vim
+" let g:jedi#auto_vim_configuration = 0
+" let g:jedi#documentation_command = '<Leader>_K'
+" let g:jedi#completions_enabled = 0
+" let g:jedi#auto_close_doc = 0
 
 " Plasticboy markdown
 let g:vim_markdown_frontmatter = 1
@@ -137,11 +166,6 @@ let g:vim_markdown_folding_disabled = 1
 let g:tex_conceal = ""
 let g:vim_markdown_math = 1             " Avoid math syntax conceal
 set conceallevel=2                      " Highlight Bold and Italic 
-
-" Deoplete Jedi
-let g:python_host_prog  = '/Users/Fer/anaconda3/envs/ds/bin/python' 
-let g:python3_host_prog = '/Users/Fer/anaconda3/envs/ds/bin/python' 
-command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
 
 " FZF preview window
 command! -bang -nargs=? -complete=dir Files
@@ -205,8 +229,8 @@ let g:jupytext_fmt = 'python' "convert to .py files
 let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
 
 " CamelCaseMotion: treat _ as word separator
-omap <silent> iw <Plug>CamelCaseMotion_iw
-xmap <silent> iw <Plug>CamelCaseMotion_iw
+" omap <silent> iw <Plug>CamelCaseMotion_iw
+" xmap <silent> iw <Plug>CamelCaseMotion_iw
 omap <silent> ib <Plug>CamelCaseMotion_ib
 xmap <silent> ib <Plug>CamelCaseMotion_ib
 omap <silent> ie <Plug>CamelCaseMotion_ie
@@ -236,7 +260,9 @@ set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinko
 " Gruvbox
 set background=dark
 " let g:gruvbox_color_column='bg0'
+let g:gruvbox_italic=1
 colorscheme gruvbox
+set termguicolors
 
 "colorscheme apprentice
 "colorscheme one
@@ -490,7 +516,7 @@ function! s:goyo_enter()
     " set statusline=\ 
     set nocursorline
     set noshowmode
-    call deoplete#custom#option('auto_complete', v:false)
+    " call deoplete#custom#option('auto_complete', v:false)
     Limelight
     silent !tmux set-option status off
 endfunction
@@ -501,7 +527,7 @@ function! s:goyo_leave()
       execute 'let &' . k . '=' . string(v)
     endfor
     Limelight!
-    call deoplete#custom#option('auto_complete', v:true)
+    " call deoplete#custom#option('auto_complete', v:true)
     " Uncomment this line to turn on gray colorcolumns
     call s:focus()
 endfunction

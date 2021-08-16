@@ -39,6 +39,11 @@ config_install:
 	./2_config.sh
 	./3_install.sh
 
+# To recreate symlinks
+.PHONY: config
+config:
+	./2_config.sh
+
 .PHONY: clean
 clean:
 	rm -f ~/.zshrc*

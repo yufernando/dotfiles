@@ -9,7 +9,7 @@ echo "3. INSTALLATION: installing utilities."
 echo ""
 
 # Install packages
-sudo apt -y install python3-pip neovim curl git tmux zsh
+sudo apt -y install python3-pip neovim curl git tmux zsh ripgrep
 
 # Install vim-plug
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \

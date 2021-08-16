@@ -27,16 +27,17 @@ all:
 
 .PHONY: config_install
 config_install:
-	# Root
+	git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git ~/.dotfiles
+	cd ~/.dotfiles
 	./2_config.sh
 	./3_install.sh
-	# User
-	sudo -u $(user) -H sh -c \
-		"cd /home/$(user); \
-		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
-		cd .dotfiles; \
-		./2_config.sh; \
-		./3_install.sh"
+	# # User
+	# sudo -u $(user) -H sh -c \
+	# 	"cd /home/$(user); \
+	# 	git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
+	# 	cd .dotfiles; \
+	# 	./2_config.sh; \
+	# 	./3_install.sh"
 
 .PHONY: clean
 clean:

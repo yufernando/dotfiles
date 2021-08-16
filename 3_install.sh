@@ -12,21 +12,14 @@
 #eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 #brew install gcc
 
-# Install pip and neovim
-sudo apt -y install python3-pip neovim curl
+# Install packages
+sudo apt -y install python3-pip neovim curl git tmux zsh
 
 # Install vim-plug
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-# Install git
-sudo apt install git
-
-# Install TMUX
-sudo apt install tmux
-
 # Install zsh (need to reboot to change shell)
-sudo apt --yes install zsh
 chsh -s /usr/bin/zsh
 
 # Install oh-my-zsh

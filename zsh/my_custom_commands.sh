@@ -224,20 +224,25 @@ function dockerlab {
 
 Usage: 
     dockerlab -h                    Display help.
-    dockerlab                       Use image: yufernando/jupyterlab.
-    dockerlab -v [DIR]              Mount directory DIR. (Default: PWD)
-    dockerlab -n                    Do not mount directory.
-    dockerlab yufernando/bioaretian Use image yufernando/bioaretian.
-    dockerlab [IMG]                 Use image IMG.
-    dockerlab -d                    Detached mode: do not open Chrome.
-    dockerlab -i                    Inteactive mode: open zsh shell."
 
-    # Set PWD as mounted directory
-    MOUNT_DIR=$PWD
+    dockerlab                       Use image: yufernando/jupyterlab.
+    dockerlab yufernando/bioaretian Use image: yufernando/bioaretian.
+    dockerlab [IMG]                 Use image: IMG.
+
+    dockerlab -v [DIR]              Mount directory DIR only. (Default: PWD)
+    dockerlab -V [DIR]              Mount directory DIR and current directory.
+    dockerlab -n                    Do not mount directory.
+
+    dockerlab -d                    Detached mode: do not open Chrome.
+    dockerlab -i                    Interactive mode: open zsh shell."
+
+    # Defaults
     OPENCHROME=true
     OPENZSH=false
+    MOUNT_PWD=true
+    MOUNT_SOURCE_TARGET=""
 
-    while getopts 'dhinv:' option; do
+    while getopts 'dhinv:V:' option; do
         case "$option" in
             d) # Detached. do not open Chrome.
                 OPENCHROME=false
@@ -250,10 +255,15 @@ Usage:
                 OPENZSH=true
                 ;;
             n) # No mount
-                MOUNT_DIR=""
+                MOUNT_SOURCE_TARGET=""
+                MOUNT_PWD=false
                 ;;
             v) # Mount folder
-                MOUNT_DIR=$OPTARG
+                MOUNT_SOURCE_TARGET=$OPTARG
+                MOUNT_PWD=false
+                ;;
+            V) # Mount both specified folder and CWD
+                MOUNT_SOURCE_TARGET=$OPTARG
                 ;;
             \?) # incorrect option
                 echo "Error: Invalid option. Usage: dockerlab -h."
@@ -285,19 +295,32 @@ Usage:
         echo "Running image '$IMAGE' in container '$CONTAINER' with ID:";
 
         # Mount directory depending on flag option
-        MOUNT_SCRIPT="-v$MOUNT_DIR:/home/jovyan/work"
-        MOUNT_MSG="  Mounted: ${GREEN}$MOUNT_DIR${NOCOLOR} --> /home/jovyan/work"
-        if [[ -z $MOUNT_DIR ]]; then
-            MOUNT_SCRIPT=""
+        MOUNT_SCRIPT_PWD=""
+        if [[ $MOUNT_PWD = true ]]; then
+            MOUNT_SCRIPT_PWD="-v$PWD:/home/jovyan/work"
+            MOUNT_MSG_PWD="  Mounted: ${GREEN}$PWD${NOCOLOR} --> /home/jovyan/work"
+        fi
+
+        MOUNT_SCRIPT=""
+        MOUNT_MSG=""
+        if [[ -n $MOUNT_SOURCE_TARGET ]]; then
+            MOUNT_SOURCE=$(echo $MOUNT_SOURCE_TARGET | cut -d: -f1)
+            MOUNT_TARGET=$(echo $MOUNT_SOURCE_TARGET | cut -d: -f2)
+            MOUNT_SCRIPT="-v$MOUNT_SOURCE:$MOUNT_TARGET"
+            MOUNT_MSG="  Mounted: ${GREEN}$MOUNT_SOURCE${NOCOLOR} --> $MOUNT_TARGET"
+        fi
+
+        if [[ -z $MOUNT_SOURCE_TARGET  && $MOUNT_PWD = false ]]; then
             MOUNT_MSG="  No Mounted Folder."
         fi
 
         # Run container
-        docker run -d --rm -p 8888:8888 $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER $IMAGE
+        docker run -d --rm -p 8888:8888 $MOUNT_SCRIPT_PWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER $IMAGE
 
         # Report mounted folder
         echo ""
-        echo $MOUNT_MSG
+        if [[ -n $MOUNT_MSG_PWD ]]; then echo $MOUNT_MSG_PWD; fi
+        if [[ -n $MOUNT_MSG ]]    ; then echo $MOUNT_MSG    ; fi
         echo ""
 
         # Wait until Jupyterlab is initialized by checking logs

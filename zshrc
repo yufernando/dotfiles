@@ -77,6 +77,7 @@ plugins=(
   git 
   # osx # to control spotify
   # kubectl # For Kubernetes on Google Cloud
+  zsh-vi-mode
   zsh-autosuggestions
   zsh-syntax-highlighting
 )

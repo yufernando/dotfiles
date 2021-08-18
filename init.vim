@@ -380,6 +380,7 @@ map ,p :w<CR>:silent !~/.dotfiles/zsh/displayline -b -g <C-r>=line('.')<CR> %<.p
 " FZF
 " nnoremap <silent> <leader>f :FZF<cr>
 nnoremap <leader>e :Files<CR>
+nnoremap <leader>o :Files<CR>
 nnoremap <leader>f :BLines<CR>
 nnoremap <leader>F :Lines<CR>
 nnoremap <leader>c :Commands<CR>
@@ -653,10 +654,9 @@ endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
-" FZF preview window
+" FZF Commands
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-" set -gx FZF_DEFAULT_COMMAND  'rg --files --no-ignore-vcs --hidden'
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(

@@ -109,7 +109,7 @@ Usage:
 
                 # Get token and launch
                 TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
-                URL="http://localhost:8888/?$TOKEN"
+                URL="http://localhost:$PORT/?$TOKEN"
                 echo "Opening JupyterLab running in Docker container '$CONTAINER'..."
                 # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
                 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=$URL > /dev/null
@@ -164,12 +164,16 @@ Usage:
 
         docker)  # Open running JupyterLab in Docker container in Chrome
             CONTAINER=jupyterlab
+            PORT=8888
 
             # Process options
-            while getopts ":c:" opt; do
+            while getopts ":c:p:" opt; do
               case ${opt} in
                 c )
                   CONTAINER=$OPTARG
+                  ;;
+                p )
+                  PORT=$OPTARG
                   ;;
                 \? )
                   echo "Invalid Option: -$OPTARG" 1>&2
@@ -194,7 +198,7 @@ Usage:
 
             # Get token and launch
             TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
-            URL="http://localhost:8888/?$TOKEN"
+            URL="http://localhost:$PORT/?$TOKEN"
             echo "Opening browser window."
             # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=$URL > /dev/null
@@ -228,10 +232,12 @@ Usage:
     dockerlab                       Use image: yufernando/jupyterlab.
     dockerlab yufernando/bioaretian Use image: yufernando/bioaretian.
     dockerlab [IMG]                 Use image: IMG.
+    dockerlab -n [NAME]             Set container name NAME. (Default: jupyterlab)
+    dockerlab -p [PORT]             Use port PORT. (Default: 8888)
 
     dockerlab -v [DIR]              Mount directory DIR only. (Default: PWD)
     dockerlab -V [DIR]              Mount directory DIR and current directory.
-    dockerlab -n                    Do not mount directory.
+    dockerlab -v \"\"               Do not mount directory.
 
     dockerlab -d                    Detached mode: do not open Chrome.
     dockerlab -i                    Interactive mode: open zsh shell."
@@ -241,8 +247,10 @@ Usage:
     OPENZSH=false
     MOUNT_PWD=true
     MOUNT_SOURCE_TARGET=""
+    PORT=8888
+    CONTAINER_NAME='jupyterlab'
 
-    while getopts 'dhinv:V:' option; do
+    while getopts 'dhin:p:v:V:' option; do
         case "$option" in
             d) # Detached. do not open Chrome.
                 OPENCHROME=false
@@ -254,9 +262,11 @@ Usage:
             i) # Open zsh in interactive mode
                 OPENZSH=true
                 ;;
-            n) # No mount
-                MOUNT_SOURCE_TARGET=""
-                MOUNT_PWD=false
+            n) # Container name
+                CONTAINER_NAME=$OPTARG
+                ;;
+            p) # Port
+                PORT=$OPTARG
                 ;;
             v) # Mount folder
                 MOUNT_SOURCE_TARGET=$OPTARG
@@ -287,15 +297,21 @@ Usage:
     NOCOLOR='\033[0m'
     GREEN='\033[0;32m'
 
+    # Set container name if not specified in option -n
+    if [[ -z $CONTAINER_NAME ]]; then
+        CONTAINER_NAME=$CONTAINER
+    fi
+
     # Check if preexisting container is running
-    if docker ps --format "{{.Names}}" | grep -wq $CONTAINER
+    if docker ps --format "{{.Names}}" | grep -wq $CONTAINER_NAME
     then
-        echo "Found Docker container '$CONTAINER' already running."
+        echo "Found Docker container '$CONTAINER_NAME' already running."
     else
-        echo "Running image '$IMAGE' in container '$CONTAINER' with ID:";
+        echo "Running image '$IMAGE' in container '$CONTAINER_NAME' with ID:";
 
         # Mount directory depending on flag option
         MOUNT_SCRIPT_PWD=""
+        MOUNT_MSG_PWD=""
         if [[ $MOUNT_PWD = true ]]; then
             MOUNT_SCRIPT_PWD="-v$PWD:/home/jovyan/work"
             MOUNT_MSG_PWD="  Mounted: ${GREEN}$PWD${NOCOLOR} --> /home/jovyan/work"
@@ -315,7 +331,7 @@ Usage:
         fi
 
         # Run container
-        docker run -d --rm -p 8888:8888 $MOUNT_SCRIPT_PWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER $IMAGE
+        docker run -d --rm -p $PORT:8888 $MOUNT_SCRIPT_PWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER_NAME $IMAGE
 
         # Report mounted folder
         echo ""
@@ -327,18 +343,18 @@ Usage:
         # echo 'Jupyterlab initializing...'
         RUNNING=""
         while [[ -z $RUNNING ]]; do
-            RUNNING=`docker logs $CONTAINER 2>&1| grep -o "Or copy and paste one of these URLs"`
+            RUNNING=`docker logs $CONTAINER_NAME 2>&1| grep -o "Or copy and paste one of these URLs"`
             sleep .2
         done
     fi
 
     # Open JupyterLab running in container with Chrome
     if [[ $OPENCHROME = true ]]; then
-        chromeapp docker -c $CONTAINER
+        chromeapp docker -c $CONTAINER_NAME -p $PORT
     fi
 
     if [[ $OPENZSH = true ]]; then
-        docker exec -it $CONTAINER zsh
+        docker exec -it $CONTAINER_NAME zsh
     fi
 }
 

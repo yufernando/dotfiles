@@ -216,11 +216,6 @@ let g:vim_markdown_math = 1             " Avoid math syntax conceal
 let g:tex_conceal = ""
 set conceallevel=2                      " Highlight Bold and Italic 
 
-" FZF preview window
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-" set -gx FZF_DEFAULT_COMMAND  'rg --files --no-ignore-vcs --hidden'
-
 " Startify Bookmarks
 let g:startify_bookmarks = [ {'d': '~/.dotfiles/init.vim'},  {'z': '~/.dotfiles/zshrc'}, {'t': '~/.dotfiles/tmux.conf'}, {'c': '~/.dotfiles/zsh/my_custom_commands.sh'} ]
 
@@ -391,9 +386,13 @@ nnoremap <leader>c :Commands<CR>
 nnoremap <leader>H :History<CR>
 nnoremap <leader>h :Helptags!<CR>
 nnoremap <leader>r :Rg<CR>
+nnoremap <leader>rg :Rg<CR>
 nnoremap <leader>R :Rgcmd 
-nnoremap <leader>rh :Rghome<CR>
+" Home folder
+nnoremap <leader>rh :Rghome<CR> 
+" Up one folder
 nnoremap <leader>ru :Rgup<CR>
+" Dropbox folder
 nnoremap <leader>rd :Rgdrop<CR>
 
 " ALE Linting
@@ -653,6 +652,11 @@ endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" FZF preview window
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+" set -gx FZF_DEFAULT_COMMAND  'rg --files --no-ignore-vcs --hidden'
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(

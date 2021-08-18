@@ -118,9 +118,9 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
 # Option 1 - Ripgrep only files in current directory 
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --smart-case'
 # Option 2 - FD only files in current directory 
-# export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore --exclude .git'
 # Option 3 - FD both files and directories: 
-export FZF_DEFAULT_COMMAND='fd . $HOME'
+# export FZF_DEFAULT_COMMAND='fd . $HOME'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 #ESC+C
 # Option 1 - Include hidden and ignored directories
@@ -128,6 +128,15 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Option 2 - Don't include hidden and ignored directories
 export FZF_ALT_C_COMMAND="fd --type directory . $HOME"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+# Default for vim**<tab>
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+# Default for cd**<tab>
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
 
 #}}}
 # Aliases {{{

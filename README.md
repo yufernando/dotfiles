@@ -30,11 +30,6 @@ cd ~/.dotfiles
 make all host=test-server user=fer
 ```
 
-5. Post-installation: 
-
-- Relogin to test configuration success. 
-- Open vim and run `:PlugInstall` to install plugins for both root and sudo user.
-
 # Running the scripts separately
 
 You can run the scripts individually.

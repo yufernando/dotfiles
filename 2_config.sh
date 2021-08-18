@@ -26,8 +26,8 @@ touch ~/.zshrc
 ln -svf $DIR/bash_profile               ~/.bash_profile
 ln -svf $DIR/gitconfig                  ~/.gitconfig
 ln -svf $DIR/zshrc                      ~/.zshrc
-ln -svf $DIR/vimrc                      ~/.vimrc
-ln -svf $DIR/init.vim                   ~/.config/nvim/init.vim
+ln -svf $DIR/vim/vimrc                      ~/.vimrc
+ln -svf $DIR/vim/init.vim               ~/.config/nvim/init.vim
 ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim        
 ln -svf $DIR/vim/after/ftplugin/python.vim  ~/.vim/after/ftplugin/python.vim
 ln -svf $DIR/tmux.conf                  ~/.tmux.conf

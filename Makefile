@@ -13,13 +13,19 @@
 # Defaults
 user := fer
 
+.PHONY: all all_root all_user config_install config clean
+
 # Setup Ubuntu server
-.PHONY: all
-all: 
+all: all_root all_user
+	echo "Installation complete. Relogin"
+
+all_root:
 	./0_setup.sh $(host)
 	./1_harden.sh
 	./2_config.sh
 	./3_install.sh
+
+all_user:
 	sudo -u $(user) -H sh -c \
 		"cd /home/$(user); \
 		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
@@ -27,10 +33,8 @@ all:
 		./2_config.sh; \
 		./3_install.sh; \
 		./4_copy_ssh $(user)"
-	echo "Installation complete. Relogin"
 
 # To setup Docker image
-.PHONY: config_install
 config_install:
 	if [ ! -d ~/.dotfiles ]; then \
 		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git ~/.dotfiles; \
@@ -40,11 +44,9 @@ config_install:
 	./3_install.sh
 
 # To recreate symlinks
-.PHONY: config
 config:
 	./2_config.sh
 
-.PHONY: clean
 clean:
 	rm -f ~/.zshrc*
 	rm -rf ~/.oh-my-zsh

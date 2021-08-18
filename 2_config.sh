@@ -1,14 +1,14 @@
 #!/bin/bash
+#
+# CONFIGURATION (2_config.sh)
+# Create symlinks to configure programs
+#----------------------------------------------------------------
 
-echo "Installing dotfiles..."
+echo ""
+echo "2. CONFIGURATION: Creating symlinks."
+echo ""
 
 DIR=$PWD
-
-# Installation
-
-#./install.sh
-
-# Configuration
 
 # Create config files
 #Vim
@@ -34,8 +34,8 @@ ln -svf $DIR/tmux.conf                  ~/.tmux.conf
 ln -svf $DIR/tmux/tunes.js              ~/.tmux/tunes.js
 ln -svf $DIR/stata_kernel.conf          ~/.stata_kernel.conf
 ln -svf $DIR/latexmkrc                  ~/.latexmkrc
-ln -svf $DIR/jupyter_notebook_config.py ~/.jupyter/jupyter_notebook_config.py
-ln -svf $DIR/plugin.jupyterlab-settings ~/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/plugin.jupyterlab-settings
+# ln -svf $DIR/jupyter_notebook_config.py ~/.jupyter/jupyter_notebook_config.py
+# ln -svf $DIR/plugin.jupyterlab-settings ~/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension/plugin.jupyterlab-settings
 ln -svf $DIR/settings.json              ~/Library/Application\Support/Code/User/settings.json
 ln -svf $DIR/karabiner.json             ~/.config/karabiner/karabiner.json
 ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.sty
@@ -53,7 +53,3 @@ tic -x -o ~/.terminfo $DIR/terminfo/tmux.terminfo
 # Check with
 # export $TERM
 # echo `tput sitm`italics`tput ritm`
-
-echo "Installation complete! Relogin please"
-
-# After installing Vim, run :PlugInstall

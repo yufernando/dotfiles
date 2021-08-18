@@ -330,9 +330,23 @@ Usage:
             MOUNT_MSG="  No Mounted Folder."
         fi
 
+        # Check Port
+        PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
+        PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
+        CHANGE_PORT=false
+        while [[ $PORT_MATCH -eq 0 ]]; do
+            PORT=$(($PORT+1))
+            PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
+            CHANGE_PORT=true
+        done
+
         # Run container
         docker run -d --rm -p $PORT:8888 $MOUNT_SCRIPT_PWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER_NAME $IMAGE
 
+        # Report PORT
+        if [[ $CHANGE_PORT = true ]]; then 
+            echo "Port in use. Using Port $PORT."; 
+        fi
         # Report mounted folder
         echo ""
         if [[ -n $MOUNT_MSG_PWD ]]; then echo $MOUNT_MSG_PWD; fi

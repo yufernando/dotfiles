@@ -7,7 +7,7 @@
 # <UDF name="IGNOREIP" Label="IP to be ignored by Fail2ban" />
 # <UDF name="SSHKEY" Label="Secure User SSH Key" />
 
-# enable logging
+# Enable logging
 exec 1> >(tee -a "/var/log/new_linode.log") 2>&1
 
 apt update && apt -y upgrade
@@ -15,4 +15,3 @@ apt -y install git make
 git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
 cd ~/.dotfiles
 make all host=$HOST user=$USERNAME password=$PASSWORD ignoreip=$IGNOREIP sshkey= $SSHKEY
-

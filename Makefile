@@ -23,15 +23,15 @@ all: all_root all_user
 
 all_root:
 	@echo "\nConfiguring root.\n"
-	@./0_setup.sh $(host)
-	@./1_harden.sh $(user) $(password) $(ignoreip) "$(sshkey)" 
-	@./2_config.sh
-	@./3_install.sh
-	@./4_copy_ssh.sh $(user) $(sshkey)
+	./0_setup.sh $(host)
+	./1_harden.sh $(user) $(password) $(ignoreip) "$(sshkey)" 
+	./2_config.sh
+	./3_install.sh
+	./4_copy_ssh.sh $(user) $(sshkey)
 
 all_user:
 	@echo "\nConfiguring user.\n"
-	@echo $(password) | sudo -S -u $(user) -H sh -c \
+	echo $(password) | sudo -S -u $(user) -H sh -c \
 		"cd /home/$(user); \
 		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
 		cd .dotfiles; \

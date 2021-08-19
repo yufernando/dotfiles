@@ -8,12 +8,13 @@ echo "SETUP: Update, upgrade, configure hostname, ip and date."
 echo ""
 
 # Update system without any interaction
-apt update
+DEBIAN_FRONTEND=noninteractive apt-get -y update
 DEBIAN_FRONTEND=noninteractive \
   apt-get \
   -o Dpkg::Options::=--force-confold \
   -o Dpkg::Options::=--force-confdef \
-  -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
+  -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+  dist-upgrade
 
 # Get Hostname
 HOSTNAME=$1

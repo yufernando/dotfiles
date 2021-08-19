@@ -217,7 +217,7 @@ let g:tex_conceal = ""
 set conceallevel=2                      " Highlight Bold and Italic 
 
 " Startify Bookmarks
-let g:startify_bookmarks = [ {'d': '~/.dotfiles/init.vim'},  {'z': '~/.dotfiles/zshrc'}, {'t': '~/.dotfiles/tmux.conf'}, {'c': '~/.dotfiles/zsh/my_custom_commands.sh'} ]
+let g:startify_bookmarks = [ {'d': '~/.dotfiles/vim/init.vim'},  {'z': '~/.dotfiles/zsh/zshrc'}, {'t': '~/.dotfiles/tmux/tmux.conf'}, {'c': '~/.dotfiles/zsh/my_custom_commands.sh'} ]
 
 let s:startify_ascii_header=[
                 \ '                  ________ ;;     ________',

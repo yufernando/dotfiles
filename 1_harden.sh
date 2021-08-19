@@ -31,6 +31,15 @@ sed -i -e "s/PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/ssh
 sed -i -e "s/#PasswordAuthentication no/PasswordAuthentication no/" /etc/ssh/sshd_config
 echo 'AllowUsers fer' >> /etc/ssh/sshd_config
 echo 'AddressFamily inet' >> /etc/ssh/sshd_config
+
+# Delete the following lines
+echo ""
+echo ""
+echo "Checking SSHKEY variable"
+echo "SSHKEY: $SSHKEY"
+echo ""
+echo ""
+
 # Setup SSH keys
 if [[ -n $SSHKEY ]]; then
     SSHDIR="/home/$USERNAME/.ssh"

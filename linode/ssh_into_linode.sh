@@ -1,4 +1,8 @@
 #!/bin/bash
+# SSH into a Linode
+#
+# Usage:
+#   ./ssh_into_linode.sh
 
 HOSTNAME=$1
 

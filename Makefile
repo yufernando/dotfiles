@@ -34,7 +34,7 @@ all_user:
 		cd .dotfiles; \
 		./2_config.sh; \
 		./3_install.sh; \
-		./4_copy_ssh $(user) $(sshkey)"
+		./4_copy_ssh.sh $(user) $(sshkey)"
 
 # To setup Docker image
 config_install:

@@ -7,8 +7,8 @@ echo ""
 echo "SETUP: Update, upgrade, configure hostname, ip and date."
 echo ""
 
-# Update system over IPv4 without any interaction
-apt-get -o Acquire::ForceIPv4=true update
+# Update system without any interaction
+apt update
 DEBIAN_FRONTEND=noninteractive \
   apt-get \
   -o Dpkg::Options::=--force-confold \

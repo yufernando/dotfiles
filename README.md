@@ -1,7 +1,8 @@
 # Dotfiles
 
-This repository contains scripts to setup and configure an Ubuntu Linux Machine. It
-contains scripts to install useful tools (zsh, tmux, etc) and dotfiles for configuration.
+This repository contains scripts to setup, harden, configure and install utilities in an Ubuntu
+Linux Machine. It configures the server, sets up SSH and a firewall and installs useful tools (zsh,
+tmux, etc) and dotfiles for configuration.
 
 # Installation instructions
 

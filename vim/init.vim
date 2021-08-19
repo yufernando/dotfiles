@@ -173,7 +173,7 @@ command! -bang -nargs=? -complete=dir Files
 " set -gx FZF_DEFAULT_COMMAND  'rg --files --no-ignore-vcs --hidden'
 
 " Startify Bookmarks
-let g:startify_bookmarks = [ {'d': '~/.dotfiles/vim/init.vim'}, {'z': '~/.dotfiles/zsh/zshrc'}, {'t':'~/.dotfiles/tmux/tmux.conf'} ]
+let g:startify_bookmarks = [ {'d': '~/.dotfiles/vim/init.vim'},  {'z': '~/.dotfiles/zsh/zshrc'}, {'t': '~/.dotfiles/tmux/tmux.conf'}, {'c': '~/.dotfiles/zsh/my_custom_commands.sh'} ]
 
 let s:startify_ascii_header=[
                 \ '                  ________ ;;     ________',

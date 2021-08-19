@@ -1,17 +1,19 @@
 # Makefile
 #
-# Arguments: 
-# 	host=hostname
-# 	user=username
-#
 # Examples: 
+#
 # - Setup Ubuntu Server:
-# 		make all host=test-server user=fer 
-# - Setup Docker image
-# 		make config_install user=fer
-
-# Defaults
-user := fer
+#
+#	make all 
+# 		host=hostname
+# 		user=username
+# 		password=password 
+# 		[ignoreip=ignoreip]
+# 		[sshkey=sshkey] # if configured in automated script
+#
+# - Setup Docker image:
+#
+# 		make config_install user=username
 
 .PHONY: all all_root all_user config_install config clean
 
@@ -21,7 +23,7 @@ all: all_root all_user
 
 all_root:
 	./0_setup.sh $(host)
-	./1_harden.sh
+	./1_harden.sh $(user) $(password) $(sshkey) $(ignoreip)
 	./2_config.sh
 	./3_install.sh
 
@@ -32,7 +34,7 @@ all_user:
 		cd .dotfiles; \
 		./2_config.sh; \
 		./3_install.sh; \
-		./4_copy_ssh $(user)"
+		./4_copy_ssh $(user) $(sshkey)"
 
 # To setup Docker image
 config_install:
@@ -46,7 +48,3 @@ config_install:
 # To recreate symlinks
 config:
 	./2_config.sh
-
-clean:
-	rm -f ~/.zshrc*
-	rm -rf ~/.oh-my-zsh

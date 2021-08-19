@@ -14,7 +14,9 @@ SSHKEY=$2
 # Linux VM was configured manually so there are SSH keys in root. Copy them to
 # the user folder:
 if [[ -z $SSHKEY ]]; then
+    echo "No SSHKEY input."
     if [[ -e /root/.ssh/authorized_keys ]]; then
+        echo "Found SSHKEY for root. Copying SSHKEY from root to user."
         mkdir -p /home/$USER/.ssh
         cp /root/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
         chown $USER:$USER /home/$USER/.ssh/authorized_keys

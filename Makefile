@@ -26,6 +26,7 @@ all_root:
 	./1_harden.sh $(user) $(password) $(sshkey) $(ignoreip)
 	./2_config.sh
 	./3_install.sh
+	./4_copy_ssh.sh $(user) $(sshkey)
 
 all_user:
 	echo $(password) | sudo -S -u $(user) -H sh -c \
@@ -33,8 +34,7 @@ all_user:
 		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
 		cd .dotfiles; \
 		./2_config.sh; \
-		./3_install.sh; \
-		./4_copy_ssh.sh $(user) $(sshkey)"
+		./3_install.sh"
 
 # To setup Docker image
 config_install:

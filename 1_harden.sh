@@ -3,10 +3,16 @@
 # SERVER HARDENING (1_harden.sh)
 # Configure SSH, setup ufw firewall and fail2ban
 #----------------------------------------------------------------
-USERNAME=$1
-PASSWORD=$2
-IGNOREIP=$3
-SSHKEY=$4
+
+# Get user input
+while getopts "u:p:i:s:" option; do
+    case $option in 
+        u) USERNAME="$OPTARG" ;;
+        p) PASSWORD="$OPTARG" ;;
+        i) IGNOREIP="$OPTARG" ;;
+        s) SSHKEY="$OPTARG" ;;
+    esac
+done
 
 echo ""
 echo "1. HARDENING: setting up SSH, firewall and fail2ban."

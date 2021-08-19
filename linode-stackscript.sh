@@ -14,4 +14,4 @@ apt update && apt -y upgrade
 apt -y install git make
 git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
 cd ~/.dotfiles
-make all host=$HOST user=$USERNAME password=$PASSWORD ignoreip=$IGNOREIP sshkey= $SSHKEY
+make all host=$HOST user=$USERNAME password=$PASSWORD ignoreip=$IGNOREIP sshkey=$SSHKEY

@@ -5,8 +5,8 @@
 #----------------------------------------------------------------
 USERNAME=$1
 PASSWORD=$2
-SSHKEY=$3
-IGNOREIP=$4
+IGNOREIP=$3
+SSHKEY=$4
 
 echo ""
 echo "1. HARDENING: setting up SSH, firewall and fail2ban."

@@ -23,7 +23,7 @@ all: all_root all_user
 
 all_root:
 	./0_setup.sh $(host)
-	./1_harden.sh $(user) $(password) $(sshkey) $(ignoreip)
+	./1_harden.sh $(user) $(password) $(ignoreip) $(sshkey) 
 	./2_config.sh
 	./3_install.sh
 	./4_copy_ssh.sh $(user) $(sshkey)

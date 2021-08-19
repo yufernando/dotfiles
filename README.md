@@ -5,30 +5,35 @@ contains scripts to install useful tools (zsh, tmux, etc) and dotfiles for confi
 
 # Installation instructions
 
-1. `ssh` into your Linux box:
+1. Copy your SSH public key to the Linux box. If you set SSH keys from the console manager or using
+   an automated script this step is not necessary:
+
+`scp ~/.ssh/id_rsa.pub root@ip-address:~/.ssh/authorized_keys`
+
+2. `ssh` into your Linux box:
 
 `ssh root@ip-address`
 
-2. Clone the `ubuntu` branch of the repository into a hidden folder in the home directory:
+3. Clone the `ubuntu` branch of the repository into a hidden folder in the home directory:
 
 ```
 git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
 ```
 
-3. Install `make`: 
+4. Install `make`: 
 
 ```
 apt update && apt upgrade
 apt install make
 ```
 
-4. Run the scripts. The argument `host` defines the server name, in this example `test-server`. The
-   argument `user` defines the local user to configure in addition to `root`:
+5. Run the scripts. The argument `host` defines the server name. The argument `user` defines the local user to configure in addition to `root`. `ignoreip` is an ip-address that should be ignored by Fail2ban.
 
 ```
 cd ~/.dotfiles
-make all host=test-server user=fer
+make all host=hostname user=username password=password [ignoreip=ignoreip] [sshkey=sshkey]
 ```
+The last argument `sshkey` is only needed when configured through an automated script.
 
 # Running the scripts separately
 

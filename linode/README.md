@@ -1,10 +1,20 @@
 # Linode Utilities
 
-1. Create a Linode:
+1. Create a Linode. Put the following configuration variables in an .env file:
+```
+USERNAME=
+STACKSCRIPT_ID=
+REGION=
+IMAGE=
+PLAN=
+IGNOREIP=
+SSHKEY=
+```
+The last two are optional. Then run make:
 ```
 make deploy
 ```
-You will be asked for a hostname and a password
+You will be asked for a hostname and a password.
 
 2. SSH into a Linode:
 ```
@@ -18,7 +28,7 @@ make status
 
 ## Manual creation
 
-These are recipes for a less automated creation of a Linode
+These are recipes for a less automated creation of a Linode.
 
 1. Create a Linode
 ```

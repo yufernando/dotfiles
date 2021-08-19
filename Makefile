@@ -19,7 +19,7 @@
 
 # Setup Ubuntu server
 all: all_root all_user
-	echo "Installation complete. Relogin"
+	echo "Installation complete. Relogin."
 
 all_root:
 	./0_setup.sh $(host)

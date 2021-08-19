@@ -15,6 +15,10 @@
 #
 # 		make config_install user=username
 
+# Set default empty strings for simpler parsing
+ignoreip := ""
+sshkey   := ""
+
 .PHONY: all all_root all_user config_install config clean
 
 # Setup Ubuntu server

@@ -1,16 +1,41 @@
-# Usage:
+# Makefile to deploy Linodes
+#
+# Usage: 
+#
+# Automated scripts:
+# 	make deploy
+# 	make ssh [hostname=hostname]
+# 	make status
+#
+# Manual scripts:
 # 	make create label=myserver
 # 	make keys ip=ip
 # 	make setup ip=ip host=host user=user pass=pass [ignoreip=ignoreip]
-#
+
+# Deploy a new linode using configuration in .env file
+.PHONY: deploy
+deploy:
+	@./deploy.sh
+
+.PHONY: ssh
+ssh:
+	@./ssh_into_linode.sh $(hostname)
+
+.PHONY: status
+status:
+	@linode-cli linodes list
+
+# Create a new Linode
 .PHONY: create
 create:
 	linode-cli linodes create --label $(label) --root_pass
 
+# Copy SSH keys
 .PHONY: keys
 keys:
 	scp ~/.ssh/id_rsa_linode.pub root@$(ip):~/.ssh/authorized_keys
 
+# Configure newly created Linode
 .PHONY: setup
 setup:
 	ssh root@$(ip) \

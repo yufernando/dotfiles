@@ -28,7 +28,7 @@ all_root:
 	./3_install.sh
 
 all_user:
-	sudo -u $(user) -H sh -c \
+	echo $(password) | sudo -S -u $(user) -H sh -c \
 		"cd /home/$(user); \
 		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
 		cd .dotfiles; \

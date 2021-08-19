@@ -16,8 +16,8 @@
 # 		make config_install user=username
 
 # Set default empty strings for simpler parsing
-ignoreip := ""
-sshkey   := ""
+ignoreip ?= ""
+sshkey   ?= ""
 
 .PHONY: all all_root all_user config_install config clean
 

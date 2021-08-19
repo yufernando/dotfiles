@@ -14,18 +14,18 @@ set +o allexport
 
 echo ""
 echo "Reading configuration variables from .env file:"
-echo "HOSTNAME:        $HOSTNAME"
-echo "LABEL:           $LABEL"
-echo "USERNAME:        $USERNAME"
+echo "Hostname:       $HOSTNAME"
+echo "Label:          $LABEL"
+echo "Username:       $USERNAME"
 if [[ -n $SSHKEY ]]; then
-    echo "SSHKEY provided: yes"
+    echo "SSH key:        yes"
 else
-    echo "SSHKEY provided: no"
+    echo "SSH key:        no"
 fi
-echo "STACKSCRIPT_ID:  $STACKSCRIPT_ID"
-echo "REGION:          $REGION"
-echo "IMAGE:           $IMAGE"
-echo "PLAN:            $PLAN"
+echo "STACKSCRIPT_ID: $STACKSCRIPT_ID"
+echo "REGION:         $REGION"
+echo "IMAGE:          $IMAGE"
+echo "PLAN:           $PLAN"
 echo ""
 
 # Create new linode

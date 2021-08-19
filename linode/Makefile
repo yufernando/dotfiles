@@ -32,8 +32,12 @@ deploy:
 ssh:
 	@./ssh_into_linode.sh $(hostname)
 
-.PHONY: status
-status:
+.PHONY: logs
+logs:
+	@./ssh_into_linode.sh -l $(hostname)
+
+.PHONY: list
+list:
 	@linode-cli linodes list
 
 # Create a new Linode

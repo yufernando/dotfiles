@@ -9,11 +9,15 @@ tmux, etc) and dotfiles for configuration.
 1. Copy your SSH public key to the Linux box. If you set SSH keys from the console manager or using
    an automated script this step is not necessary:
 
-`scp ~/.ssh/id_rsa.pub root@ip-address:~/.ssh/authorized_keys`
+```
+scp ~/.ssh/id_rsa.pub root@ip-address:~/.ssh/authorized_keys
+```
 
 2. `ssh` into your Linux box:
 
-`ssh root@ip-address`
+```
+ssh root@ip-address
+```
 
 3. Clone the `ubuntu` branch of the repository into a hidden folder in the home directory:
 
@@ -24,8 +28,8 @@ git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles
 4. Install `make`: 
 
 ```
-apt update && apt upgrade
-apt install make
+apt update && apt -y upgrade
+apt -y install make
 ```
 
 5. Run the scripts. The argument `host` defines the server name. The argument `user` defines the local user to configure in addition to `root`. `ignoreip` is an ip-address that should be ignored by Fail2ban.
@@ -75,3 +79,14 @@ The script `3_install.sh` installs useful utilities, including `oh-my-zsh` to cu
 
 Equivalent to `make install`.
 
+# Configure a Docker Container
+
+To configure a Docker container running Ubuntu with zsh, oh-my-zsh and other utilities clone the
+repository and run the `config_install` recipe:
+```
+apt update && apt -y upgrade
+apt -y install make
+git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
+cd ~/.dotfiles
+make config_install user=username
+```

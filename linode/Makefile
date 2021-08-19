@@ -11,6 +11,17 @@
 # 	make create label=myserver
 # 	make keys ip=ip
 # 	make setup ip=ip host=host user=user pass=pass [ignoreip=ignoreip]
+#
+# Environment Variables:
+#
+# Put the following in an .env file.
+# USERNAME=
+# STACKSCRIPT_ID=
+# REGION=
+# IMAGE=
+# PLAN=
+# SSHKEY=optional
+# IGNOREIP=optional
 
 # Deploy a new linode using configuration in .env file
 .PHONY: deploy

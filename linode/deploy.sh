@@ -1,4 +1,10 @@
 #!/bin/bash
+# Create new Linode using Stackscript.
+#
+# Usage:
+#   ./deploy.sh 
+#
+# Include extra configuration variables in .env file.
 
 echo "Creating new Linode using Stackscript."
 read -p "Hostname: " HOSTNAME
@@ -21,6 +27,11 @@ if [[ -n $SSHKEY ]]; then
     echo "SSH key:        yes"
 else
     echo "SSH key:        no"
+fi
+if [[ -n $IGNOREIP ]]; then
+    echo "Ignore IP:      $IGNOREIP"
+else
+    echo "Ignore IP:      no"
 fi
 echo "StackScript ID: $STACKSCRIPT_ID"
 echo "Region:         $REGION"

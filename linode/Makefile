@@ -3,7 +3,7 @@
 # Usage: 
 #
 # Automated scripts:
-# 	make deploy
+# 	make deploy 		# Optional: include IGNOREIP in .env file
 # 	make ssh [hostname=hostname]
 # 	make status
 #

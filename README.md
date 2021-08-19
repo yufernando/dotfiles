@@ -19,17 +19,17 @@ scp ~/.ssh/id_rsa.pub root@ip-address:~/.ssh/authorized_keys
 ssh root@ip-address
 ```
 
-3. Clone the `ubuntu` branch of the repository into a hidden folder in the home directory:
-
-```
-git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
-```
-
-4. Install `make`: 
+3. Install `git` and `make`: 
 
 ```
 apt update && apt -y upgrade
-apt -y install make
+apt -y install git make
+```
+
+4. Clone the `ubuntu` branch of the repository into a hidden folder in the home directory:
+
+```
+git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
 ```
 
 5. Run the scripts. The argument `host` defines the server name. The argument `user` defines the local user to configure in addition to `root`. `ignoreip` is an ip-address that should be ignored by Fail2ban.

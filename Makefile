@@ -15,9 +15,13 @@
 #
 # 		make config_install user=username
 
-# Set default empty strings for simpler parsing
-ignoreip ?= ""
-sshkey   ?= ""
+# Set default to empty strings if passed as "sshkey=" in the Stackscript
+ifeq ($(ignoreip),)
+ignoreip := ""
+endif
+ifeq ($(sshkey),)
+sshkey := ""
+endif
 
 .PHONY: all all_root all_user config_install config clean
 

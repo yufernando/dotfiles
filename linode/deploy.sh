@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Creating new Linode."
+echo "Creating new Linode using Stackscript."
 read -p "Hostname: " HOSTNAME
 read -s -p "Password: " PASSWORD
 echo ""

@@ -5,13 +5,27 @@
 #----------------------------------------------------------------
 
 # Get user input
-while getopts "u:p:i:s:" option; do
-    case $option in 
-        u) USERNAME="$OPTARG" ;;
-        p) PASSWORD="$OPTARG" ;;
-        i) IGNOREIP="$OPTARG" ;;
-        s) SSHKEY="$OPTARG" ;;
+while [ "$1" != "" ];
+do
+   case $1 in
+   --user )     shift
+                USERNAME=$1
+                ;;
+   --password ) shift
+                PASSWORD=$1
+                ;;
+   --ignoreip ) shift
+                IGNOREIP=$1
+                ;;
+   --sshkey )   shift
+                SSHKEY=$1
+                ;;
+   *)
+                echo "Illegal option $1"
+                exit 1 # error
+                ;;
     esac
+    shift
 done
 
 echo ""

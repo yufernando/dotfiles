@@ -15,13 +15,8 @@
 #
 # 		make config_install user=username
 
-# Set default to empty strings if passed as "sshkey=" in the Stackscript
-ifeq ($(ignoreip),)
-ignoreip := '""'
-endif
-ifeq ($(sshkey),)
-sshkey := '""'
-endif
+ignoreip ?= ""
+sshkey   ?= ""
 
 .PHONY: all all_root all_user config_install config clean
 
@@ -32,7 +27,7 @@ all: all_root all_user
 all_root:
 	@echo "\nConfiguring root.\n"
 	./0_setup.sh $(host)
-	./1_harden.sh -u $(user) -p $(password) -i $(ignoreip) -s "$(sshkey)" 
+	./1_harden.sh --user $(user) --password $(password) --ignoreip $(ignoreip) --sshkey "$(sshkey)" 
 	./2_config.sh
 	./3_install.sh
 	./4_copy_ssh.sh $(user) $(sshkey)

@@ -22,10 +22,10 @@ if [[ -n $SSHKEY ]]; then
 else
     echo "SSH key:        no"
 fi
-echo "STACKSCRIPT_ID: $STACKSCRIPT_ID"
-echo "REGION:         $REGION"
-echo "IMAGE:          $IMAGE"
-echo "PLAN:           $PLAN"
+echo "StackScript ID: $STACKSCRIPT_ID"
+echo "Region:         $REGION"
+echo "Image:          $IMAGE"
+echo "Plan:           $PLAN"
 echo ""
 
 # Create new linode

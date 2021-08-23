@@ -287,6 +287,18 @@ Usage:
     done
     shift $((OPTIND -1))
 
+    # Check if Docker is running
+    if (! docker ps > /dev/null 2>&1 ); then
+        # Launch Docker
+        echo "Docker daemon not running. Launching Docker Desktop..."
+        open /Applications/Docker.app
+        # Wait until Docker daemon is running and has completed initialisation
+        while (! docker ps > /dev/null 2>&1 ); do
+            # Docker takes a few seconds to initialize
+            sleep 1
+        done
+    fi
+
     if [[ $# -eq 0 ]]; then
         IMAGE='yufernando/jupyterlab'
     else 

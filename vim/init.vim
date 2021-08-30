@@ -197,11 +197,11 @@ let g:python_host_prog  = '/usr/local/bin/python'
 let g:python3_host_prog = '/Users/fer/anaconda3/envs/ds/bin/python'
 
 " Jedi-Vim
-let g:jedi#auto_initialization = 0 " Disable init at startup
+let g:jedi#auto_initialization = 1 " Disable init at startup
 " Manually set function helper
 " let g:jedi#show_call_signatures = "1" "0: do not show function helper
 " Disable completions when using together with deoplete-jedi
-let g:jedi#completions_enabled = 0 " Disable completions
+let g:jedi#completions_enabled = 0 " Disable completions: https://github.com/davidhalter/jedi-vim
 let g:jedi#goto_command = 'gd'
 nnoremap gd :call jedi#goto()<CR>
 " let g:jedi#auto_vim_configuration = 0

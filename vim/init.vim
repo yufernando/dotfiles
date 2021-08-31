@@ -85,6 +85,7 @@ Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
 Plug 'dense-analysis/ale' "Linter
+Plug 'jiangmiao/auto-pairs'
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'

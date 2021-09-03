@@ -295,7 +295,7 @@ Usage:
         # Wait until Docker daemon is running and has completed initialisation
         while (! docker ps > /dev/null 2>&1 ); do
             # Docker takes a few seconds to initialize
-            sleep 1
+            sleep 1.5
         done
     fi
 

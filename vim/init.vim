@@ -522,7 +522,7 @@ augroup set_filetypes
 augroup end
 
 " Filetype settings
-" Note: at some point this should be moved to .vim/after/ftplugin/tex.vim
+" Note: at some point this should/could be moved to .vim/after/ftplugin/tex.vim
 augroup filetype_settings
     autocmd!
     autocmd FileType text,tex,markdown setlocal textwidth=99 
@@ -546,6 +546,12 @@ augroup filetype_settings
     " ---
 
     autocmd FileType vimwiki set syntax=markdown
+
+    " Javascript: tab = 2 spaces
+    autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+
+    " Makefiles: use real tabs instead of spaces
+    autocmd FileType make set noexpandtab
 augroup END
 
 " https://vi.stackexchange.com/a/17550

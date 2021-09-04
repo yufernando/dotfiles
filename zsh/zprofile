@@ -1,0 +1,15 @@
+# Ruby
+# Run rbenv to manage Ruby versions
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+PATH="$HOME/.rbenv/bin:$PATH"
+# The following is redundant with the rbenv init script above
+# PATH="$PATH:$HOME/.rbenv/versions/2.6.1/bin"
+
+# Add Cargo to PATH
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Created by `userpath` on 2020-10-17 04:23:49
+export PATH="$PATH:/Users/fer/.local/bin"
+
+# Init pyenv: https://github.com/pyenv/pyenv#basic-github-checkout
+eval "$(pyenv init --path)"

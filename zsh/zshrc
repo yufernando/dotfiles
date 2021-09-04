@@ -85,6 +85,10 @@ plugins=(
 #}}}
 # Options {{{
 
+# Extended globbing options: allows ^(file.txt) to select everything but file.txt
+# set -o gives full list of options
+setopt extendedglob
+
 # Avoid exit after Ctrl+d
 set -o ignoreeof
 
@@ -157,7 +161,7 @@ alias vi='nvim -u NONE' # Load vim without settings
 # Set neovim server name to use with neovim-remote (nvr)
 # https://github.com/mhinz/neovim-remote)
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
-alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
+# alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
 # Call Python 3 by default. This does not and should not change the symlink to
 # /usr/local/lib/python
 # alias python='python3'
@@ -194,7 +198,8 @@ alias vifm='vicd'
 # TeX and X11 directories are added to path from /etc/paths.d
 
 # Use latest version of Vim (symlinked to MacVim) instead of /usr/bin/vim
-PATH="/usr/local/bin:$PATH"
+# This is not necessary since the following is already in PATH
+# PATH="/usr/local/bin:$PATH"
 
 # Use Anaconda Python 3 before /usr/local
 # Disabled in 2020. Instead, conda activate before using python
@@ -205,44 +210,35 @@ PATH="$PATH:/Library/TeX/texbin"
 
 # Setting PATH for Python 2.7
 # The original version is saved in .bash_profile.pysave
-PATH="$PATH:/Library/Frameworks/Python.framework/Versions/2.7/bin"
+# PATH="$PATH:/Library/Frameworks/Python.framework/Versions/2.7/bin"
 
 # Add Visual Studio Code (code)
 PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # Dotfiles
-PATH="$PATH:/Users/Fer/.dotfiles/"
+# PATH="$PATH:/Users/Fer/.dotfiles/"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/Fer/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/Fer/google-cloud-sdk/path.zsh.inc'; fi
-
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/Fer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Fer/google-cloud-sdk/completion.zsh.inc'; fi
 
-typeset -gxU path # equivalent to 'export PATH' but also keep unique entries
-
 # CS50 tutorial: add to path so it finds cs50.h
-export LIBRARY_PATH=/usr/local/lib
+# export LIBRARY_PATH=/usr/local/lib
 # Configure clang
 # export CC="clang"
 # export CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable Wshadow"
 # export LDLIBS="lcrypt -lcs50 -lm"
+# export C_INCLUDE_PATH=/usr/local/include
 
-export C_INCLUDE_PATH=/usr/local/include
-
-# Extended globbing options: allows ^(file.txt) to select everything but file.txt
-# set -o gives full list of options
-setopt extendedglob
-
-# Ruby
-PATH="$PATH:$HOME/.rbenv/versions/2.6.1/bin"
 # Vimgolf
-PATH="$PATH:/Users/Fer/.gem/ruby/2.3.0/bin"
+# PATH="$PATH:/Users/Fer/.gem/ruby/2.3.0/bin"
 
-# Rust and Cargo package manager
-export PATH="$HOME/.cargo/bin:$PATH"
+# Rust and Cargo package manager: already added in ~/.zprofile
+# PATH="$HOME/.cargo/bin:$PATH"
 
 export PATH
+typeset -gxU path # equivalent to 'export PATH' but also keep unique entries
 
 # }}}
 # Source files {{{
@@ -251,7 +247,8 @@ export PATH
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/zsh/my_custom_commands.sh
 
-# Initialize Pyenv
+# Initialize Pyenv: https://github.com/pyenv/pyenv#basic-github-checkout
+
 eval "$(pyenv init -)"
 #}}}
 # Key Bindings {{{
@@ -263,8 +260,6 @@ bindkey -v # Vim mode for zsh command line
 # Solves problem with Tmux and Conda environments
 # [[ -z $TMUX ]] || source deactivate; #conda activate base
 
-# Run rbenv to manage Ruby versions
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Source FZF Autocompletion and Command Search
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -375,7 +375,7 @@ c.LabApp.browser = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chro
 #------------------------------------------------------------------------------
 
 ## The app directory to launch JupyterLab from.
-#c.LabApp.app_dir = '/Users/Fer/anaconda3/share/jupyter/lab'
+#c.LabApp.app_dir = '/Users/fer/miniconda3/share/jupyter/lab'
 
 ## Whether to start the app in core mode. In this mode, JupyterLab will run using
 #  the JavaScript assets that are within the installed JupyterLab Python package.

@@ -194,7 +194,7 @@ endfunction
 
 " Deoplete Jedi
 let g:python_host_prog  = '/usr/local/bin/python'
-let g:python3_host_prog = '/Users/fer/anaconda3/envs/ds/bin/python'
+let g:python3_host_prog = '/Users/fer/miniconda3/envs/dsfull/bin/python'
 
 " Jedi-Vim
 let g:jedi#auto_initialization = 1 " Disable init at startup

@@ -195,15 +195,16 @@ alias vifm='vicd'
 . "$HOME/anaconda3/etc/profile.d/conda.sh"
 # conda deactivate
 
+# Use Anaconda Python 3 before /usr/local
+# Disabled in 2020. Instead, conda activate before using python
+# PATH="/Users/Fer/anaconda3/bin:$PATH"
+#
 # TeX and X11 directories are added to path from /etc/paths.d
 
 # Use latest version of Vim (symlinked to MacVim) instead of /usr/bin/vim
 # This is not necessary since the following is already in PATH
 # PATH="/usr/local/bin:$PATH"
 
-# Use Anaconda Python 3 before /usr/local
-# Disabled in 2020. Instead, conda activate before using python
-# PATH="/Users/Fer/anaconda3/bin:$PATH"
 
 # Add Latexmk to path
 PATH="$PATH:/Library/TeX/texbin"

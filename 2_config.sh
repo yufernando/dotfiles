@@ -43,6 +43,7 @@ ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.s
 ln -svf $DIR/ranger/rc.conf             ~/.config/ranger/rc.conf
 ln -svf $DIR/ranger/commands.py         ~/.config/ranger/commands.py
 ln -svf $DIR/vifmrc                     ~/.config/vifm/vifmrc
+ln -svf $DIR/conda/condarc              ~/.condarc
 
 # Italics in iTerm and Tmux
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be

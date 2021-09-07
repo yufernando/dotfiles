@@ -94,7 +94,7 @@ Plug 'jiangmiao/auto-pairs'
 "Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
 " Plug 'bkad/camelcasemotion'
 " Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
-" Plug 'epeli/slimux'                 " Send comands to tmux window
+Plug 'epeli/slimux'                 " Send comands to tmux window
 " Plug 'kassio/neoterm'               " Terminal in Vim
 " Plug 'takac/vim-hardtime'           " Block repeat keys
 " Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
@@ -109,10 +109,10 @@ call plug#end()
 let g:vimtex_view_method = 'skim'
 
 " Neoterm
-let g:neoterm_autoscroll = '1'
-let g:neoterm_default_mod='belowright'
-let g:neoterm_size = 16
-let g:neoterm_keep_term_open = 1
+" let g:neoterm_autoscroll = '1'
+" let g:neoterm_default_mod='belowright'
+" let g:neoterm_size = 16
+" let g:neoterm_keep_term_open = 1
 " command! -nargs=+ TT Topen | T
 
 " For Limelight to work with colorscheme (:help cterm-colors)
@@ -382,9 +382,9 @@ nnoremap <silent> <leader>l :NERDTreeToggle<CR>
 nnoremap <silent> <leader>L :NERDTreeFind<CR> 
 
 " Slimux Send Selection
-" nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
-" vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
-" nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
+nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
+vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
+nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
 nnoremap <silent> mm    :w<CR>:!python3 %<CR>
 nnoremap <silent> m<CR> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
 nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
@@ -392,10 +392,10 @@ nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-ke
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
 " Neoterm Send Selection
-nmap gx <Plug>(neoterm-repl-send)
-xmap gx <Plug>(neoterm-repl-send)
-nmap gxx <Plug>(neoterm-repl-send-line)
-nnoremap <leader>t :Ttoggle<CR>
+" nmap gx <Plug>(neoterm-repl-send)
+" xmap gx <Plug>(neoterm-repl-send)
+" nmap gxx <Plug>(neoterm-repl-send-line)
+" nnoremap <leader>t :Ttoggle<CR>
 " nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0

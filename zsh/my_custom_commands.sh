@@ -317,7 +317,7 @@ Usage:
     # Check if preexisting container is running
     if docker ps --format "{{.Names}}" | grep -wq $CONTAINER_NAME
     then
-        echo "Found Docker container '$CONTAINER_NAME' already running."
+        echo "Found Docker container '$CONTAINER_NAME' already running. If you want to create a new container run 'dockerlab -n [CONTAINER_NAME]'"
     else
         echo "Running image '$IMAGE' in container '$CONTAINER_NAME' with ID:";
 

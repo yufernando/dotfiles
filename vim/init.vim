@@ -73,37 +73,34 @@ Plug 'junegunn/fzf.vim'             " Fuzzy finder for Vim
 Plug 'tpope/vim-surround'           " Edit surrounding text
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github
-"Plug 'tpope/vim-vinegar'            " File browser
-" Plug 'takac/vim-hardtime'           " Block repeat keys
-Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
-"Plug 'epeli/slimux'                 " Send comands to tmux window
-"Plug 'kassio/neoterm'               " Terminal in Vim
 Plug 'mhinz/vim-startify'           " Startup buffer
-"Plug 'godlygeek/tabular'
-" Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
-" Deoplete
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" Plug 'davidhalter/jedi'
-" Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
-" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'posva/vim-vue'                 " Vue syntax highlighting
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
+Plug 'deoplete-plugins/deoplete-jedi'
+Plug 'davidhalter/jedi-vim' "Has Go To Definition
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
+Plug 'dense-analysis/ale' " Linter
+Plug 'jiangmiao/auto-pairs'
+Plug 'epeli/slimux'                 " Send comands to tmux window
+Plug 'kassio/neoterm'               " Terminal in Vim
+"Plug 'tpope/vim-vinegar'            " File browser
+"Plug 'takac/vim-hardtime'           " Block repeat keys
+"Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
+"Plug 'godlygeek/tabular'
+"Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'
 "Plug 'goerz/jupytext.vim'
 "Plug 'vim-pandoc/vim-pandoc-syntax'
 "Plug 'lervag/vimtex'                " Latex
-"Plug 'w0rp/ale'                     " Code syntax
 "Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
 "Plug 'bkad/camelcasemotion'
-Plug 'posva/vim-vue'                 " Vue syntax highlighting
 
 call plug#end()
 " }}}

@@ -81,12 +81,13 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'davidhalter/jedi-vim' " Has Go To Definition
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-" Plug 'zchee/deoplete-clang'
 Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
-Plug 'dense-analysis/ale' "Linter
+Plug 'dense-analysis/ale' " Linter
 Plug 'jiangmiao/auto-pairs'
+Plug 'epeli/slimux'                 " Send comands to tmux window
+Plug 'kassio/neoterm'               " Terminal in Vim
 "Plug 'vim-airline/vim-airline' " Bottom Status Bar
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'rakr/vim-one'
@@ -96,8 +97,6 @@ Plug 'jiangmiao/auto-pairs'
 "Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
 " Plug 'bkad/camelcasemotion'
 " Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
-Plug 'epeli/slimux'                 " Send comands to tmux window
-Plug 'kassio/neoterm'               " Terminal in Vim
 " Plug 'takac/vim-hardtime'           " Block repeat keys
 " Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
 " Plug 'tpope/vim-vinegar'            " File browser

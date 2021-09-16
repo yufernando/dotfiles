@@ -81,6 +81,8 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'davidhalter/jedi-vim' " Has Go To Definition
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+" Plug 'zchee/deoplete-clang'
+Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
 Plug 'dense-analysis/ale' "Linter
@@ -95,7 +97,7 @@ Plug 'jiangmiao/auto-pairs'
 " Plug 'bkad/camelcasemotion'
 " Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
 Plug 'epeli/slimux'                 " Send comands to tmux window
-" Plug 'kassio/neoterm'               " Terminal in Vim
+Plug 'kassio/neoterm'               " Terminal in Vim
 " Plug 'takac/vim-hardtime'           " Block repeat keys
 " Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
 " Plug 'tpope/vim-vinegar'            " File browser
@@ -108,12 +110,17 @@ call plug#end()
 " Vimtex and Skim
 let g:vimtex_view_method = 'skim'
 
-" Neoterm
-" let g:neoterm_autoscroll = '1'
-" let g:neoterm_default_mod='belowright'
-" let g:neoterm_size = 16
-" let g:neoterm_keep_term_open = 1
-" command! -nargs=+ TT Topen | T
+" Neoterm: https://github.com/kassio/neoterm/pull/274
+let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --nosep']
+let g:neoterm_bracketed_paste = 1
+let g:neoterm_autoscroll = 1
+let g:neoterm_default_mod='belowright'
+let g:neoterm_size = 14
+let g:neoterm_keep_term_open = 1
+command! -nargs=+ TT Topen | T " https://github.com/kassio/neoterm/issues/148
+let g:neoterm_automap_keys = ",t"
+" let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --no-autoindent --nosep']
+" let g:neoterm_repl_enable_ipython_paste_magic = 1
 
 " For Limelight to work with colorscheme (:help cterm-colors)
 let g:limelight_conceal_ctermfg = 'gray'
@@ -128,7 +135,10 @@ let g:limelight_conceal_ctermfg = 'gray'
 let g:omni_sql_no_default_maps = 1
 
 " Linter
-let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']} "pydocstyle, bandit, mypy
+let g:ale_linters = {
+    \ 'python': ['flake8'],
+    \ 'javascript': ['eslint'],
+    \ 'c': ['clang']} " pydocstyle, bandit, mypy
 " let g:ale_fixers = {'*': [], 'python':['black', isort']}
 " let g:ale_fix_on_save = 1
 " Disable ALE by default. Enable with :ALEToggle (leader+z)
@@ -195,6 +205,13 @@ endfunction
 " Deoplete Jedi
 let g:python_host_prog  = '/usr/local/bin/python'
 let g:python3_host_prog = '/Users/fer/miniconda3/envs/dsfull/bin/python'
+
+" Deoplete-clangx
+call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')
+
+" Deoplete-clang
+" let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+" let g:deoplete#sources#clang#clang_header = '/Library/Developer/CommandLineTools/usr/lib/clang'
 
 " Jedi-Vim
 let g:jedi#auto_initialization = 1 " Disable init at startup
@@ -266,9 +283,9 @@ let ferwiki = {}
 let g:vimwiki_list = [ferwiki]
 
 " Jupytext
-let g:jupytext_fmt = 'py'
-let g:jupytext_fmt = 'python' "convert to .py files
-let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
+" let g:jupytext_fmt = 'py'
+" let g:jupytext_fmt = 'python' "convert to .py files
+" let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
 
 " CamelCaseMotion: treat _ as word separator
 " omap <silent> iw <Plug>CamelCaseMotion_iw
@@ -392,10 +409,12 @@ nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-ke
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
 " Neoterm Send Selection
-" nmap gx <Plug>(neoterm-repl-send)
-" xmap gx <Plug>(neoterm-repl-send)
-" nmap gxx <Plug>(neoterm-repl-send-line)
-" nnoremap <leader>t :Ttoggle<CR>
+nnoremap <silent> <leader>tt :Ttoggle<CR>
+nmap gx <Plug>(neoterm-repl-send)
+xmap gx <Plug>(neoterm-repl-send)
+nmap gxx <Plug>(neoterm-repl-send-line)
+nnoremap <silent> gz :TREPLSendFile<CR>
+nnoremap <silent> gm :T python %<CR>
 " nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
@@ -424,6 +443,7 @@ map ,p :w<CR>:silent !~/.dotfiles/zsh/displayline -b -g <C-r>=line('.')<CR> %<.p
 " nnoremap <silent> <leader>f :FZF<cr>
 nnoremap <leader>e :Files<CR>
 nnoremap <leader>o :Files<CR>
+nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>f :BLines<CR>
 nnoremap <leader>F :Lines<CR>
 nnoremap <leader>c :Commands<CR>
@@ -438,6 +458,10 @@ nnoremap <leader>rh :Rghome<CR>
 nnoremap <leader>ru :Rgup<CR>
 " Dropbox folder
 nnoremap <leader>rd :Rgdrop<CR>
+
+" Jump between buffers
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
 
 " ALE Linting
 " Toggle Linter

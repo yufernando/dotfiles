@@ -209,15 +209,16 @@ server {
 	# index index.html index.htm;
 	# index index.html index.htm index.nginx-debian.html;
 
+    # Uncomment for Sant Cugat Demo
 	# location / {
-        # # root /home/fer/aretian/aretian-engine/dist;
-        # # root /home/fer/aretian/aretian-engine/dist/;
+        # root /home/fer/aretian/aretian-engine/dist;
         # # alias /home/fer/aretian/aretian-engine/dist/;
 	# 	try_files $uri $uri/ /index.html =404;
 	# 	# try_files $uri $uri/ =404;
         # include /etc/nginx/mime.types;
 	# }
 
+    # Uncomment for full Aretian Engine Flask App
     location / {
         expires $expires;
 

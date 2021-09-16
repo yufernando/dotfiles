@@ -32,7 +32,6 @@ set tabstop=4       " The width of a TAB is set to 4.
                     " Still it is a \t. It is just that
                     " Vim will interpret it to be having
                     " a width of 4.
-
 set shiftwidth=4    " Indents will have a width of 4
 set softtabstop=4   " Sets the number of columns for a TAB
 set expandtab       " Expand TABs to spaces
@@ -76,11 +75,11 @@ Plug 'tpope/vim-fugitive'           " Github
 Plug 'mhinz/vim-startify'           " Startup buffer
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'posva/vim-vue'                 " Vue syntax highlighting
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plug 'deoplete-plugins/deoplete-jedi'
-Plug 'davidhalter/jedi-vim' "Has Go To Definition
+Plug 'davidhalter/jedi-vim' " Has Go To Definition
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
@@ -109,12 +108,17 @@ call plug#end()
 " Vimtex and Skim
 let g:vimtex_view_method = 'skim'
 
-" Neoterm
-let g:neoterm_autoscroll = '1'
+" Neoterm: https://github.com/kassio/neoterm/pull/274 test
+let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --nosep']
+let g:neoterm_bracketed_paste = 1
+let g:neoterm_autoscroll = 1
 let g:neoterm_default_mod='belowright'
-let g:neoterm_size = 16
+let g:neoterm_size = 14
 let g:neoterm_keep_term_open = 1
-" command! -nargs=+ TT Topen | T
+command! -nargs=+ TT Topen | T " https://github.com/kassio/neoterm/issues/148
+let g:neoterm_automap_keys = ",t"
+" let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --no-autoindent --nosep']
+" let g:neoterm_repl_enable_ipython_paste_magic = 1
 
 " For Limelight to work with colorscheme (:help cterm-colors)
 let g:limelight_conceal_ctermfg = 'gray'
@@ -124,50 +128,104 @@ let g:limelight_conceal_ctermfg = 'gray'
 " Neomake: When writing a buffer (no delay), and on normal mode changes (after 1s).
 "call neomake#configure#automake('nw', 1000)
 
-" Deoplete
-" let g:deoplete#enable_at_startup = 1
-" set completeopt+=noinsert " First result is suggested
-" set completeopt-=preview  " Disable preview window in the bottom
-" command! DeopleteDisable call deoplete#custom#option('auto_complete', v:false)
-" map TAB, C-j to down in popup and C-k to up in popup
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-" inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 
-" call deoplete#custom#option({
-"       \ 'auto_complete_popup': 'manual',
-"       \ })
+" SQL Completion: disable <C-c> binding
+let g:omni_sql_no_default_maps = 1
+
+" Linter
+let g:ale_linters = {
+    \ 'python': ['flake8'],
+    \ 'javascript': ['eslint'],
+    \ 'c': ['clang']} " pydocstyle, bandit, mypy
+" let g:ale_fixers = {'*': [], 'python':['black', isort']}
+" let g:ale_fix_on_save = 1
+" Disable ALE by default. Enable with :ALEToggle (leader+z)
+let g:ale_enabled = 0
+
+" UltiSnips: since we are using Deoplete, <tab> doesn't work
+let g:UltiSnipsExpandTrigger="<C-t>"
+
+" Deoplete
+let g:deoplete#enable_at_startup = 0
+" Also include snippets with short names
+call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
+set completeopt+=noinsert " Do not insert text while scrolling the menu
+set completeopt-=noselect " Select first result
+set completeopt-=preview  " Disable preview window in the bottom
+
+
+" command! Autocomplete  call deoplete#custom#option('auto_complete', v:true) \| echo "hello world"
+" command! AutocompleteOff call deoplete#custom#option('auto_complete', v:false)
+" command! Popup           call deoplete#custom#option({'auto_complete_popup':'auto'})
+" command! PopupOff        call deoplete#custom#option({'auto_complete_popup':'manual'})
+" AutocompleteOff
+"
+function AutocompleteOn()
+    call deoplete#custom#option('auto_complete', v:true)
+    call jedi#configure_call_signatures()
+    let g:jedi#show_call_signatures = "1" "Show function helper
+endfunction
+
+function AutocompleteOff()
+    call deoplete#custom#option('auto_complete', v:false)
+    let g:jedi#show_call_signatures = "0" "Hide function helper
+endfunction
+
+function AutocompleteToggle()
+    if deoplete#is_enabled() == 0
+        call deoplete#enable()
+        call AutocompleteOn()
+        ALEEnable
+        echo 'Autocomplete On. Linter On.'
+        " call AutocompleteOff()
+        " echo 'Deoplete On. Repeat keys: Autocomplete On. <C-n>: Activate manually.'
+    else
+        if deoplete#custom#_get().option.auto_complete
+            call AutocompleteOff()
+            echo 'Autocomplete Off.'
+        else
+            call AutocompleteOn()
+            echo 'Autocomplete On.'
+        endif
+    endif
+endfunction
+
+" Tabs for autocompletion
 " inoremap <silent><expr> <TAB>
-"     \ pumvisible() ? "\<C-n>" :
-"     \ <SID>check_back_space() ? "\<Tab>" :
-"     \ deoplete#complete()
+" 	    \ pumvisible() ? "\<C-n>" :
+" 	    \ <SID>check_back_space() ? "\<Tab>" :
+" 	    \ deoplete#complete()
 " function! s:check_back_space() abort
 "     let col = col('.') - 1
 "     return !col || getline('.')[col - 1]  =~# '\s'
 " endfunction
 
 " Deoplete Jedi
-" let g:python_host_prog  = '/usr/bin/python' 
-" let g:python3_host_prog  = '/usr/bin/python3' 
+let g:python_host_prog  = '/usr/bin/python' 
+let g:python3_host_prog  = '/usr/bin/python3' 
+
+" Deoplete-clangx
+call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')
 
 " Jedi-Vim
+let g:jedi#auto_initialization = 1 " Disable init at startup
+" Manually set function helper
+" let g:jedi#show_call_signatures = "1" "0: do not show function helper
+" Disable completions when using together with deoplete-jedi
+let g:jedi#completions_enabled = 0 " Disable completions: https://github.com/davidhalter/jedi-vim
+let g:jedi#goto_command = 'gd'
+nnoremap gd :call jedi#goto()<CR>
 " let g:jedi#auto_vim_configuration = 0
 " let g:jedi#documentation_command = '<Leader>_K'
-" let g:jedi#completions_enabled = 0
 " let g:jedi#auto_close_doc = 0
 
 " Plasticboy markdown
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_folding_level = 2    " Do not fold title
 let g:vim_markdown_folding_disabled = 1
-let g:tex_conceal = ""
 let g:vim_markdown_math = 1             " Avoid math syntax conceal
+let g:tex_conceal = ""
 set conceallevel=2                      " Highlight Bold and Italic 
-
-" FZF preview window
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-" set -gx FZF_DEFAULT_COMMAND  'rg --files --no-ignore-vcs --hidden'
 
 " Startify Bookmarks
 let g:startify_bookmarks = [ {'d': '~/.dotfiles/vim/init.vim'},  {'z': '~/.dotfiles/zsh/zshrc'}, {'t': '~/.dotfiles/tmux/tmux.conf'}, {'c': '~/.dotfiles/zsh/my_custom_commands.sh'} ]
@@ -193,12 +251,10 @@ let s:startify_ascii_header=[
 let g:startify_custom_header = map(s:startify_ascii_header +
         \ startify#fortune#boxed(), '"           ".v:val')
 
-" Disable ALE by default. Enable with :ALEToggle
-let g:ale_enabled = 0
-
 " NERD Tree hide help message
 let NERDTreeMinimalUI=1
 let NERDTreeShowBookmarks=1
+let g:NERDTreeQuitOnOpen=1 " Close NERDTree after opening file ('o')
 
 " Vim wiki
 " Not needed, I already use plasticboy markdown
@@ -221,9 +277,9 @@ let ferwiki = {}
 let g:vimwiki_list = [ferwiki]
 
 " Jupytext
-let g:jupytext_fmt = 'py'
-let g:jupytext_fmt = 'python' "convert to .py files
-let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
+" let g:jupytext_fmt = 'py'
+" let g:jupytext_fmt = 'python' "convert to .py files
+" let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
 
 " CamelCaseMotion: treat _ as word separator
 " omap <silent> iw <Plug>CamelCaseMotion_iw
@@ -242,6 +298,49 @@ let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 
+" TERNJS (Javascript)
+" Set bin if you have many instalations
+" let g:deoplete#sources#ternjs#tern_bin = '/path/to/tern_bin'
+let g:deoplete#sources#ternjs#timeout = 1
+" Whether to include the types of the completions in the result data. Default: 0
+let g:deoplete#sources#ternjs#types = 1
+" Whether to include the distance (in scopes for variables, in prototypes for 
+" properties) between the completions and the origin position in the result 
+" data. Default: 0
+let g:deoplete#sources#ternjs#depths = 1
+" Whether to include documentation strings (if found) in the result data.
+" Default: 0
+let g:deoplete#sources#ternjs#docs = 1
+" When on, only completions that match the current word at the given point will
+" be returned. Turn this off to get all results, so that you can filter on the 
+" client side. Default: 1
+let g:deoplete#sources#ternjs#filter = 0
+" Whether to use a case-insensitive compare between the current word and 
+" potential completions. Default 0
+let g:deoplete#sources#ternjs#case_insensitive = 1
+" When completing a property and no completions are found, Tern will use some 
+" heuristics to try and return some properties anyway. Set this to 0 to 
+" turn that off. Default: 1
+let g:deoplete#sources#ternjs#guess = 0
+" Determines whether the result set will be sorted. Default: 1
+let g:deoplete#sources#ternjs#sort = 0
+" When disabled, only the text before the given position is considered part of 
+" the word. When enabled (the default), the whole variable name that the cursor
+" is on will be included. Default: 1
+let g:deoplete#sources#ternjs#expand_word_forward = 0
+" Whether to ignore the properties of Object.prototype unless they have been 
+" spelled out by at least two characters. Default: 1
+let g:deoplete#sources#ternjs#omit_object_prototype = 0
+" Whether to include JavaScript keywords when completing something that is not 
+" a property. Default: 0
+let g:deoplete#sources#ternjs#include_keywords = 1
+" If completions should be returned when inside a literal. Default: 1
+let g:deoplete#sources#ternjs#in_literal = 0
+"Add extra filetypes
+let g:deoplete#sources#ternjs#filetypes = [
+                \ 'jsx',
+                \ 'vue',
+                \ ]
 "}}}
 " UI Customization {{{
 
@@ -276,6 +375,7 @@ set linebreak " Do not split words in linebreak
 set breakindent " Indent line breaks
 set breakindentopt=shift:1 " Add space to linebreaks to make them more evident
 let &showbreak='⤷ '        "Arrow pointing downwards U+2935
+set formatoptions-=t " Disable break lines but keep textwidth and colorcolumn
 
 " Colorcolumn and cursorline
 " set cursorline
@@ -296,16 +396,19 @@ nnoremap <silent> <leader>L :NERDTreeFind<CR>
 nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
 vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
 nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
-nnoremap <silent> mm :!python %<CR>
-nmap m<CR> :!tmux send-keys -t .1 "python %:p"; tmux send-keys -t .1 C-m<CR><CR>
+nnoremap <silent> mm    :w<CR>:!python3 %<CR>
+nnoremap <silent> m<CR> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
+nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
 
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
 " Neoterm Send Selection
+nnoremap <silent> <leader>tt :Ttoggle<CR>
 nmap gx <Plug>(neoterm-repl-send)
 xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)
-nnoremap <leader>t :Ttoggle<CR>
+nnoremap <silent> gz :TREPLSendFile<CR>
+nnoremap <silent> gm :T python %<CR>
 " nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
@@ -333,22 +436,33 @@ map ,p :w<CR>:silent !~/.dotfiles/zsh/displayline -b -g <C-r>=line('.')<CR> %<.p
 " FZF
 " nnoremap <silent> <leader>f :FZF<cr>
 nnoremap <leader>e :Files<CR>
+nnoremap <leader>o :Files<CR>
+nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>f :BLines<CR>
 nnoremap <leader>F :Lines<CR>
 nnoremap <leader>c :Commands<CR>
 nnoremap <leader>H :History<CR>
 nnoremap <leader>h :Helptags!<CR>
 nnoremap <leader>r :Rg<CR>
+nnoremap <leader>rg :Rg<CR>
 nnoremap <leader>R :Rgcmd 
-nnoremap <leader>rh :Rghome<CR>
+" Home folder
+nnoremap <leader>rh :Rghome<CR> 
+" Up one folder
 nnoremap <leader>ru :Rgup<CR>
+" Dropbox folder
 nnoremap <leader>rd :Rgdrop<CR>
 
+" Jump between buffers
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+
 " ALE Linting
-nmap <leader>A <Plug>(ale_toggle)
-nmap <leader>a <Plug>(ale_detail)
-nmap <silent> <leader>k <Plug>(ale_previous)
-nmap <silent> <leader>j <Plug>(ale_next)
+" Toggle Linter
+noremap <leader>z :ALEToggle \| :echo ale_enabled ? "Linter On." : "Linter Off." <CR>
+" nmap <leader>Z <Plug>(ale_detail)
+" nmap <silent> <leader>k <Plug>(ale_previous)
+" nmap <silent> <leader>j <Plug>(ale_next)
 
 " Navigate splits
 nnoremap <C-h> <C-w>h
@@ -391,8 +505,8 @@ nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 
 " VIMRC
-nnoremap <leader>d :e ~/.dotfiles/init.vim<CR>
-nnoremap <leader>D :source ~/.dotfiles/init.vim<CR>
+nnoremap <leader>d :e ~/.config/nvim/init.vim<CR>
+nnoremap <leader>D :source ~/.config/nvim/init.vim<CR>
 
 " Goyo
 nnoremap <leader>g :Goyo<CR>
@@ -402,6 +516,15 @@ nnoremap <leader>g :Goyo<CR>
 " From: https://github.com/vimwiki/vimwiki/blob/master/doc/vimwiki.txt
 " nmap <Leader>tt <Plug>VimwikiToggleListItem
 nmap <Leader>w<Leader>g <Plug>VimwikiMakeDiaryNote<Esc>:Goyo<CR>i
+
+" Deoplete Enable Autocomplete
+nnoremap <leader>a :call AutocompleteToggle()<CR>
+" Activate manual complete (Open popup)
+inoremap <expr> <C-n> deoplete#manual_complete()
+" C-j to down and C-k to up in popup
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <silent><expr><CR> pumvisible() ? "<C-E>\<CR>" : "\<CR>"
 
 " }}}
 " Autocommands {{{
@@ -417,7 +540,7 @@ augroup set_filetypes
 augroup end
 
 " Filetype settings
-" Note: at some point this should be moved to .vim/after/ftplugin/tex.vim
+" Note: at some point this should/could be moved to .vim/after/ftplugin/tex.vim
 augroup filetype_settings
     autocmd!
     autocmd FileType text,tex,markdown setlocal textwidth=99 
@@ -431,10 +554,22 @@ augroup filetype_settings
     " Shift+t:Open tex file in Skim
     autocmd FileType tex nmap <buffer> <S-T> :!open -a skim %:r.pdf<CR><CR><D-S-->
 
-    " Vimwiki autocommands
-    autocmd FileType markdown,vimwiki nnoremap <leader>md :<C-u>silent call system('pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o '.expand('%:p:r:S').'.html')<CR>:silent call system('open -a "Google Chrome" '.expand('%:p:r:S').'.html')<CR> 
-    " \:<C-u>silent call system('open -a "Google Chrome" %')
+    " Preview Markdown and Vimwiki in HTML
+    autocmd FileType markdown,vimwiki nnoremap <silent> <leader>md :<C-u>w<CR>:silent call system('mkdir -p ${TMPDIR}md-preview-${PPID}; pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR>:silent call system('open -a "Google Chrome" ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR> :echom 'Previewing Markdown File.'<CR> 
+    " Convert to HTML in the background
+    autocmd FileType markdown,vimwiki nnoremap <silent> <leader>mD :<C-u>w<CR>:silent call system('mkdir -p ${TMPDIR}md-preview-${PPID}; pandoc -s -f markdown -t html --css ~/.dotfiles/css/github.css '.expand('%:p:S').' -o ${TMPDIR}md-preview-${PPID}/'.expand('%:t:r').'.html')<CR><CR> :echom 'Markdown Preview Updated.'<CR>
+    " To autorefresh include this header in Markdown or Wiki file
+    " ---
+    "header-includes: <meta http-equiv="refresh" content="3"/>
+    " ---
+
     autocmd FileType vimwiki set syntax=markdown
+
+    " Javascript: tab = 2 spaces
+    autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+
+    " Makefiles: use real tabs instead of spaces
+    autocmd FileType make set noexpandtab
 augroup END
 
 " https://vi.stackexchange.com/a/17550
@@ -465,7 +600,7 @@ autocmd!
 set cursorline
 highlight CursorLine ctermbg=236
 " Set color of greyed-out columns to the right
-highlight Colorcolumn ctermbg=236
+" highlight Colorcolumn ctermbg=236
 " let &l:colorcolumn='+' . join(range(1, 255), ',+')
 
 " Make current window more obvious by turning off/adjusting some features in non-current windows.
@@ -488,8 +623,62 @@ highlight Colorcolumn ctermbg=236
 augroup END
 endfunction
 
+" Toggle Background (colocolumn)
+command! Background :let &cc = &cc == '' ? '+'.join(range(1,255), ',+') : ''
+command! CC :let &cc = &cc == '' ? '+'.join(range(1,255), ',+') : ''
+
 " Call focus function to set greyed columns on and off
 call s:focus()
+
+augroup aug_nerd_tree
+  au!
+
+  " Auto launch tree when vim is run with directory as argument
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+  " Exit vim when the only buffer remaining is NerdTree
+  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+  " Use arrow keys to navigate
+  autocmd FileType nerdtree nmap <buffer> l o
+  autocmd FileType nerdtree nmap <buffer> L O
+  autocmd FileType nerdtree nmap <buffer> h p
+  autocmd FileType nerdtree nmap <buffer> H P
+
+  " Disable cursorline in NERDtree to avoid lags
+  " built-in g:NERDTreeHighlightCursorline does not work
+  autocmd FileType nerdtree setlocal nocursorline
+augroup END
+
+fun s:PatchGruvboxScheme()
+  " hi! ColorColumn ctermfg=255 ctermbg=203 guifg=#F8F8F2 guibg=#FF5555
+
+  " Show NERDTree directory nodes in yellow/green
+  " hi! __DirectoryNode cterm=bold ctermfg=214 gui=bold guifg=#E7A427
+  hi! __DirectoryNode cterm=bold ctermfg=106 gui=bold guifg=#689d69
+  " hi! link NerdTreeDir Directory
+  hi! link NerdTreeDir __DirectoryNode
+  " hi! link NERDTreeFlags Normal
+
+  " Show NERDTree toggle icons as white
+  " hi! link NERDTreeOpenable Normal
+  " hi! link NERDTreeOpenable Directory
+  " hi! link NERDTreeClosable Directory
+  hi! link NERDTreeOpenable __DirectoryNode
+  hi! link NERDTreeClosable __DirectoryNode
+endf
+
+" Customime color scheme after it was loaded
+augroup aug_color_scheme
+  au!
+
+  autocmd ColorScheme gruvbox call s:PatchGruvboxScheme()
+augroup END
+colorscheme gruvbox
+
+" Edit crontab: https://superuser.com/a/907889
+autocmd filetype crontab setlocal nobackup nowritebackup
 
 " }}}
 " Commands and Functions {{{
@@ -508,12 +697,12 @@ function! s:goyo_enter()
           \   'showmode': &showmode
           \ }
     
+    " set statusline=\ 
     set colorcolumn=""
     set showbreak=
-    " set statusline=\ 
     set nocursorline
     set noshowmode
-    " call deoplete#custom#option('auto_complete', v:false)
+    call deoplete#custom#option('auto_complete', v:false)
     Limelight
     silent !tmux set-option status off
 endfunction
@@ -524,13 +713,17 @@ function! s:goyo_leave()
       execute 'let &' . k . '=' . string(v)
     endfor
     Limelight!
-    " call deoplete#custom#option('auto_complete', v:true)
+    call deoplete#custom#option('auto_complete', v:true)
     " Uncomment this line to turn on gray colorcolumns
     call s:focus()
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" FZF Commands
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(

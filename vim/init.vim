@@ -434,6 +434,12 @@ nnoremap <silent> gm :T python %<CR>
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
 " vnoremap <silent> <leader><CR> :TREPLSendSelection<CR>
 
+" C Language compile
+" Compile only and create executable
+nnoremap <silent> mC :silent w<CR>:echo system('clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && echo Compiled to file: '.expand('%:r'))<CR>
+" Compile and Run
+nnoremap <silent> mc :silent w<CR>:echo system('clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && ./'.expand('%:r'))<CR>
+
 " Escape key to jk
 inoremap jj <Esc>`^
 inoremap jk <Esc>`^

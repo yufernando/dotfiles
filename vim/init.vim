@@ -1,6 +1,12 @@
 " ╦  ╦╦╔╦╗
 " ╚╗╔╝║║║║
 "  ╚╝ ╩╩ ╩
+" Vim Configuration File
+
+" 'zo': Open folded sections 
+" 'zc': Open folded sections 
+" <leader>d: Open init.vim
+" <leader>D: Reload init.vim
 
 " Setup {{{
 
@@ -17,9 +23,8 @@ set nocompatible     " Loads .vimrc as your own .vimrc. Was used for compatibili
 
 set textwidth=79
 
-" syntax enable
-" syntax off
-" syntax on
+syntax enable " Use this vs 'syntax on' if you use 'highlight' commands
+    " Source: https://www.reddit.com/r/vim/comments/choowl/vimpolyglot_syntax_on_or_syntax_enable/
 set number
 set number relativenumber
 set ruler
@@ -42,10 +47,20 @@ set splitbelow      " Split below
 set splitright      " Split to the right, feels more natural 
 
 set statusline=
-set statusline+=%#LineNr#   " Status line background color
-set statusline+=%f          " file name in status line
-set statusline+=\ %{FugitiveStatusline()} " Git info in status line
-set laststatus=0            " Hide status bar
+set statusline+=%#CursorColumn#
+set statusline+=\ %{fugitive#head()} " Git info in status line
+" set statusline+=\ %{FugitiveStatusline()} " Git info in status line
+set statusline+=%m\ " File was modified
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+" set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+" set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ 
 
 set foldmethod=marker " Fold with three brackets
 
@@ -530,6 +545,26 @@ inoremap <expr> <C-n> deoplete#manual_complete()
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <silent><expr><CR> pumvisible() ? "<C-E>\<CR>" : "\<CR>"
+
+" Hide all status lines
+let s:hidden_all = 0
+function! ToggleHiddenAll()
+    if s:hidden_all  == 0
+        let s:hidden_all = 1
+        set noruler " Show row and column numbers
+        set laststatus=0
+        set noshowmode " Hide Insert, Visual text in statusline
+        set noshowcmd " Hide number of lines output in visual mode
+    else
+        let s:hidden_all = 0
+        set ruler
+        set laststatus=2
+        set showmode
+        set showcmd
+    endif
+endfunction
+
+nnoremap <S-h> :call ToggleHiddenAll()<CR>
 
 " }}}
 " Autocommands {{{

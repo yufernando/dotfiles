@@ -103,26 +103,26 @@ Plug 'tpope/vim-fugitive'           " Github
 Plug 'mhinz/vim-startify'           " Startup buffer
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'posva/vim-vue'                 " Vue syntax highlighting
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'davidhalter/jedi-vim' " Has Go To Definition
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
 Plug 'dense-analysis/ale' " Linter
 Plug 'jiangmiao/auto-pairs'
 Plug 'epeli/slimux'                 " Send comands to tmux window
 Plug 'kassio/neoterm'               " Terminal in Vim
-"Plug 'vim-airline/vim-airline' " Bottom Status Bar
-"Plug 'vim-airline/vim-airline-themes'
-"Plug 'rakr/vim-one'
-"Plug 'goerz/jupytext.vim'
-"Plug 'vim-pandoc/vim-pandoc-syntax'
-"Plug 'lervag/vimtex'                " Latex
-"Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'vim-airline/vim-airline' " Bottom Status Bar
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'rakr/vim-one'
+" Plug 'goerz/jupytext.vim'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'lervag/vimtex'                " Latex
+" Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
 " Plug 'bkad/camelcasemotion'
 " Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
 " Plug 'takac/vim-hardtime'           " Block repeat keys

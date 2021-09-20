@@ -17,7 +17,7 @@ add-apt-repository -y ppa:neovim-ppa/stable
 # Python (Prerequisites for Neovim Python modules)
 # and essential Linux programs
 DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    python python3 python-dev python-pip python3-dev python3-pip \
+    python python3 python-dev python3-dev python3-pip \
     neovim curl git tmux zsh ripgrep fzf fd-find build-essential
 
 # Create symlink to fd

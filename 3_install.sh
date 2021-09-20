@@ -11,11 +11,12 @@ echo ""
 # Neovim 
 # Add neovim PPA repository
 add-apt-repository ppa:neovim-ppa/stable
-# Prerequisites for Neovim Python modules
-apt-get install python-dev python-pip python3-dev python3-pip
 
 # Install packages
-apt -y install python3-pip neovim curl git tmux zsh ripgrep fzf fd-find
+apt-get -y install \
+    # Prerequisites for Neovim Python modules
+    python-dev python-pip python3-dev python3-pip \ 
+    neovim curl git tmux zsh ripgrep fzf fd-find build-essential
 
 # Create symlink to fd
 mkdir -p ~/.local/bin

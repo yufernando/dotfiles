@@ -380,7 +380,7 @@ Usage:
     fi
 
     if [[ $OPENZSH = true ]]; then
-        docker exec -it $CONTAINER_NAME zsh
+        docker exec -it $CONTAINER_NAME /bin/zsh
     fi
 }
 

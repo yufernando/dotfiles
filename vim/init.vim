@@ -46,11 +46,34 @@ set clipboard=unnamed "MacOS Clipboard
 set splitbelow      " Split below
 set splitright      " Split to the right, feels more natural 
 
+" Statusline helper functions
+" Get Git Branch
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+" Add Git Branch to Statusline
+function! StatuslineGit()
+  " let l:branchname = GitBranch()
+  let l:branchname = FugitiveHead()
+  return strlen(l:branchname) > 0?'   '.l:branchname.' ':''
+endfunction
+
 set statusline=
-set statusline+=%#LineNr#   " Status line background color
-set statusline+=%f          " file name in status line
-set statusline+=\ %{FugitiveStatusline()} " Git info in status line
-set laststatus=0            " Hide status bar
+set statusline+=%#CursorColumn#
+set statusline+=%{StatuslineGit()}
+" set statusline+=%{FugitiveHead()}         " Get Branch From Vim Fugitive
+" set statusline+=\ %{FugitiveStatusline()} " Get Branch From Vim Fugitive
+set statusline+=%m\ " File was modified
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+" set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+" set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ 
 
 set foldmethod=marker " Fold with three brackets
 

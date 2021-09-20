@@ -144,7 +144,8 @@ let g:neoterm_autoscroll = 1
 let g:neoterm_default_mod='belowright'
 let g:neoterm_size = 14
 let g:neoterm_keep_term_open = 1
-command! -nargs=+ TT Topen | T " https://github.com/kassio/neoterm/issues/148
+" https://github.com/kassio/neoterm/issues/148 Usage: TT ls
+command! -nargs=+ TT Topen | T <args>
 let g:neoterm_automap_keys = ",t"
 " let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --no-autoindent --nosep']
 " let g:neoterm_repl_enable_ipython_paste_magic = 1
@@ -436,7 +437,8 @@ nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-ke
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
 " Neoterm Send Selection
-nnoremap <silent> <leader>tt :Ttoggle<CR>
+nnoremap <silent> tt :Ttoggle<CR>
+nnoremap <silent> th :Tclose<CR>
 nmap gx <Plug>(neoterm-repl-send)
 xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)
@@ -450,9 +452,10 @@ nnoremap <silent> gm :T python %<CR>
 " C Language compile
 " Compile only and create executable
 nnoremap <silent> mC :silent w<CR>:echo system('clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && echo Compiled to file: '.expand('%:r'))<CR>
-" Compile and Run
-nnoremap <silent> mc :silent w<CR>:echo system('clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && ./'.expand('%:r'))<CR>
+" Compile and Run in new terminal window
+nnoremap <silent> mc :silent w<CR>:Tclear<CR>:exec "TT clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow ".expand('%')." -lcs50 -lm -o ".expand('%:r')." && ./".expand('%:r')<CR>
 
+" :exec "T cd ".expand('%:h:p').
 " Escape key to jk
 inoremap jj <Esc>`^
 inoremap jk <Esc>`^

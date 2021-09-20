@@ -110,24 +110,25 @@ Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'davidhalter/jedi-vim' " Has Go To Definition
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
+" Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
 Plug 'dense-analysis/ale' " Linter
 Plug 'jiangmiao/auto-pairs'
 Plug 'epeli/slimux'                 " Send comands to tmux window
 Plug 'kassio/neoterm'               " Terminal in Vim
-"Plug 'tpope/vim-vinegar'            " File browser
-"Plug 'takac/vim-hardtime'           " Block repeat keys
-"Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
-"Plug 'godlygeek/tabular'
-"Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
-"Plug 'vim-airline/vim-airline' " Bottom Status Bar
-"Plug 'vim-airline/vim-airline-themes'
-"Plug 'rakr/vim-one'
-"Plug 'goerz/jupytext.vim'
-"Plug 'vim-pandoc/vim-pandoc-syntax'
-"Plug 'lervag/vimtex'                " Latex
-"Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
-"Plug 'bkad/camelcasemotion'
+" Plug 'vim-airline/vim-airline' " Bottom Status Bar
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'rakr/vim-one'
+" Plug 'goerz/jupytext.vim'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'lervag/vimtex'                " Latex
+" Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
+" Plug 'bkad/camelcasemotion'
+" Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
+" Plug 'takac/vim-hardtime'           " Block repeat keys
+" Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
+" Plug 'tpope/vim-vinegar'            " File browser
+" Plug 'godlygeek/tabular'
 
 call plug#end()
 " }}}
@@ -136,14 +137,15 @@ call plug#end()
 " Vimtex and Skim
 let g:vimtex_view_method = 'skim'
 
-" Neoterm: https://github.com/kassio/neoterm/pull/274 test
+" Neoterm: https://github.com/kassio/neoterm/pull/274
 let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --nosep']
 let g:neoterm_bracketed_paste = 1
 let g:neoterm_autoscroll = 1
 let g:neoterm_default_mod='belowright'
 let g:neoterm_size = 14
 let g:neoterm_keep_term_open = 1
-command! -nargs=+ TT Topen | T " https://github.com/kassio/neoterm/issues/148
+" https://github.com/kassio/neoterm/issues/148 Usage: TT ls
+command! -nargs=+ TT Topen | T <args>
 let g:neoterm_automap_keys = ",t"
 " let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --no-autoindent --nosep']
 " let g:neoterm_repl_enable_ipython_paste_magic = 1
@@ -234,6 +236,10 @@ let g:python3_host_prog  = '/usr/bin/python3'
 
 " Deoplete-clangx
 call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')
+
+" Deoplete-clang
+" let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+" let g:deoplete#sources#clang#clang_header = '/Library/Developer/CommandLineTools/usr/lib/clang'
 
 " Jedi-Vim
 let g:jedi#auto_initialization = 1 " Disable init at startup
@@ -374,22 +380,22 @@ let g:deoplete#sources#ternjs#filetypes = [
 
 " Blinking Cursor (from :help guicursor)
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
-
-" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-" set termguicolors
-
-" True colors
+" Set cursor underline in normal mode
+" set guicursor=n:hor50,v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 
 " Gruvbox
+" colorscheme apprentice
+" colorscheme one
 set background=dark
 " let g:gruvbox_color_column='bg0'
-let g:gruvbox_italic=1
-colorscheme gruvbox
-set termguicolors
+let g:gruvbox_italic=1 "This should go before colorscheme gruvbox
+" let g:gruvbox_bold=1 "Enabled by default
 
-"colorscheme apprentice
-"colorscheme one
+" TermGui colors for Gruvbox: https://github.com/morhetz/gruvbox/wiki/Terminal-specific
+" The first two lines are recommended for standard Vim
+" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
 
 " Comments in italics
 highlight Comment cterm=italic
@@ -431,7 +437,8 @@ nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-ke
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
 " Neoterm Send Selection
-nnoremap <silent> <leader>tt :Ttoggle<CR>
+nnoremap <silent> tt :Ttoggle<CR>
+nnoremap <silent> th :Tclose<CR>
 nmap gx <Plug>(neoterm-repl-send)
 xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)
@@ -442,6 +449,13 @@ nnoremap <silent> gm :T python %<CR>
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
 " vnoremap <silent> <leader><CR> :TREPLSendSelection<CR>
 
+" C Language compile
+" Compile only and create executable
+nnoremap <silent> mC :silent w<CR>:echo system('clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && echo Compiled to file: '.expand('%:r'))<CR>
+" Compile and Run in new terminal window
+nnoremap <silent> mc :silent w<CR>:Tclear<CR>:exec "TT clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow ".expand('%')." -lcs50 -lm -o ".expand('%:r')." && ./".expand('%:r')<CR>
+
+" :exec "T cd ".expand('%:h:p').
 " Escape key to jk
 inoremap jj <Esc>`^
 inoremap jk <Esc>`^
@@ -553,6 +567,26 @@ inoremap <expr> <C-n> deoplete#manual_complete()
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <silent><expr><CR> pumvisible() ? "<C-E>\<CR>" : "\<CR>"
+
+" Hide all status lines
+let s:hidden_all = 0
+function! ToggleHiddenAll()
+    if s:hidden_all  == 0
+        let s:hidden_all = 1
+        set noruler " Show row and column numbers
+        set laststatus=0
+        set noshowmode " Hide Insert, Visual text in statusline
+        set noshowcmd " Hide number of lines output in visual mode
+    else
+        let s:hidden_all = 0
+        set ruler
+        set laststatus=2
+        set showmode
+        set showcmd
+    endif
+endfunction
+
+nnoremap <S-h> :call ToggleHiddenAll()<CR>
 
 " }}}
 " Autocommands {{{

@@ -15,7 +15,7 @@ add-apt-repository ppa:neovim-ppa/stable
 # Install packages
 apt-get -y install \
     # Prerequisites for Neovim Python modules
-    python-dev python-pip python3-dev python3-pip \ 
+    python-dev python-pip python3-dev python3-pip \
     neovim curl git tmux zsh ripgrep fzf fd-find build-essential
 
 # Create symlink to fd

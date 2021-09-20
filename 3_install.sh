@@ -15,7 +15,11 @@ add-apt-repository ppa:neovim-ppa/stable
 apt-get install python-dev python-pip python3-dev python3-pip
 
 # Install packages
-apt -y install python3-pip neovim curl git tmux zsh ripgrep
+apt -y install python3-pip neovim curl git tmux zsh ripgrep fzf fd-find
+
+# Create symlink to fd
+mkdir -p ~/.local/bin
+ln -s $(which fdfind) ~/.local/bin/fd
 
 # Install vim-plug
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \

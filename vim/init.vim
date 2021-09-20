@@ -103,19 +103,19 @@ Plug 'tpope/vim-fugitive'           " Github
 Plug 'mhinz/vim-startify'           " Startup buffer
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
-" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'posva/vim-vue'                 " Vue syntax highlighting
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'davidhalter/jedi-vim' " Has Go To Definition
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
-" Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
 Plug 'dense-analysis/ale' " Linter
 Plug 'jiangmiao/auto-pairs'
 Plug 'epeli/slimux'                 " Send comands to tmux window
 Plug 'kassio/neoterm'               " Terminal in Vim
+" Plug 'christoomey/vim-tmux-navigator'
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'vim-airline/vim-airline' " Bottom Status Bar
 " Plug 'vim-airline/vim-airline-themes'
 " Plug 'rakr/vim-one'

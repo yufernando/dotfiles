@@ -14,9 +14,10 @@ DEBIAN_FRONTEND=noninteractive apt-get -y install software-properties-common
 add-apt-repository -y ppa:neovim-ppa/stable
 
 # Install packages
-# Prerequisites for Neovim Python modules and essential linux programs
 DEBIAN_FRONTEND=noninteractive apt-get -y install \
+    # Python (Prerequisites for Neovim Python modules)
     python python3 python-dev python3-dev python3-pip \
+    # Essential Linux programs
     neovim curl git tmux zsh ripgrep fzf fd-find build-essential
 
 # Create symlink to fd

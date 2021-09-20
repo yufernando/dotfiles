@@ -1,6 +1,12 @@
 " ╦  ╦╦╔╦╗
 " ╚╗╔╝║║║║
 "  ╚╝ ╩╩ ╩
+" Vim Configuration File
+
+" 'zo': Open folded sections 
+" 'zc': Open folded sections 
+" <leader>d: Open init.vim
+" <leader>D: Reload init.vim
 
 " Setup {{{
 
@@ -17,9 +23,8 @@ set nocompatible     " Loads .vimrc as your own .vimrc. Was used for compatibili
 
 set textwidth=79
 
-" syntax enable
-" syntax off
-" syntax on
+syntax enable " Use this vs 'syntax on' if you use 'highlight' commands
+    " Source: https://www.reddit.com/r/vim/comments/choowl/vimpolyglot_syntax_on_or_syntax_enable/
 set number
 set number relativenumber
 set ruler

@@ -22,6 +22,8 @@ set nocompatible     " Loads .vimrc as your own .vimrc. Was used for compatibili
 " General Settings {{{ 
 
 set textwidth=79
+set showtabline=1
+set showtabline&
 
 syntax enable " Use this vs 'syntax on' if you use 'highlight' commands
     " Source: https://www.reddit.com/r/vim/comments/choowl/vimpolyglot_syntax_on_or_syntax_enable/
@@ -101,18 +103,20 @@ Plug 'tpope/vim-surround'           " Edit surrounding text
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github
 Plug 'mhinz/vim-startify'           " Startup buffer
-Plug 'morhetz/gruvbox'
-Plug 'vimwiki/vimwiki'
-Plug 'posva/vim-vue'                 " Vue syntax highlighting
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
-Plug 'deoplete-plugins/deoplete-jedi'
-Plug 'davidhalter/jedi-vim' " Has Go To Definition
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
+" Plug 'morhetz/gruvbox'
+" Plug 'vimwiki/vimwiki'
+" Plug 'posva/vim-vue'                 " Vue syntax highlighting
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
+" Plug 'deoplete-plugins/deoplete-jedi'
+" Plug 'davidhalter/jedi-vim' " Has Go To Definition
+" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+" Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
+Plug 'rip-rip/clang_complete'
+Plug 'lifepillar/vim-mucomplete'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
 Plug 'dense-analysis/ale' " Linter
 Plug 'jiangmiao/auto-pairs'
-Plug 'epeli/slimux'                 " Send comands to tmux window
+" Plug 'epeli/slimux'                 " Send comands to tmux window
 Plug 'kassio/neoterm'               " Terminal in Vim
 " Plug 'christoomey/vim-tmux-navigator'
 " Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -170,18 +174,19 @@ let g:ale_linters = {
 " let g:ale_fixers = {'*': [], 'python':['black', isort']}
 " let g:ale_fix_on_save = 1
 " Disable ALE by default. Enable with :ALEToggle (leader+z)
-let g:ale_enabled = 0
+" let g:ale_enabled = 0
+let g:ale_enabled = 1
 
 " UltiSnips: since we are using Deoplete, <tab> doesn't work
 let g:UltiSnipsExpandTrigger="<C-t>"
 
 " Deoplete
-let g:deoplete#enable_at_startup = 0
+" let g:deoplete#enable_at_startup = 0
 " Also include snippets with short names
-call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
-set completeopt+=noinsert " Do not insert text while scrolling the menu
-set completeopt-=noselect " Select first result
-set completeopt-=preview  " Disable preview window in the bottom
+" call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
+" set completeopt+=noinsert " Do not insert text while scrolling the menu
+" set completeopt-=noselect " Select first result
+" set completeopt-=preview  " Disable preview window in the bottom
 
 
 " command! Autocomplete  call deoplete#custom#option('auto_complete', v:true) \| echo "hello world"
@@ -190,35 +195,35 @@ set completeopt-=preview  " Disable preview window in the bottom
 " command! PopupOff        call deoplete#custom#option({'auto_complete_popup':'manual'})
 " AutocompleteOff
 "
-function AutocompleteOn()
-    call deoplete#custom#option('auto_complete', v:true)
-    call jedi#configure_call_signatures()
-    let g:jedi#show_call_signatures = "1" "Show function helper
-endfunction
+" function AutocompleteOn()
+"     call deoplete#custom#option('auto_complete', v:true)
+"     call jedi#configure_call_signatures()
+"     let g:jedi#show_call_signatures = "1" "Show function helper
+" endfunction
 
-function AutocompleteOff()
-    call deoplete#custom#option('auto_complete', v:false)
-    let g:jedi#show_call_signatures = "0" "Hide function helper
-endfunction
+" function AutocompleteOff()
+"     call deoplete#custom#option('auto_complete', v:false)
+"     let g:jedi#show_call_signatures = "0" "Hide function helper
+" endfunction
 
-function AutocompleteToggle()
-    if deoplete#is_enabled() == 0
-        call deoplete#enable()
-        call AutocompleteOn()
-        ALEEnable
-        echo 'Autocomplete On. Linter On.'
-        " call AutocompleteOff()
-        " echo 'Deoplete On. Repeat keys: Autocomplete On. <C-n>: Activate manually.'
-    else
-        if deoplete#custom#_get().option.auto_complete
-            call AutocompleteOff()
-            echo 'Autocomplete Off.'
-        else
-            call AutocompleteOn()
-            echo 'Autocomplete On.'
-        endif
-    endif
-endfunction
+" function AutocompleteToggle()
+"     if deoplete#is_enabled() == 0
+"         call deoplete#enable()
+"         call AutocompleteOn()
+"         ALEEnable
+"         echo 'Autocomplete On. Linter On.'
+"         " call AutocompleteOff()
+"         " echo 'Deoplete On. Repeat keys: Autocomplete On. <C-n>: Activate manually.'
+"     else
+"         if deoplete#custom#_get().option.auto_complete
+"             call AutocompleteOff()
+"             echo 'Autocomplete Off.'
+"         else
+"             call AutocompleteOn()
+"             echo 'Autocomplete On.'
+"         endif
+"     endif
+" endfunction
 
 " Tabs for autocompletion
 " inoremap <silent><expr> <TAB>
@@ -231,11 +236,20 @@ endfunction
 " endfunction
 
 " Deoplete Jedi
-let g:python_host_prog  = '/usr/bin/python' 
-let g:python3_host_prog  = '/usr/bin/python3' 
+let g:python_host_prog  = '/usr/local/bin/python' 
+let g:python3_host_prog  = '/usr/local/bin/python3' 
+
+"C Lang Completion
+set noinfercase
+set completeopt-=preview
+set completeopt+=menuone,noselect
+set shortmess+=c   " Shut off completion messages"
+let g:clang_complete_auto = 1
+let g:mucomplete#enable_auto_at_startup = 1
+let g:clang_library_path='/usr/lib/llvm-10/lib/libclang-10.so.1'
 
 " Deoplete-clangx
-call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')
+" call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')
 
 " Deoplete-clang
 " let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
@@ -262,7 +276,7 @@ let g:tex_conceal = ""
 set conceallevel=2                      " Highlight Bold and Italic 
 
 " Startify Bookmarks
-let g:startify_bookmarks = [ {'d': '~/.dotfiles/vim/init.vim'},  {'z': '~/.dotfiles/zsh/zshrc'}, {'t': '~/.dotfiles/tmux/tmux.conf'}, {'c': '~/.dotfiles/zsh/my_custom_commands.sh'} ]
+let g:startify_bookmarks = [ {'d': '~/.vimrc'},  {'z': '~/.dotfiles/zsh/zshrc'}, {'t': '~/.dotfiles/tmux/tmux.conf'}, {'c': '~/.dotfiles/zsh/my_custom_commands.sh'} ]
 
 let s:startify_ascii_header=[
                 \ '                  ________ ;;     ________',
@@ -386,22 +400,23 @@ set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinko
 " Gruvbox
 " colorscheme apprentice
 " colorscheme one
-set background=dark
+" set background=dark
 " let g:gruvbox_color_column='bg0'
-let g:gruvbox_italic=1 "This should go before colorscheme gruvbox
+" let g:gruvbox_italic=1 "This should go before colorscheme gruvbox
 " let g:gruvbox_bold=1 "Enabled by default
 
 " TermGui colors for Gruvbox: https://github.com/morhetz/gruvbox/wiki/Terminal-specific
 " The first two lines are recommended for standard Vim
 " let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-set termguicolors
+" set termguicolors
 
 " Comments in italics
-highlight Comment cterm=italic
+" highlight Comment cterm=italic
 
 "Vertical Split bar. autocmd: change survives switch of color scheme
-highlight VertSplit cterm=NONE ctermfg=8 ctermbg=NONE
+" highlight VertSplit cterm=NONE ctermfg=8 ctermbg=NONE
+highlight VertSplit cterm=NONE ctermfg=8 ctermbg=0 guibg=lightgrey
 
 " Linebreaks
 set wrap
@@ -452,8 +467,10 @@ nnoremap <silent> gm :T python %<CR>
 " C Language compile
 " Compile only and create executable
 nnoremap <silent> mC :silent w<CR>:echo system('clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && echo Compiled to file: '.expand('%:r'))<CR>
-" Compile and Run in new terminal window
-nnoremap <silent> mc :silent w<CR>:Tclear<CR>:exec "TT clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow ".expand('%')." -lcs50 -lm -o ".expand('%:r')." && ./".expand('%:r')<CR>
+nnoremap <silent> mc :silent w<CR>:echo system('clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && ./'.expand('%:r'))<CR>
+" nnoremap <silent> mC :silent w<CR>:echo system('clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && echo Compiled to file: '.expand('%:r'))<CR>
+" " Compile and Run in new terminal window
+" nnoremap <silent> mc :silent w<CR>:Tclear<CR>:exec "TT clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow ".expand('%')." -lcs50 -lm -o ".expand('%:r')." && ./".expand('%:r')<CR>
 
 " :exec "T cd ".expand('%:h:p').
 " Escape key to jk
@@ -547,8 +564,9 @@ nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 
 " VIMRC
-nnoremap <leader>d :e ~/.config/nvim/init.vim<CR>
-nnoremap <leader>D :source ~/.config/nvim/init.vim<CR>
+nnoremap <leader>d :e ~/.vimrc<CR>
+nnoremap <leader>D :source ~/.vimrc<CR>
+nnoremap <leader>a :MUcompleteAutoToggle<CR>
 
 " Goyo
 nnoremap <leader>g :Goyo<CR>
@@ -560,9 +578,9 @@ nnoremap <leader>g :Goyo<CR>
 nmap <Leader>w<Leader>g <Plug>VimwikiMakeDiaryNote<Esc>:Goyo<CR>i
 
 " Deoplete Enable Autocomplete
-nnoremap <leader>a :call AutocompleteToggle()<CR>
+" nnoremap <leader>a :call AutocompleteToggle()<CR>
 " Activate manual complete (Open popup)
-inoremap <expr> <C-n> deoplete#manual_complete()
+" inoremap <expr> <C-n> deoplete#manual_complete()
 " C-j to down and C-k to up in popup
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
@@ -659,10 +677,17 @@ function! s:focus()
 augroup focus
 autocmd!
 
-set cursorline
-highlight CursorLine ctermbg=236
+set nocursorline
+" highlight CursorLine ctermbg=236
+hi clear CursorLine
+highlight! CursorLine ctermbg=Black
+hi CursorLineNr    term=bold cterm=bold ctermfg=012 gui=bold
+
 " Set color of greyed-out columns to the right
-" highlight Colorcolumn ctermbg=236
+highlight Colorcolumn ctermbg=236
+" hi! ColorColumn ctermfg=255 ctermbg=203 guifg=#F8F8F2 guibg=#FF5555
+" hi! ColorColumn ctermfg=0 ctermbg=0
+
 " let &l:colorcolumn='+' . join(range(1, 255), ',+')
 
 " Make current window more obvious by turning off/adjusting some features in non-current windows.
@@ -713,31 +738,31 @@ augroup aug_nerd_tree
   autocmd FileType nerdtree setlocal nocursorline
 augroup END
 
-fun s:PatchGruvboxScheme()
-  " hi! ColorColumn ctermfg=255 ctermbg=203 guifg=#F8F8F2 guibg=#FF5555
+" fun s:PatchGruvboxScheme()
+"   " hi! ColorColumn ctermfg=255 ctermbg=203 guifg=#F8F8F2 guibg=#FF5555
 
-  " Show NERDTree directory nodes in yellow/green
-  " hi! __DirectoryNode cterm=bold ctermfg=214 gui=bold guifg=#E7A427
-  hi! __DirectoryNode cterm=bold ctermfg=106 gui=bold guifg=#689d69
-  " hi! link NerdTreeDir Directory
-  hi! link NerdTreeDir __DirectoryNode
-  " hi! link NERDTreeFlags Normal
+"   " Show NERDTree directory nodes in yellow/green
+"   " hi! __DirectoryNode cterm=bold ctermfg=214 gui=bold guifg=#E7A427
+"   hi! __DirectoryNode cterm=bold ctermfg=106 gui=bold guifg=#689d69
+"   " hi! link NerdTreeDir Directory
+"   hi! link NerdTreeDir __DirectoryNode
+"   " hi! link NERDTreeFlags Normal
 
-  " Show NERDTree toggle icons as white
-  " hi! link NERDTreeOpenable Normal
-  " hi! link NERDTreeOpenable Directory
-  " hi! link NERDTreeClosable Directory
-  hi! link NERDTreeOpenable __DirectoryNode
-  hi! link NERDTreeClosable __DirectoryNode
-endf
+"   " Show NERDTree toggle icons as white
+"   " hi! link NERDTreeOpenable Normal
+"   " hi! link NERDTreeOpenable Directory
+"   " hi! link NERDTreeClosable Directory
+"   hi! link NERDTreeOpenable __DirectoryNode
+"   hi! link NERDTreeClosable __DirectoryNode
+" endf
 
-" Customime color scheme after it was loaded
-augroup aug_color_scheme
-  au!
+" " Customime color scheme after it was loaded
+" augroup aug_color_scheme
+"   au!
 
-  autocmd ColorScheme gruvbox call s:PatchGruvboxScheme()
-augroup END
-colorscheme gruvbox
+  " autocmd ColorScheme gruvbox call s:PatchGruvboxScheme()
+" augroup END
+" colorscheme gruvbox
 
 " Edit crontab: https://superuser.com/a/907889
 autocmd filetype crontab setlocal nobackup nowritebackup

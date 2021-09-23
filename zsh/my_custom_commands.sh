@@ -237,7 +237,7 @@ Usage:
 
     dockerlab -v [DIR]              Mount directory DIR only. (Default: PWD)
     dockerlab -V [DIR]              Mount directory DIR and current directory.
-    dockerlab -v \"\"               Do not mount directory.
+    dockerlab -v \"\"                 Do not mount directory.
 
     dockerlab -d                    Detached mode: do not open Chrome.
     dockerlab -i                    Interactive mode: open zsh shell."

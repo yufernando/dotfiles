@@ -13,9 +13,9 @@
 #
 # - Setup Docker image:
 #
-# 		make install_config
+# 		make install config
 
-.PHONY: all all_root all_user install_config config clean
+.PHONY: all all_root all_user install config install_config
 
 # Setup Ubuntu server
 all: all_root all_user
@@ -38,6 +38,20 @@ all_user:
 		./2_install.sh; \
 		./3_config.sh"
 
+# Install programs
+install:
+	if [ ! -d ~/.dotfiles ]; then \
+		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git ~/.dotfiles; \
+	fi
+	./2_install.sh
+
+# Create symlinks and install Vim-plug
+config:
+	if [ ! -d ~/.dotfiles ]; then \
+		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git ~/.dotfiles; \
+	fi
+	./3_config.sh
+
 # To setup Docker image
 install_config:
 	if [ ! -d ~/.dotfiles ]; then \
@@ -45,12 +59,4 @@ install_config:
 	fi
 	cd ~/.dotfiles
 	./2_install.sh
-	./3_config.sh
-
-# Install programs
-install:
-	./2_install.sh
-
-# To recreate symlinks
-config:
 	./3_config.sh

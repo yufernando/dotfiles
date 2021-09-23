@@ -30,9 +30,6 @@ ln -svf $DIR/bash_profile               ~/.bash_profile
 ln -svf $DIR/gitconfig                  ~/.gitconfig
 ln -svf $DIR/zsh/zshrc                  ~/.zshrc
 ln -svf $PWD/oh-my-zsh/robbyrussell-userhost.zsh-theme  ~/.oh-my-zsh/custom/themes/robbyrussell-userhost.zsh-theme
-ln -svf $DIR/vim/vimrc                  ~/.vimrc
-ln -svf $DIR/vim/init.vim               ~/.config/nvim/init.vim
-ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim        
 ln -svf $DIR/stata_kernel.conf          ~/.stata_kernel.conf
 ln -svf $DIR/latexmkrc                  ~/.latexmkrc
 #ln -svf $DIR/jupyter_notebook_config.py ~/.jupyter/jupyter_notebook_config.py
@@ -53,3 +50,11 @@ ln -svf $DIR/tmux/tmux.conf             ~/.tmux.conf
 tic -o ~/.terminfo $DIR/tmux/xterm-256color.terminfo.txt || true
 tic -o ~/.terminfo $DIR/tmux/tmux-256color.terminfo.txt || true
 tic -o ~/.terminfo $DIR/tmux/tmux.terminfo.txt || true
+
+# Vim
+ln -svf $DIR/vim/vimrc                  ~/.vimrc
+ln -svf $DIR/vim/init.vim               ~/.config/nvim/init.vim
+ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim        
+# Install Vim Plugins
+echo "Installing Vim Plugins..."
+nvim --headless +PlugInstall +qall > /dev/null 2>&1

@@ -59,15 +59,16 @@ function! StatuslineGit()
 endfunction
 
 set statusline=
-set statusline+=%#CursorColumn#
-set statusline+=%{StatuslineGit()}
 " set statusline+=%{FugitiveHead()}         " Get Branch From Vim Fugitive
 " set statusline+=\ %{FugitiveStatusline()} " Get Branch From Vim Fugitive
-set statusline+=%m\ " File was modified
 set statusline+=%#LineNr#
 set statusline+=\ %f
-set statusline+=%=
+set statusline+=%m\ " File was modified
 set statusline+=%#CursorColumn#
+set statusline+=%{StatuslineGit()}
+set statusline+=%#LineNr#
+set statusline+=%=
+" set statusline+=%#CursorColumn#
 set statusline+=\ %y
 " set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 " set statusline+=\[%{&fileformat}\]

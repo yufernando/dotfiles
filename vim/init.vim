@@ -444,6 +444,7 @@ xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)
 nnoremap <silent> gz :TREPLSendFile<CR>
 nnoremap <silent> gm :T python %<CR>
+nnoremap <silent> mp :silent w<CR>:Tclear<CR>:TT python %<CR>
 " nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0

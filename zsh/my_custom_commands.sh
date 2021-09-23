@@ -235,23 +235,29 @@ Usage:
     dockerlab -n [NAME]             Set container name NAME. (Default: jupyterlab)
     dockerlab -p [PORT]             Use port PORT. (Default: 8888)
 
-    dockerlab -v [DIR]              Mount directory DIR only. (Default: PWD)
-    dockerlab -V [DIR]              Mount directory DIR and current directory.
+    dockerlab -c                    Mount CWD into WORKDIR.
+    dockerlab -v [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR.
+    dockerlab -V [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR and CWD into WORKDIR.
     dockerlab -v \"\"                 Do not mount directory.
 
     dockerlab -d                    Detached mode: do not open Chrome.
-    dockerlab -i                    Interactive mode: open zsh shell."
+    dockerlab -i                    Interactive mode: open zsh shell.
+
+    dockerlab -s                    Copy Github SSH keys into container."
 
     # Defaults
     OPENCHROME=true
     OPENZSH=false
-    MOUNT_PWD=true
+    MOUNT_CWD=false
     MOUNT_SOURCE_TARGET=""
     PORT=8888
     CONTAINER_NAME='jupyterlab'
 
-    while getopts 'dhin:p:v:V:' option; do
+    while getopts 'cdhins:p:v:V:' option; do
         case "$option" in
+            c) # Mount current working directory
+                MOUNT_CWD=true
+                ;;
             d) # Detached. do not open Chrome.
                 OPENCHROME=false
                 ;;
@@ -268,12 +274,15 @@ Usage:
             p) # Port
                 PORT=$OPTARG
                 ;;
+            s) # Copy ssh keys into container
+                COPYSSH=true
+                ;;
             v) # Mount folder
                 MOUNT_SOURCE_TARGET=$OPTARG
-                MOUNT_PWD=false
                 ;;
             V) # Mount both specified folder and CWD
                 MOUNT_SOURCE_TARGET=$OPTARG
+                MOUNT_CWD=true
                 ;;
             \?) # incorrect option
                 echo "Error: Invalid option. Usage: dockerlab -h."
@@ -287,7 +296,7 @@ Usage:
     done
     shift $((OPTIND -1))
 
-    # Check if Docker is running
+    # Check if Docker is running. Launch Docker if not.
     if (! docker ps > /dev/null 2>&1 ); then
         # Launch Docker
         echo "Docker daemon not running. Launching Docker Desktop..."
@@ -299,12 +308,14 @@ Usage:
         done
     fi
 
+    # Get image name
     if [[ $# -eq 0 ]]; then
         IMAGE='yufernando/jupyterlab'
     else 
         IMAGE=$1
     fi
-    # Container name: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
+
+    # Container name from image name: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
     CONTAINER=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
     NOCOLOR='\033[0m'
     GREEN='\033[0;32m'
@@ -314,7 +325,7 @@ Usage:
         CONTAINER_NAME=$CONTAINER
     fi
 
-    # Check if preexisting container is running
+    # Check if preexisting container is running. Else run image.
     if docker ps --format "{{.Names}}" | grep -wq $CONTAINER_NAME
     then
         echo "Found Docker container '$CONTAINER_NAME' already running. If you want to create a new container run 'dockerlab -n [CONTAINER_NAME]'"
@@ -322,11 +333,11 @@ Usage:
         echo "Running image '$IMAGE' in container '$CONTAINER_NAME' with ID:";
 
         # Mount directory depending on flag option
-        MOUNT_SCRIPT_PWD=""
-        MOUNT_MSG_PWD=""
-        if [[ $MOUNT_PWD = true ]]; then
-            MOUNT_SCRIPT_PWD="-v$PWD:/home/jovyan/work"
-            MOUNT_MSG_PWD="  Mounted: ${GREEN}$PWD${NOCOLOR} --> /home/jovyan/work"
+        MOUNT_SCRIPT_CWD=""
+        MOUNT_MSG_CWD=""
+        if [[ $MOUNT_CWD = true ]]; then
+            MOUNT_SCRIPT_CWD="-v$PWD:/home/jovyan/work"
+            MOUNT_MSG_CWD="  Mounted: ${GREEN}$PWD${NOCOLOR} --> /home/jovyan/work"
         fi
 
         MOUNT_SCRIPT=""
@@ -338,11 +349,11 @@ Usage:
             MOUNT_MSG="  Mounted: ${GREEN}$MOUNT_SOURCE${NOCOLOR} --> $MOUNT_TARGET"
         fi
 
-        if [[ -z $MOUNT_SOURCE_TARGET  && $MOUNT_PWD = false ]]; then
+        if [[ -z $MOUNT_SOURCE_TARGET  && $MOUNT_CWD = false ]]; then
             MOUNT_MSG="  No Mounted Folder."
         fi
 
-        # Check Port
+        # Check if port $PORT is in use. If it is, look for port not in use.
         PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
         PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
         CHANGE_PORT=false
@@ -353,7 +364,7 @@ Usage:
         done
 
         # Run container
-        docker run -d --rm -p $PORT:8888 $MOUNT_SCRIPT_PWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER_NAME $IMAGE
+        docker run -d --rm -p $PORT:8888 $MOUNT_SCRIPT_CWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER_NAME $IMAGE
 
         # Report PORT
         if [[ $CHANGE_PORT = true ]]; then 
@@ -361,10 +372,19 @@ Usage:
         fi
         # Report mounted folder
         echo ""
-        if [[ -n $MOUNT_MSG_PWD ]]; then echo $MOUNT_MSG_PWD; fi
+        if [[ -n $MOUNT_MSG_CWD ]]; then echo $MOUNT_MSG_CWD; fi
         if [[ -n $MOUNT_MSG ]]    ; then echo $MOUNT_MSG    ; fi
         echo ""
+    fi
 
+    # Add Github ssh keys
+    if [[ $COPYSSH = true ]]; then
+        cat ~/.ssh/id_rsa_github | docker exec -i $CONTAINER_NAME sh -c 'mkdir -p /root/.ssh && cat > /root/.ssh/id_rsa_github'
+        echo "Added Github SSH keys."
+    fi
+
+    # Open JupyterLab running in container with Chrome
+    if [[ $OPENCHROME = true ]]; then
         # Wait until Jupyterlab is initialized by checking logs
         # echo 'Jupyterlab initializing...'
         RUNNING=""
@@ -372,10 +392,7 @@ Usage:
             RUNNING=`docker logs $CONTAINER_NAME 2>&1| grep -o "Or copy and paste one of these URLs"`
             sleep .2
         done
-    fi
-
-    # Open JupyterLab running in container with Chrome
-    if [[ $OPENCHROME = true ]]; then
+        # Open Chrome
         chromeapp docker -c $CONTAINER_NAME -p $PORT
     fi
 

@@ -434,8 +434,8 @@ nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
 nnoremap <silent> mm    :w<CR>:!python3 %<CR>
 nnoremap <silent> m<CR> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
 nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
-
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
+
 
 " Neoterm Send Selection
 nnoremap <silent> tt :Ttoggle<CR>
@@ -444,7 +444,9 @@ nmap gx <Plug>(neoterm-repl-send)
 xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)
 nnoremap <silent> gz :TREPLSendFile<CR>
-nnoremap <silent> gm :T python %<CR>
+" Python keybindings
+nnoremap <silent> mp :silent w<CR>:Tclear<CR>:TT python %<CR>
+nnoremap <silent> gm :silent w<CR>:Tclear<CR>:TT python %<CR>
 " nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0

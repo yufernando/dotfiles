@@ -8,7 +8,6 @@ echo ""
 echo "BUSTING CACHE"
 echo ""
 
-echo ""
 echo "ONE MORE TIME"
 echo ""
 

@@ -38,6 +38,15 @@ all_user:
 		./2_install.sh; \
 		./3_config.sh"
 
+# To setup Docker image
+install_config:
+	if [ ! -d ~/.dotfiles ]; then \
+		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git ~/.dotfiles; \
+	fi
+	cd ~/.dotfiles
+	./2_install.sh
+	./3_config.sh
+
 # Install programs
 install:
 	if [ ! -d ~/.dotfiles ]; then \
@@ -52,11 +61,3 @@ config:
 	fi
 	./3_config.sh
 
-# To setup Docker image
-install_config:
-	if [ ! -d ~/.dotfiles ]; then \
-		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git ~/.dotfiles; \
-	fi
-	cd ~/.dotfiles
-	./2_install.sh
-	./3_config.sh

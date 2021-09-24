@@ -225,14 +225,14 @@ Usage:
 
 function dock {
 
-    usage="Run JupyterLab in a Docker Container, mount current directory and open with Chrome in app mode.
+    usage="Run a Docker Container, optionally mount directories and open in a browser or in a terminal.
 
-Usage: dock [options] <target>
+${COLOR_LIGHT_GREEN}Usage:${COLOR_NC} dock ${COLOR_LIGHT_BLUE}[options]${COLOR_NC} ${COLOR_LIGHT_RED}<target>${COLOR_NC}
 
-  target: 
-    lab, cs50, <image-name>. Default: yufernando/jupyterlab.
+  ${COLOR_LIGHT_RED}target:${COLOR_NC}
+    lab, cs50, bio, <image-name>. Default: yufernando/jupyterlab.
 
-  options:
+  ${COLOR_LIGHT_BLUE}options:${COLOR_NC}
     -h                    Display help.
     -n [NAME]             Set container name NAME (Default: jupyterlab).
     -p [PORT]             Use port PORT (Default: 8888).
@@ -244,7 +244,12 @@ Usage: dock [options] <target>
     -o                    Open Jupyterlab in Chrome.
     -i                    Interactive mode: open zsh shell.
 
-    -s                    Copy Github SSH keys into container."
+    -s                    Copy Github SSH keys into container.
+
+${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
+    dock -co lab          Run JupyterLab. Mount CWD. Open in a browser.
+    dock -cis cs50        Run CS50 image. Mount CWD. Copy SSH Keys. Open in a terminal.
+"
 
     # Defaults
     IMAGE='yufernando/jupyterlab'
@@ -255,6 +260,19 @@ Usage: dock [options] <target>
     MOUNT_CWD=false
     MOUNT_SOURCE_TARGET=""
     PORT=8888
+
+    # Color aliases
+    COLOR_NC='\033[0m'
+    COLOR_GREEN='\033[0;32m'
+    COLOR_LIGHT_GREEN='\e[1;32m'
+    COLOR_LIGHT_BLUE='\e[1;34m'
+    COLOR_RED='\e[0;31m'
+    COLOR_WHITE='\e[1;37m'
+    COLOR_YELLOW='\e[1;33m'
+    COLOR_LIGHT_PURPLE='\e[1;35m'
+    COLOR_LIGHT_RED='\e[1;31m'
+    COLOR_GRAY='\e[1;30m'
+    COLOR_LIGHT_GRAY='\e[0;37m'
 
     # GET OPTIONS
     while getopts 'chiosn:p:v:V:' option; do
@@ -330,8 +348,6 @@ Usage: dock [options] <target>
 
     # Get container name from image name: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
     CONTAINER=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
-    NOCOLOR='\033[0m'
-    GREEN='\033[0;32m'
     # Set container name if not specified in option -n
     if [[ -z $CONTAINER_NAME ]]; then
         CONTAINER_NAME=$CONTAINER
@@ -349,7 +365,7 @@ Usage: dock [options] <target>
         MOUNT_MSG_CWD=""
         if [[ $MOUNT_CWD = true ]]; then
             MOUNT_SCRIPT_CWD="-v$PWD:/home/jovyan/work"
-            MOUNT_MSG_CWD="  Mounted: ${GREEN}$PWD${NOCOLOR} --> /home/jovyan/work"
+            MOUNT_MSG_CWD="  Mounted: ${COLOR_LIGHT_GREEN}$PWD${COLOR_NC} --> /home/jovyan/work"
         fi
 
         MOUNT_SCRIPT=""
@@ -358,7 +374,7 @@ Usage: dock [options] <target>
             MOUNT_SOURCE=$(echo $MOUNT_SOURCE_TARGET | cut -d: -f1)
             MOUNT_TARGET=$(echo $MOUNT_SOURCE_TARGET | cut -d: -f2)
             MOUNT_SCRIPT="-v$MOUNT_SOURCE:$MOUNT_TARGET"
-            MOUNT_MSG="  Mounted: ${GREEN}$MOUNT_SOURCE${NOCOLOR} --> $MOUNT_TARGET"
+            MOUNT_MSG="  Mounted: ${COLOR_LIGHT_GREEN}$MOUNT_SOURCE${COLOR_NC} --> $MOUNT_TARGET"
         fi
 
         # Run container

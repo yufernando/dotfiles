@@ -230,36 +230,33 @@ Usage:
     dockerlab -h                    Display help.
 
     dockerlab                       Use image: yufernando/jupyterlab.
-    dockerlab yufernando/bioaretian Use image: yufernando/bioaretian.
-    dockerlab [IMG]                 Use image: IMG.
-    dockerlab -n [NAME]             Set container name NAME. (Default: jupyterlab)
-    dockerlab -p [PORT]             Use port PORT. (Default: 8888)
+    dockerlab [IMG]                 Use image: IMG. E.g: yufernando/bioaretian.
+    dockerlab -n [NAME]             Set container name NAME (Default: jupyterlab).
+    dockerlab -p [PORT]             Use port PORT (Default: 8888).
 
     dockerlab -c                    Mount CWD into WORKDIR.
     dockerlab -v [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR.
-    dockerlab -V [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR and CWD into WORKDIR.
-    dockerlab -v \"\"                 Do not mount directory.
+    dockerlab -V [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR and CWD into WORKDIR (same as -vc).
 
-    dockerlab -d                    Detached mode: do not open Chrome.
+    dockerlab -o                    Open Jupyterlab in Chrome.
     dockerlab -i                    Interactive mode: open zsh shell.
 
     dockerlab -s                    Copy Github SSH keys into container."
 
     # Defaults
-    OPENCHROME=true
+    OPENCHROME=false
     OPENZSH=false
+    COPYSSH=false
     MOUNT_CWD=false
     MOUNT_SOURCE_TARGET=""
     PORT=8888
     CONTAINER_NAME='jupyterlab'
+    IMAGE='yufernando/jupyterlab'
 
-    while getopts 'cdhins:p:v:V:' option; do
+    while getopts 'chiosn:p:v:V:' option; do
         case "$option" in
             c) # Mount current working directory
                 MOUNT_CWD=true
-                ;;
-            d) # Detached. do not open Chrome.
-                OPENCHROME=false
                 ;;
             h) # Display help 
                 echo "$usage"
@@ -270,6 +267,9 @@ Usage:
                 ;;
             n) # Container name
                 CONTAINER_NAME=$OPTARG
+                ;;
+            o) # Open Chrome in Jupyterlab
+                OPENCHROME=true
                 ;;
             p) # Port
                 PORT=$OPTARG
@@ -309,11 +309,9 @@ Usage:
     fi
 
     # Get image name
-    if [[ $# -eq 0 ]]; then
-        IMAGE='yufernando/jupyterlab'
-    else 
+    if [[ $# -ge 1 ]]; then
         IMAGE=$1
-    fi
+    fi 
 
     # Container name from image name: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
     CONTAINER=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
@@ -349,9 +347,9 @@ Usage:
             MOUNT_MSG="  Mounted: ${GREEN}$MOUNT_SOURCE${NOCOLOR} --> $MOUNT_TARGET"
         fi
 
-        if [[ -z $MOUNT_SOURCE_TARGET  && $MOUNT_CWD = false ]]; then
-            MOUNT_MSG="  No Mounted Folder."
-        fi
+        # if [[ -z $MOUNT_SOURCE_TARGET  && $MOUNT_CWD = false ]]; then
+        #     MOUNT_MSG="  No Mounted Folder."
+        # fi
 
         # Check if port $PORT is in use. If it is, look for port not in use.
         PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
@@ -364,22 +362,29 @@ Usage:
         done
 
         # Run container
-        docker run -d --rm -p $PORT:8888 $MOUNT_SCRIPT_CWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER_NAME $IMAGE
+        if [[ $IMAGE = 'yufernando/jupyterlab' ]] then
+            docker run -d --rm -p $PORT:8888 $MOUNT_SCRIPT_CWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER_NAME $IMAGE
+        else
+            docker run -dit --rm $MOUNT_SCRIPT_CWD $MOUNT_SCRIPT --name $CONTAINER_NAME $IMAGE
+        fi
 
         # Report PORT
         if [[ $CHANGE_PORT = true ]]; then 
             echo "Port in use. Using Port $PORT."; 
         fi
         # Report mounted folder
-        echo ""
-        if [[ -n $MOUNT_MSG_CWD ]]; then echo $MOUNT_MSG_CWD; fi
-        if [[ -n $MOUNT_MSG ]]    ; then echo $MOUNT_MSG    ; fi
-        echo ""
+        # echo ""
+        if [[ -n $MOUNT_MSG_CWD ]]; then echo "\n$MOUNT_MSG_CWD\n"; fi
+        if [[ -n $MOUNT_MSG ]]    ; then echo "\n$MOUNT_MSG\n"    ; fi
+        # echo ""
     fi
 
     # Add Github ssh keys
     if [[ $COPYSSH = true ]]; then
-        cat ~/.ssh/id_rsa_github | docker exec -i $CONTAINER_NAME sh -c 'mkdir -p /root/.ssh && cat > /root/.ssh/id_rsa_github'
+        cat ~/.ssh/id_rsa_github     | docker exec -i $CONTAINER_NAME sh -c \
+            'mkdir -p /root/.ssh && cat > /root/.ssh/id_rsa_github && chmod -R 700 /root/.ssh && chmod 600 /root/.ssh/id_rsa_github'
+        cat ~/.ssh/id_rsa_github.pub | docker exec -i $CONTAINER_NAME sh -c \
+            'mkdir -p /root/.ssh && cat > /root/.ssh/id_rsa_github.pub && chmod 644 /root/.ssh/id_rsa_github.pub'
         echo "Added Github SSH keys."
     fi
 

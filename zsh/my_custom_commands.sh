@@ -212,47 +212,51 @@ Usage:
 }
 
 # Run JupyterLab from Docker Container
-# This command pulls the yufernando/jupyterlab image from Docker Hub if it is
-# not already present on the local host. It then starts an ephemeral container
-# running a Jupyter Notebook server and exposes the server on host port 8888.
-# The command mounts the current working directory on the host as
-# /home/jovyan/work in the container. The server logs appear in the terminal.
-# Visiting http://<hostname>:10000/?token=<token> in a browser loads
-# JupyterLab, where hostname is the name of the computer running docker and
-# token is the secret token printed in the console. Docker destroys the
-# container after notebook server exit, but any files written to ~/work in the
-# container remain intact on the host.:
-function dockerlab {
+# This command is a wrapper on docker run that uses a specified image (default:
+# yufernando/jupyterlab). It then starts a container and can mount folders into
+# it.
+
+# JupyterLab Image
+# For the JupyterLab image it runs a Jupyter Notebook server and exposes the
+# server on host port 8888. It can mount the current working directory into
+# /home/jovyan/work or any other directory specified. It queries unused ports
+# and the JupyterLab token to build the URL
+# http://<hostname>:<port>/?token=<token> and optionally open it in Chrome.
+
+function dock {
 
     usage="Run JupyterLab in a Docker Container, mount current directory and open with Chrome in app mode.
 
-Usage: 
-    dockerlab -h                    Display help.
+Usage: dock [options] <target>
 
-    dockerlab                       Use image: yufernando/jupyterlab.
-    dockerlab [IMG]                 Use image: IMG. E.g: yufernando/bioaretian.
-    dockerlab -n [NAME]             Set container name NAME (Default: jupyterlab).
-    dockerlab -p [PORT]             Use port PORT (Default: 8888).
+  target: 
+    lab, cs50, <image-name>. Default: yufernando/jupyterlab.
 
-    dockerlab -c                    Mount CWD into WORKDIR.
-    dockerlab -v [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR.
-    dockerlab -V [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR and CWD into WORKDIR (same as -vc).
+  options:
+    -h                    Display help.
+    -n [NAME]             Set container name NAME (Default: jupyterlab).
+    -p [PORT]             Use port PORT (Default: 8888).
 
-    dockerlab -o                    Open Jupyterlab in Chrome.
-    dockerlab -i                    Interactive mode: open zsh shell.
+    -c                    Mount CWD into WORKDIR.
+    -v [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR.
+    -V [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR and CWD into WORKDIR (same as -vc).
 
-    dockerlab -s                    Copy Github SSH keys into container."
+    -o                    Open Jupyterlab in Chrome.
+    -i                    Interactive mode: open zsh shell.
+
+    -s                    Copy Github SSH keys into container."
 
     # Defaults
+    IMAGE='yufernando/jupyterlab'
+    CONTAINER_NAME=""
     OPENCHROME=false
     OPENZSH=false
     COPYSSH=false
     MOUNT_CWD=false
     MOUNT_SOURCE_TARGET=""
     PORT=8888
-    CONTAINER_NAME='jupyterlab'
-    IMAGE='yufernando/jupyterlab'
 
+    # GET OPTIONS
     while getopts 'chiosn:p:v:V:' option; do
         case "$option" in
             c) # Mount current working directory
@@ -284,17 +288,33 @@ Usage:
                 MOUNT_SOURCE_TARGET=$OPTARG
                 MOUNT_CWD=true
                 ;;
-            \?) # incorrect option
-                echo "Error: Invalid option. Usage: dockerlab -h."
+            \?) # Incorrect option
+                echo "Error: Invalid option. Usage: dock -h."
                 return 1
                 ;;
-            :)
+            :) # Argument ommited
                 echo "Invalid Option: -$OPTARG requires an argument" 1>&2
                 return 1
                 ;;
         esac
     done
     shift $((OPTIND -1))
+
+    # GET TARGET (image name)
+    if [[ $# -ge 1 ]]; then
+        subcommand=$1; shift
+        case "$subcommand" in 
+            lab)
+                IMAGE="yufernando/jupyterlab"
+                ;;
+            cs50)
+                IMAGE="yufernando/cs50"
+                ;;
+            *)
+                IMAGE="$subcommand"
+                ;;
+        esac
+    fi 
 
     # Check if Docker is running. Launch Docker if not.
     if (! docker ps > /dev/null 2>&1 ); then
@@ -308,16 +328,10 @@ Usage:
         done
     fi
 
-    # Get image name
-    if [[ $# -ge 1 ]]; then
-        IMAGE=$1
-    fi 
-
-    # Container name from image name: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
+    # Get container name from image name: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
     CONTAINER=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
     NOCOLOR='\033[0m'
     GREEN='\033[0;32m'
-
     # Set container name if not specified in option -n
     if [[ -z $CONTAINER_NAME ]]; then
         CONTAINER_NAME=$CONTAINER
@@ -326,7 +340,7 @@ Usage:
     # Check if preexisting container is running. Else run image.
     if docker ps --format "{{.Names}}" | grep -wq $CONTAINER_NAME
     then
-        echo "Found Docker container '$CONTAINER_NAME' already running. If you want to create a new container run 'dockerlab -n [CONTAINER_NAME]'"
+        echo "Using Docker container '$CONTAINER_NAME' found running. If you want to create a new container run 'dock -n [CONTAINER_NAME]'"
     else
         echo "Running image '$IMAGE' in container '$CONTAINER_NAME' with ID:";
 
@@ -347,22 +361,18 @@ Usage:
             MOUNT_MSG="  Mounted: ${GREEN}$MOUNT_SOURCE${NOCOLOR} --> $MOUNT_TARGET"
         fi
 
-        # if [[ -z $MOUNT_SOURCE_TARGET  && $MOUNT_CWD = false ]]; then
-        #     MOUNT_MSG="  No Mounted Folder."
-        # fi
-
-        # Check if port $PORT is in use. If it is, look for port not in use.
-        PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
-        PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
-        CHANGE_PORT=false
-        while [[ $PORT_MATCH -eq 0 ]]; do
-            PORT=$(($PORT+1))
-            PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
-            CHANGE_PORT=true
-        done
-
         # Run container
         if [[ $IMAGE = 'yufernando/jupyterlab' ]] then
+            # Check if port $PORT is in use. If it is, look for port not in use.
+            PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
+            PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
+            CHANGE_PORT=false
+            while [[ $PORT_MATCH -eq 0 ]]; do
+                PORT=$(($PORT+1))
+                PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
+                CHANGE_PORT=true
+            done
+
             docker run -d --rm -p $PORT:8888 $MOUNT_SCRIPT_CWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER_NAME $IMAGE
         else
             docker run -dit --rm $MOUNT_SCRIPT_CWD $MOUNT_SCRIPT --name $CONTAINER_NAME $IMAGE

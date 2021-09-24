@@ -8,9 +8,6 @@ echo ""
 echo "BUSTING CACHE"
 echo ""
 
-echo "ONE MORE TIME"
-echo ""
-
 echo ""
 echo "2. INSTALLATION: installing utilities."
 echo ""

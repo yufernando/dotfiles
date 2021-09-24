@@ -5,10 +5,6 @@
 #----------------------------------------------------------------
 
 echo ""
-echo "BUSTING CACHE"
-echo ""
-
-echo ""
 echo "2. INSTALLATION: installing utilities."
 echo ""
 

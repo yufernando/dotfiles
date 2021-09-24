@@ -895,3 +895,5 @@ command! -bang -nargs=* Rgdrop
 " }}}' 
 nnoremap <silent> mC :silent w<CR>:T clear<CR>:echo system('gcc -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && echo Compiled to file: '.expand('%:r'))<CR>
 nnoremap <silent> mc :silent w<CR>:T clear<CR>:exec "TT gcc -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow ".expand('%')." -lcs50 -lm -o ".expand('%:r')." && ./".expand('%:r')<CR>
+nnoremap <silent> mC :silent w<CR>:T clear<CR>:echo system('gcc -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && echo Compiled to file: '.expand('%:r'))<CR>
+nnoremap <silent> mc :silent w<CR>:T clear<CR>:exec "TT gcc -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow ".expand('%')." -lcs50 -lm -o ".expand('%:r')." && ./".expand('%:r')<CR>

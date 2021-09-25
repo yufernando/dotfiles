@@ -245,8 +245,14 @@ source ~/.dotfiles/zsh/my_custom_commands.sh
 eval "$(pyenv init -)"
 #}}}
 # Key Bindings {{{
-bindkey '^[[A' fzf-history-widget
 bindkey -v # Vim mode for zsh command line
+bindkey -M vicmd '^[[A' fzf-history-widget
+bindkey -M viins '^[[A' fzf-history-widget
+
+zle -N fancy-ctrl-z
+# bindkey '^Z' fancy-ctrl-z
+bindkey -M viins '^Z' fancy-ctrl-z
+bindkey -M vicmd '^Z' fancy-ctrl-z
 # }}}
 # Other {{{
 

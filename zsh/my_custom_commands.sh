@@ -512,3 +512,14 @@ function vicd {
     fi
     cd "$dst"
 }
+
+# First Ctrl-z suspend job. Second Ctrl-z resumes in background
+# If terminal buffer has text, open a second terminal, then resume
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    bg
+    zle redisplay
+  else
+    zle push-input
+  fi
+}

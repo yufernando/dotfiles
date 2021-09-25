@@ -225,6 +225,19 @@ Usage:
 
 function dock {
 
+    # Color aliases
+    COLOR_NC='\033[0m'
+    COLOR_GREEN='\033[0;32m'
+    COLOR_LIGHT_GREEN='\e[1;32m'
+    COLOR_LIGHT_BLUE='\e[1;34m'
+    COLOR_RED='\e[0;31m'
+    COLOR_WHITE='\e[1;37m'
+    COLOR_YELLOW='\e[1;33m'
+    COLOR_LIGHT_PURPLE='\e[1;35m'
+    COLOR_LIGHT_RED='\e[1;31m'
+    COLOR_GRAY='\e[1;30m'
+    COLOR_LIGHT_GRAY='\e[0;37m'
+
     usage="Run a Docker Container, optionally mount directories and open in a browser or in a terminal.
 
 ${COLOR_LIGHT_GREEN}Usage:${COLOR_NC} dock ${COLOR_LIGHT_BLUE}[options]${COLOR_NC} ${COLOR_LIGHT_RED}<target>${COLOR_NC}
@@ -247,6 +260,7 @@ ${COLOR_LIGHT_GREEN}Usage:${COLOR_NC} dock ${COLOR_LIGHT_BLUE}[options]${COLOR_N
     -s                    Copy Github SSH keys into container.
 
 ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
+    dock -i lab           Run JupyterLab container. Open in a terminal.
     dock -co lab          Run JupyterLab. Mount CWD. Open in a browser.
     dock -cis cs50        Run CS50 image. Mount CWD. Copy SSH Keys. Open in a terminal.
 "
@@ -260,19 +274,6 @@ ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
     MOUNT_CWD=false
     MOUNT_SOURCE_TARGET=""
     PORT=8888
-
-    # Color aliases
-    COLOR_NC='\033[0m'
-    COLOR_GREEN='\033[0;32m'
-    COLOR_LIGHT_GREEN='\e[1;32m'
-    COLOR_LIGHT_BLUE='\e[1;34m'
-    COLOR_RED='\e[0;31m'
-    COLOR_WHITE='\e[1;37m'
-    COLOR_YELLOW='\e[1;33m'
-    COLOR_LIGHT_PURPLE='\e[1;35m'
-    COLOR_LIGHT_RED='\e[1;31m'
-    COLOR_GRAY='\e[1;30m'
-    COLOR_LIGHT_GRAY='\e[0;37m'
 
     # GET OPTIONS
     while getopts 'chiosn:p:v:V:' option; do
@@ -356,9 +357,9 @@ ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
     # Check if preexisting container is running. Else run image.
     if docker ps --format "{{.Names}}" | grep -wq $CONTAINER_NAME
     then
-        echo "Using Docker container '$CONTAINER_NAME' found running. If you want to create a new container run 'dock -n [CONTAINER_NAME]'"
+        echo "Using Docker container ${COLOR_LIGHT_GREEN}$CONTAINER_NAME${COLOR_NC} found running. If you want to create a new container run ${COLOR_GREEN}dock -n [CONTAINER_NAME]${COLOR_NC}"
     else
-        echo "Running image '$IMAGE' in container '$CONTAINER_NAME' with ID:";
+        echo "Running image ${COLOR_LIGHT_GREEN}$IMAGE${COLOR_NC} in container ${COLOR_LIGHT_BLUE}$CONTAINER_NAME${COLOR_NC} with ID:";
 
         # Mount directory depending on flag option
         MOUNT_SCRIPT_CWD=""

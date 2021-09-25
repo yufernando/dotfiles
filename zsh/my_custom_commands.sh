@@ -515,6 +515,7 @@ function vicd {
 
 # First Ctrl-z suspend job. Second Ctrl-z resumes in background
 # If terminal buffer has text, open a second terminal, then resume
+# Source: https://superuser.com/a/378045
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
     bg

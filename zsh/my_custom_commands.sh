@@ -240,12 +240,12 @@ function dock() {
 
     usage="Run a Docker Container, optionally mount directories and open in a browser or in a terminal.
 
-${COLOR_LIGHT_GREEN}Usage:${COLOR_NC} dock ${COLOR_LIGHT_BLUE}[options]${COLOR_NC} ${COLOR_LIGHT_RED}<target>${COLOR_NC}
+${COLOR_LIGHT_BLUE}Usage:${COLOR_NC} dock ${COLOR_LIGHT_PURPLE}[options]${COLOR_NC} ${COLOR_LIGHT_GREEN}<target>${COLOR_NC}
 
-  ${COLOR_LIGHT_RED}target:${COLOR_NC}
+  ${COLOR_LIGHT_GREEN}target:${COLOR_NC}
     lab, cs50, bio, <image-name>. Default: yufernando/jupyterlab.
 
-  ${COLOR_LIGHT_BLUE}options:${COLOR_NC}
+  ${COLOR_LIGHT_PURPLE}options:${COLOR_NC}
     -h                    Display help.
     -n [NAME]             Set container name NAME (Default: jupyterlab).
     -p [PORT]             Use port PORT (Default: 8888).
@@ -420,11 +420,11 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
 
     # Open container in interactive terminal
     if [[ $OPENZSH = true ]]; then
-        USER_FLAG=
-        if [[ $IMAGE = 'yufernando/jupyterlab' ]]; then
-            USER_FLAG=(--user 1000)
-        fi
-        docker exec -it ${USER_FLAG[@]} $CONTAINER_NAME /bin/zsh
+        # USER_FLAG=
+        # if [[ $IMAGE = 'yufernando/jupyterlab' ]]; then
+        #     USER_FLAG=(--user 1000)
+        # fi
+        docker exec -it ${FLAG_USER[@]} $CONTAINER_NAME /bin/zsh
     fi
 }
 

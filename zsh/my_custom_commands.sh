@@ -336,36 +336,38 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
     done
     shift $((OPTIND -1))
 
-    # GET TARGET (image name)
+    # GET IMAGE ARGUMENT
     if [[ $# -ge 1 ]]; then
         IMAGE=$1; shift
-        case "$IMAGE" in 
-            lab)
-                IMAGE="yufernando/jupyterlab"
-                ;;
-            cs50)
-                IMAGE="yufernando/cs50"
-                ;;
-        esac
-    fi 
-
-    # Check if Docker is running. Launch Docker if not.
-    if (! docker ps > /dev/null 2>&1 ); then
-        # Launch Docker
-        echo "Docker daemon not running. Launching Docker Desktop..."
-        open /Applications/Docker.app
-        # Wait until Docker daemon is running and has completed initialisation
-        while (! docker ps > /dev/null 2>&1 ); do
-            # Docker takes a few seconds to initialize
-            sleep 1.5
-        done
     fi
+    case "$IMAGE" in 
+        cs50)
+            IMAGE="yufernando/cs50"
+            FLAG_IT="-it"
+            ;;
+        "") # If no image, use default yufernando/juyterlab
+            ;&
+        lab)
+            IMAGE="yufernando/jupyterlab"
+            ;&
+        yufernando/jupyterlab*)
+            FLAG_ENV+=(-e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes)
+            FLAG_USER+=(--user 1000)
 
-    # Get container name from image name: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
-    CONTAINER=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
+            # Check if port $PORT is in use. If it is, look for port not in use.
+            PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
+            while echo $PORT_LIST | grep -w -q $PORT; do
+                PORT=$(($PORT+1))
+            done
+            FLAG_PORT=(-p $PORT:8888)
+            ;;
+    esac
+
+    # Extract username from image: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
+    IMAGE_USERNAME=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
     # Set container name if not specified in option -n
     if [[ -z $CONTAINER_NAME ]]; then
-        CONTAINER_NAME=$CONTAINER
+        CONTAINER_NAME=$IMAGE_USERNAME
     fi
 
     # Check if preexisting container is running. Else run image.

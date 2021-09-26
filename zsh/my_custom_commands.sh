@@ -343,7 +343,7 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
     case "$IMAGE" in 
         cs50)
             IMAGE="yufernando/cs50"
-            FLAG_IT="-it"
+            FLAG_IT="-it" # Run with -it to avoid container exit after start
             ;;
         "") # If no image, use default yufernando/juyterlab
             ;&
@@ -352,7 +352,8 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
             ;&
         yufernando/jupyterlab*)
             FLAG_ENV+=(-e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes)
-            FLAG_USER+=(--user 1000)
+            FLAG_USER_RUN+=(--user root)  # Run as root to grant sudo permissions
+            FLAG_USER_EXEC+=(--user 1000) # Open shell as user jovyan
 
             # Check if port $PORT is in use. If it is, look for port not in use.
             PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
@@ -377,7 +378,7 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
     else
         echo "Running image ${COLOR_LIGHT_GREEN}$IMAGE${COLOR_NC} in container ${COLOR_LIGHT_BLUE}$CONTAINER_NAME${COLOR_NC} with ID:";
 
-        docker run -d --rm ${FLAG_IT} ${FLAG_PORT[@]} ${FLAG_MOUNT[@]} ${FLAG_ENV[@]} ${FLAG_USER[@]} --name $CONTAINER_NAME $IMAGE
+        docker run -d --rm ${FLAG_IT} ${FLAG_PORT[@]} ${FLAG_MOUNT[@]} ${FLAG_ENV[@]} ${FLAG_USER_RUN[@]} --name $CONTAINER_NAME $IMAGE
 
         # Report PORT
         if [[ $PORT -ne 8888 ]]; then 
@@ -420,11 +421,7 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
 
     # Open container in interactive terminal
     if [[ $OPENZSH = true ]]; then
-        # USER_FLAG=
-        # if [[ $IMAGE = 'yufernando/jupyterlab' ]]; then
-        #     USER_FLAG=(--user 1000)
-        # fi
-        docker exec -it ${FLAG_USER[@]} $CONTAINER_NAME /bin/zsh
+        docker exec -it ${FLAG_USER_EXEC[@]} $CONTAINER_NAME /bin/zsh
     fi
 }
 

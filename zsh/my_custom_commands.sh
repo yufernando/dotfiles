@@ -259,27 +259,44 @@ ${COLOR_LIGHT_GREEN}Usage:${COLOR_NC} dock ${COLOR_LIGHT_BLUE}[options]${COLOR_N
 
     -s                    Copy Github SSH keys into container.
 
-${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
-    dock -i lab           Run JupyterLab container. Open in a terminal.
+${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
+    dock                  Run JupyterLab container in detached mode.
+    dock -i               Run JupyterLab container. Open in a terminal.
     dock -co lab          Run JupyterLab. Mount CWD. Open in a browser.
     dock -cis cs50        Run CS50 image. Mount CWD. Copy SSH Keys. Open in a terminal.
 "
 
     # Defaults
-    IMAGE='yufernando/jupyterlab'
-    CONTAINER_NAME=
+    # IMAGE='yufernando/jupyterlab'
     OPENCHROME=false
     OPENZSH=false
     COPYSSH=false
-    MOUNT_CWD=false
-    MOUNT_SOURCE_TARGET=
+    FLAG_IT=
     PORT=8888
+    FLAG_PORT=
+    FLAG_MOUNT=
+    FLAG_ENV=
+    CONTAINER_NAME=
+    FLAG_USER=
+    IMAGE=
+
+    # Check if Docker is running. Launch Docker if not.
+    if (! docker ps > /dev/null 2>&1 ); then
+        # Launch Docker
+        echo "Docker daemon not running. Launching Docker Desktop..."
+        open /Applications/Docker.app
+        # Wait until Docker daemon is running and has completed initialisation
+        while (! docker ps > /dev/null 2>&1 ); do
+            # Docker takes a few seconds to initialize
+            sleep 1.5
+        done
+    fi
 
     # GET OPTIONS
     while getopts 'chiosn:p:v:V:' option; do
         case "$option" in
             c) # Mount current working directory
-                MOUNT_CWD=true
+                FLAG_MOUNT+=(-v $PWD:/home/jovyan/work)
                 ;;
             h) # Display help 
                 echo "$usage"
@@ -301,11 +318,11 @@ ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
                 COPYSSH=true
                 ;;
             v) # Mount folder
-                MOUNT_SOURCE_TARGET=$OPTARG
+                FLAG_MOUNT+=(-v $OPTARG)
                 ;;
             V) # Mount both specified folder and CWD
-                MOUNT_SOURCE_TARGET=$OPTARG
-                MOUNT_CWD=true
+                FLAG_MOUNT+=(-v $PWD:/home/jovyan/work)
+                FLAG_MOUNT+=(-v $OPTARG)
                 ;;
             \?) # Incorrect option
                 echo "Error: Invalid option. Usage: dock -h."
@@ -358,54 +375,25 @@ ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
     else
         echo "Running image ${COLOR_LIGHT_GREEN}$IMAGE${COLOR_NC} in container ${COLOR_LIGHT_BLUE}$CONTAINER_NAME${COLOR_NC} with ID:";
 
-        # Mount directory depending on flag option
-        MOUNT_SCRIPT_CWD=""
-        MOUNT_MSG_CWD=""
-        if [[ $MOUNT_CWD = true ]]; then
-            MOUNT_SCRIPT_CWD="-v$PWD:/home/jovyan/work"
-            MOUNT_MSG_CWD="  Mounted: ${COLOR_LIGHT_GREEN}$PWD${COLOR_NC} --> /home/jovyan/work"
-        fi
-
-        MOUNT_SCRIPT=""
-        MOUNT_MSG=""
-        if [[ -n $MOUNT_SOURCE_TARGET ]]; then
-            MOUNT_SOURCE=$(echo $MOUNT_SOURCE_TARGET | cut -d: -f1)
-            MOUNT_TARGET=$(echo $MOUNT_SOURCE_TARGET | cut -d: -f2)
-            MOUNT_SCRIPT="-v$MOUNT_SOURCE:$MOUNT_TARGET"
-            MOUNT_MSG="  Mounted: ${COLOR_LIGHT_GREEN}$MOUNT_SOURCE${COLOR_NC} --> $MOUNT_TARGET"
-        fi
-
-        if [[ $IMAGE = 'yufernando/jupyterlab' ]] then
-            E_FLAG="-e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes"
-            USER_FLAG="--user root"
-        fi
-
-        # Run container
-        if [[ $IMAGE = 'yufernando/jupyterlab' ]] then
-            # Check if port $PORT is in use. If it is, look for port not in use.
-            PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
-            PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
-            CHANGE_PORT=false
-            while [[ $PORT_MATCH -eq 0 ]]; do
-                PORT=$(($PORT+1))
-                PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
-                CHANGE_PORT=true
-            done
-
-            docker run -d --rm -p $PORT:8888 $MOUNT_SCRIPT_CWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER_NAME $IMAGE
-        else
-            docker run -dit --rm $MOUNT_SCRIPT_CWD $MOUNT_SCRIPT --name $CONTAINER_NAME $IMAGE
-        fi
+        docker run -d --rm ${FLAG_IT} ${FLAG_PORT[@]} ${FLAG_MOUNT[@]} ${FLAG_ENV[@]} ${FLAG_USER[@]} --name $CONTAINER_NAME $IMAGE
 
         # Report PORT
-        if [[ $CHANGE_PORT = true ]]; then 
+        if [[ $PORT -ne 8888 ]]; then 
             echo "Port in use. Using Port $PORT."; 
         fi
+
         # Report mounted folder
-        # echo ""
-        if [[ -n $MOUNT_MSG_CWD ]]; then echo "\n$MOUNT_MSG_CWD\n"; fi
-        if [[ -n $MOUNT_MSG ]]    ; then echo "\n$MOUNT_MSG\n"    ; fi
-        # echo ""
+        if [[ -n $FLAG_MOUNT ]]; then
+            echo ""
+            for (( i=3; i<=${#FLAG_MOUNT[@]}; i+=2 ))
+            do
+                MOUNT_SOURCE=$(echo "${FLAG_MOUNT[i]}" | cut -d: -f1)
+                MOUNT_TARGET=$(echo "${FLAG_MOUNT[i]}" | cut -d: -f2)
+                MOUNT_MSG="  Mounted: ${COLOR_LIGHT_PURPLE}$MOUNT_SOURCE${COLOR_NC} --> $MOUNT_TARGET"
+                echo $MOUNT_MSG
+            done
+            echo ""
+        fi
     fi
 
     # Add Github ssh keys

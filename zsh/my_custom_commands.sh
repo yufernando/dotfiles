@@ -223,7 +223,7 @@ Usage:
 # and the JupyterLab token to build the URL
 # http://<hostname>:<port>/?token=<token> and optionally open it in Chrome.
 
-function dock {
+function dock() {
 
     # Color aliases
     COLOR_NC='\033[0m'
@@ -267,12 +267,12 @@ ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
 
     # Defaults
     IMAGE='yufernando/jupyterlab'
-    CONTAINER_NAME=""
+    CONTAINER_NAME=
     OPENCHROME=false
     OPENZSH=false
     COPYSSH=false
     MOUNT_CWD=false
-    MOUNT_SOURCE_TARGET=""
+    MOUNT_SOURCE_TARGET=
     PORT=8888
 
     # GET OPTIONS
@@ -321,16 +321,13 @@ ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
 
     # GET TARGET (image name)
     if [[ $# -ge 1 ]]; then
-        subcommand=$1; shift
-        case "$subcommand" in 
+        IMAGE=$1; shift
+        case "$IMAGE" in 
             lab)
                 IMAGE="yufernando/jupyterlab"
                 ;;
             cs50)
                 IMAGE="yufernando/cs50"
-                ;;
-            *)
-                IMAGE="$subcommand"
                 ;;
         esac
     fi 
@@ -378,6 +375,11 @@ ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
             MOUNT_MSG="  Mounted: ${COLOR_LIGHT_GREEN}$MOUNT_SOURCE${COLOR_NC} --> $MOUNT_TARGET"
         fi
 
+        if [[ $IMAGE = 'yufernando/jupyterlab' ]] then
+            E_FLAG="-e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes"
+            USER_FLAG="--user root"
+        fi
+
         # Run container
         if [[ $IMAGE = 'yufernando/jupyterlab' ]] then
             # Check if port $PORT is in use. If it is, look for port not in use.
@@ -408,17 +410,15 @@ ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
 
     # Add Github ssh keys
     if [[ $COPYSSH = true ]]; then
-        cat ~/.ssh/id_rsa_github     | docker exec -i $CONTAINER_NAME sh -c \
-            'mkdir -p /root/.ssh && cat > /root/.ssh/id_rsa_github && chmod -R 700 /root/.ssh && chmod 600 /root/.ssh/id_rsa_github'
-        cat ~/.ssh/id_rsa_github.pub | docker exec -i $CONTAINER_NAME sh -c \
-            'mkdir -p /root/.ssh && cat > /root/.ssh/id_rsa_github.pub && chmod 644 /root/.ssh/id_rsa_github.pub'
+        docker exec $CONTAINER_NAME mkdir -p /home/jovyan/.ssh
+        docker cp ~/.ssh/id_rsa_github $CONTAINER_NAME:/home/jovyan/.ssh
+        docker cp ~/.ssh/id_rsa_github.pub $CONTAINER_NAME:/home/jovyan/.ssh
         echo "Added Github SSH keys."
     fi
 
     # Open JupyterLab running in container with Chrome
     if [[ $OPENCHROME = true ]]; then
         # Wait until Jupyterlab is initialized by checking logs
-        # echo 'Jupyterlab initializing...'
         RUNNING=""
         while [[ -z $RUNNING ]]; do
             RUNNING=`docker logs $CONTAINER_NAME 2>&1| grep -o "Or copy and paste one of these URLs"`
@@ -428,8 +428,13 @@ ${COLOR_LIGHT_GREEN}Examples:${COLOR_NC}
         chromeapp docker -c $CONTAINER_NAME -p $PORT
     fi
 
+    # Open container in interactive terminal
     if [[ $OPENZSH = true ]]; then
-        docker exec -it $CONTAINER_NAME /bin/zsh
+        USER_FLAG=
+        if [[ $IMAGE = 'yufernando/jupyterlab' ]]; then
+            USER_FLAG=(--user 1000)
+        fi
+        docker exec -it ${USER_FLAG[@]} $CONTAINER_NAME /bin/zsh
     fi
 }
 

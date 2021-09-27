@@ -261,8 +261,8 @@ ${COLOR_LIGHT_BLUE}Usage:${COLOR_NC} dock ${COLOR_LIGHT_PURPLE}[options]${COLOR_
 
 ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
     dock                  Run JupyterLab container in detached mode.
-    dock -i               Run JupyterLab container. Open in a terminal.
-    dock -co lab          Run JupyterLab. Mount CWD. Open in a browser.
+    dock -i lab           Run JupyterLab container. Open in a terminal.
+    dock -co bio          Run Bioaretian. Mount CWD. Open in a browser.
     dock -cis cs50        Run CS50 image. Mount CWD. Copy SSH Keys. Open in a terminal.
 "
 
@@ -345,12 +345,13 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
             IMAGE="yufernando/cs50"
             FLAG_IT="-it" # Run with -it to avoid container exit after start
             ;;
-        "") # If no image, use default yufernando/juyterlab
-            ;&
-        lab)
+        ""|lab) # Defaults to jupyterlab
             IMAGE="yufernando/jupyterlab"
-            ;&
-        yufernando/jupyterlab*)
+            ;|
+        bio)
+            IMAGE="yufernando/bioaretian"
+            ;|
+        ""|lab|bio|yufernando/bioaretian*|yufernando/jupyterlab*)
             FLAG_ENV+=(-e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes)
             FLAG_USER_RUN+=(--user root)  # Run as root to grant sudo permissions
             FLAG_USER_EXEC+=(--user 1000) # Open shell as user jovyan
@@ -364,11 +365,11 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
             ;;
     esac
 
-    # Extract username from image: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
-    IMAGE_USERNAME=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
+    # Extract repository name from image: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
+    IMAGE_REPO=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
     # Set container name if not specified in option -n
     if [[ -z $CONTAINER_NAME ]]; then
-        CONTAINER_NAME=$IMAGE_USERNAME
+        CONTAINER_NAME=$IMAGE_REPO
     fi
 
     # Check if preexisting container is running. Else run image.

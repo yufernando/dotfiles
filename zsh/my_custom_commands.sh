@@ -275,9 +275,11 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
     PORT=8888
     FLAG_PORT=
     FLAG_MOUNT=
+    MOUNT_CWD=
     FLAG_ENV=
+    FLAG_USER_RUN=
+    FLAG_USER_EXEC=
     CONTAINER_NAME=
-    FLAG_USER=
     IMAGE=
 
     # Check if Docker is running. Launch Docker if not.
@@ -296,7 +298,7 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
     while getopts 'chiosn:p:v:V:' option; do
         case "$option" in
             c) # Mount current working directory
-                FLAG_MOUNT+=(-v $PWD:/home/jovyan/work)
+                MOUNT_CWD=true
                 ;;
             h) # Display help 
                 echo "$usage"
@@ -321,7 +323,7 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
                 FLAG_MOUNT+=(-v $OPTARG)
                 ;;
             V) # Mount both specified folder and CWD
-                FLAG_MOUNT+=(-v $PWD:/home/jovyan/work)
+                MOUNT_CWD=true
                 FLAG_MOUNT+=(-v $OPTARG)
                 ;;
             \?) # Incorrect option
@@ -344,6 +346,10 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
         cs50)
             IMAGE="yufernando/cs50"
             FLAG_IT="-it" # Run with -it to avoid container exit after start
+            if [[ $MOUNT_CWD = true]]; then
+                FLAG_MOUNT+=(-v $PWD:/home/cs50)
+            fi
+
             ;;
         ""|lab) # Defaults to jupyterlab
             IMAGE="yufernando/jupyterlab"
@@ -352,6 +358,9 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
             IMAGE="yufernando/bioaretian"
             ;|
         ""|lab|bio|yufernando/bioaretian*|yufernando/jupyterlab*)
+            if [[ $MOUNT_CWD = true]]; then
+                FLAG_MOUNT+=(-v $PWD:/home/jovyan/work)
+            fi
             FLAG_ENV+=(-e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes)
             FLAG_USER_RUN+=(--user root)  # Run as root to grant sudo permissions
             FLAG_USER_EXEC+=(--user 1000) # Open shell as user jovyan

@@ -346,10 +346,9 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
         cs50)
             IMAGE="yufernando/cs50"
             FLAG_IT="-it" # Run with -it to avoid container exit after start
-            if [[ $MOUNT_CWD = true]]; then
+            if [[ $MOUNT_CWD = true ]]; then
                 FLAG_MOUNT+=(-v $PWD:/home/cs50)
             fi
-
             ;;
         ""|lab) # Defaults to jupyterlab
             IMAGE="yufernando/jupyterlab"
@@ -358,7 +357,7 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
             IMAGE="yufernando/bioaretian"
             ;|
         ""|lab|bio|yufernando/bioaretian*|yufernando/jupyterlab*)
-            if [[ $MOUNT_CWD = true]]; then
+            if [[ $MOUNT_CWD = true ]]; then
                 FLAG_MOUNT+=(-v $PWD:/home/jovyan/work)
             fi
             FLAG_ENV+=(-e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes)

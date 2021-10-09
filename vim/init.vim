@@ -90,13 +90,13 @@ set virtualedit=block "Allow cursor to move when there is no text in visual bloc
 " }}}
 " Plugins {{{
 
-call plug#begin('~/.vim/plugged')
+call plug#begin(stdpath('data') . '/plugged')
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " Tree browser
 Plug 'junegunn/goyo.vim'            " Focused editing
 Plug 'junegunn/limelight.vim'       " Highlight current paragraph
-Plug '/usr/local/opt/fzf'           " Fuzzy finder
-Plug 'junegunn/fzf.vim'             " Fuzzy finder for Vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy finder
+Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'           " Edit surrounding text
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github

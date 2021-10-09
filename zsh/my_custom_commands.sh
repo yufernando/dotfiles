@@ -107,8 +107,11 @@ Usage:
                     return 1
                 fi
 
-                # Get token and launch
+                # Get Token
                 TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
+                # Get Port
+                PORT=`docker ps --format "{{.Ports}}" --filter "name=${CONTAINER}$" | cut -d: -f2 | cut -d- -f1 | tr -d '\n'`
+                # Run container
                 URL="http://localhost:$PORT/?$TOKEN"
                 echo "Opening JupyterLab running in Docker container '$CONTAINER'..."
                 # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
@@ -196,8 +199,10 @@ Usage:
                 return 1
             fi
 
-            # Get token and launch
+            # Get Token
             TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
+            # Get Port
+            PORT=`docker ps --format "{{.Ports}}" --filter "name=${CONTAINER}$" | cut -d: -f2 | cut -d- -f1 | tr -d '\n'`
             URL="http://localhost:$PORT/?$TOKEN"
             echo "Opening browser window."
             # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
@@ -424,8 +429,8 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
             RUNNING=`docker logs $CONTAINER_NAME 2>&1| grep -o "Or copy and paste one of these URLs"`
             sleep .2
         done
-        # Open Chrome
-        chromeapp docker -c $CONTAINER_NAME -p $PORT
+        # Open Chrome: PORT will be inferred from running containers
+        chromeapp docker -c $CONTAINER_NAME
     fi
 
     # Open container in interactive terminal

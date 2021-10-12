@@ -437,8 +437,8 @@ nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-ke
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
 " Neoterm Send Selection
-nnoremap <silent> tt :Ttoggle<CR>
-nnoremap <silent> th :Tclose<CR>
+nnoremap <silent> <leader>tt :Ttoggle<CR>
+nnoremap <silent> <leader>th :Tclose<CR>
 nmap gx <Plug>(neoterm-repl-send)
 xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)

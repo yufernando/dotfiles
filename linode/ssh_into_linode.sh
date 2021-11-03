@@ -7,7 +7,7 @@
 # Option to show logs
 while getopts "l" option; do
     case $option in 
-        s) SHOW_LOGS=true ;;
+        l) SHOW_LOGS=true ;;
     esac
 done
 shift $((OPTIND -1))
@@ -26,9 +26,9 @@ LINODE_IP=$(linode-cli linodes list --text | grep "$HOSTNAME" | awk '{print $7}'
 
 if [[ -n $SHOW_LOGS ]]; then
     # SSH and get logs
-    ssh root$LINODE_IP "tail -f /var/log/new_linode.log"
+    ssh root@$LINODE_IP "tail -f /var/log/new_linode.log"
 else
     # SSH with user
     read -p "User: " USERNAME
-    ssh $USERNAME@$LINODE_IP
+    ssh $USERNAME@$LINODE_IP -i "~/.ssh/id_rsa_linode"
 fi

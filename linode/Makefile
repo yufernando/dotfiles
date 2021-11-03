@@ -4,8 +4,9 @@
 #
 # Automated scripts:
 # 	make deploy 		# Optional: include IGNOREIP in .env file
-# 	make ssh [hostname=hostname]
-# 	make status
+# 	make ssh [hostname=hostname]  # SSH into Linode
+# 	make list           # List all Linodes
+# 	make logs           # Show startup logs
 #
 # Manual scripts:
 # 	make create label=myserver

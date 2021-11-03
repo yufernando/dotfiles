@@ -1,5 +1,7 @@
 # Linode Utilities
 
+This repository contains automated scripts for creating Linodes from the command line. For this to work you need to install `linode-cli` with `pip install linode-cli`.
+
 1. Create a Linode. Put the following configuration variables in an .env file:
 ```
 USERNAME=
@@ -16,15 +18,21 @@ make deploy
 ```
 You will be asked for a hostname and a password.
 
-2. SSH into a Linode:
+2. Check status:
+```
+make list
+```
+
+3. Show logs:
+```
+make logs
+```
+
+4. SSH into a Linode:
 ```
 make ssh
 ```
 
-3. Check status:
-```
-make status
-```
 
 ## Manual creation
 

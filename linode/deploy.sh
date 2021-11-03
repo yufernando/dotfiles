@@ -39,6 +39,17 @@ echo "Image:          $IMAGE"
 echo "Plan:           $PLAN"
 echo ""
 
+# Ask for confirmation
+read -p "Confirm? (y/n) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    echo "Operation cancelled. Linode not created."
+    exit 1
+fi
+
+echo "Creating Linode..."
+
 # Create new linode
 linode-cli linodes create --label "${LABEL}" \
                           --region "${REGION}" \

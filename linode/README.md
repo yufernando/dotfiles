@@ -16,7 +16,7 @@ The last two are optional. Then run make:
 ```
 make deploy
 ```
-You will be asked for a hostname and a password.
+You will be asked for a hostname and a password. The Linode will reboot after installation. The complete deployment process takes approximately 5 minutes.
 
 2. Check status:
 ```

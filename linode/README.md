@@ -1,6 +1,6 @@
 # Linode Utilities
 
-This repository contains automated scripts for creating Linodes from the command line. For this to work you need to install `linode-cli` in a virtual environment with `pip install linode-cli`.
+This repository contains automated scripts for creating Linodes from the command line. For this to work you need to install `linode-cli` in a virtual environment with `pip install linode-cli`. For example, use: `conda activate dsfull`
 
 1. Create a Linode. Put the following configuration variables in an .env file:
 ```

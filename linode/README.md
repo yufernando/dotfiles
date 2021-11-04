@@ -1,6 +1,6 @@
 # Linode Utilities
 
-This repository contains automated scripts for creating Linodes from the command line. For this to work you need to install `linode-cli` with `pip install linode-cli`.
+This repository contains automated scripts for creating Linodes from the command line. For this to work you need to install `linode-cli` in a virtual environment with `pip install linode-cli`.
 
 1. Create a Linode. Put the following configuration variables in an .env file:
 ```
@@ -31,6 +31,11 @@ make logs
 4. SSH into a Linode:
 ```
 make ssh
+```
+
+5. Delete Linode
+```
+linode-cli linodes delete [LINODE-ID]
 ```
 
 

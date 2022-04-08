@@ -1,8 +1,6 @@
 {
   "telemetry.enableTelemetry": false,
-  "window.zoomLevel": 1,
   "zenMode.fullScreen": false,
-  "editor.minimap.enabled": false,
   "zenMode.centerLayout": false,
   "latex-workshop.view.pdf.viewer": "tab",
   "files.associations": {
@@ -97,8 +95,6 @@
   "editor.fontFamily": "OperatorMono-Book, Fira Code, Victor Mono, Menlo, Monaco, 'Courier New', monospace",
   // Enables/Disables font ligatures.
   "editor.fontLigatures": true,
-  // Controls the font size in pixels.
-  "workbench.colorTheme": "Operator Mono Dark Theme",
   // Controls the font weight.
   "editor.fontWeight": "400", //Normal = 400
   // Latex-Tools Compilers
@@ -259,5 +255,10 @@
   // Disable when developing Vue projects, it will conflict with npm esling module
   // "editor.formatOnSave": true,
 "jupyter.sendSelectionToInteractiveWindow": false,
-"python.pythonPath": "/Users/fer/miniconda3/envs/dsfull/bin/python"
+"python.pythonPath": "/Users/fer/miniconda3/envs/dsfull/bin/python",
+"timeline.excludeSources": [],
+"terminal.integrated.inheritEnv": false,
+"workbench.colorTheme": "Operator Mono Dark Theme",
+"window.zoomLevel": 1,
+"python.linting.mypyEnabled": true
 }

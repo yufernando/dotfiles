@@ -88,6 +88,8 @@ set scrolloff=1             "Keep lines visible at end
 
 set virtualedit=block "Allow cursor to move when there is no text in visual block mode
 
+set hidden "Allow to cycle between buffers with unsaved changes
+
 " }}}
 " Plugins {{{
 
@@ -143,9 +145,10 @@ let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner 
 let g:neoterm_bracketed_paste = 1
 let g:neoterm_autoscroll = 1
 let g:neoterm_default_mod='belowright'
-let g:neoterm_size = 14
+" let g:neoterm_default_mod='vertical'
+let g:neoterm_size = 7
 let g:neoterm_keep_term_open = 1
-" https://github.com/kassio/neoterm/issues/148 Usage: TT ls
+" Unhide terminal when sending command: https://github.com/kassio/neoterm/issues/148
 command! -nargs=+ TT Topen | T <args>
 let g:neoterm_automap_keys = ",t"
 " let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --no-autoindent --nosep']
@@ -165,12 +168,12 @@ let g:omni_sql_no_default_maps = 1
 
 " Linter
 let g:ale_linters = {
-    \ 'python': ['flake8'],
+    \ 'python': ['flake8', 'pylint', 'mypy'],
     \ 'javascript': ['eslint'],
     \ 'c': ['clang']} " pydocstyle, bandit, mypy
-" let g:ale_fixers = {'*': [], 'python':['black', isort']}
-" let g:ale_fix_on_save = 1
-" Disable ALE by default. Enable with :ALEToggle (leader+z)
+let g:ale_fixers = {'*': [], 'python':['black']}
+let g:ale_fix_on_save = 1
+" Disable ALE by default. Enable with :ALEToggle (leader+x)
 let g:ale_enabled = 0
 
 " UltiSnips: since we are using Deoplete, <tab> doesn't work
@@ -439,14 +442,14 @@ nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-ke
 
 " Neoterm Send Selection
 nnoremap <silent> <leader>tt :Ttoggle<CR>
-nnoremap <silent> <leader>th :Tclose<CR>
+nnoremap <silent> <leader>tc :Tclose<CR>
 nmap gx <Plug>(neoterm-repl-send)
 xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)
 nnoremap <silent> gz :TREPLSendFile<CR>
 " Python keybindings
-nnoremap <silent> mp :silent w<CR>:Tclear<CR>:TT python %<CR>
-nnoremap <silent> gm :silent w<CR>:Tclear<CR>:TT python %<CR>
+nnoremap <silent> mp :silent w<CR>:TT python %<CR>
+" nnoremap <silent> gm :silent w<CR>:Tclear<CR>:TT python %<CR>
 " nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
@@ -504,10 +507,11 @@ nnoremap ]b :bnext<CR>
 
 " ALE Linting
 " Toggle Linter
-noremap <leader>z :ALEToggle \| :echo ale_enabled ? "Linter On." : "Linter Off." <CR>
-" nmap <leader>Z <Plug>(ale_detail)
+noremap <leader>x :ALEToggle \| :echo ale_enabled ? "Linter On." : "Linter Off." <CR>
+nmap <leader>Z <Plug>(ale_detail)
 " nmap <silent> <leader>k <Plug>(ale_previous)
 " nmap <silent> <leader>j <Plug>(ale_next)
+nmap <leader>z <Plug>(ale_fix)
 
 " Navigate splits
 nnoremap <C-h> <C-w>h
@@ -593,6 +597,7 @@ nnoremap <S-h> :call ToggleHiddenAll()<CR>
 
 " }}}
 " Autocommands {{{
+" How to write autocommands: https://learnvimscriptthehardway.stevelosh.com/chapters/14.html#autocommand-groups
 
 " Filetype detect
 augroup set_filetypes
@@ -744,6 +749,11 @@ colorscheme gruvbox
 
 " Edit crontab: https://superuser.com/a/907889
 autocmd filetype crontab setlocal nobackup nowritebackup
+
+augroup neoterm
+    autocmd!
+    " autocmd BufWinLeave * :TcloseAll
+augroup END
 
 " }}}
 " Commands and Functions {{{

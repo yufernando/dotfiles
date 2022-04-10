@@ -193,9 +193,6 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
 
-  // SideBar Location
-  "workbench.sideBar.location": "left",
-
   // Vim Settings
   "vim.textwidth": 100,
   "editor.wordWrap": "on",

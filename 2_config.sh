@@ -30,7 +30,7 @@ ln -svf $DIR/zsh/zprofile               ~/.zprofile
 ln -svf $DIR/vim/vimrc                  ~/.vimrc
 ln -svf $DIR/vim/init.vim               ~/.config/nvim/init.vim
 ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim        
-ln -svf $DIR/vim/after/ftplugin/python.vim  ~/.vim/after/ftplugin/python.vim
+# ln -svf $DIR/vim/after/ftplugin/python.vim  ~/.vim/after/ftplugin/python.vim
 ln -svf $DIR/tmux/tmux.conf             ~/.tmux.conf
 ln -svf $DIR/tmux/tunes.js              ~/.tmux/tunes.js
 ln -svf $DIR/stata_kernel.conf          ~/.stata_kernel.conf

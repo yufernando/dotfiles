@@ -6,13 +6,13 @@
 [diff]
     tool = nvim
 [difftool]
-    prompt = false
+	prompt = false
 [difftool "nvim"]
     cmd = nvim -d -c \"wincmd l\" -c \"cd $GIT_PREFIX\" $LOCAL $REMOTE
 [merge]
     tool = nvim
 [mergetool]
-    prompt = false
+	prompt = false
 [mergetool "nvim"]
     cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [alias]

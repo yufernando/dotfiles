@@ -32,9 +32,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 ln -svf $DIR/zsh/zprofile               ~/.zprofile #Ruby, Rust and pyenv
 fi
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 ln -svf $PWD/oh-my-zsh/robbyrussell-userhost.zsh-theme  ~/.oh-my-zsh/custom/themes/robbyrussell-userhost.zsh-theme
-fi
 ln -svf $DIR/stata_kernel.conf          ~/.stata_kernel.conf
 ln -svf $DIR/latexmkrc                  ~/.latexmkrc
 #ln -svf $DIR/jupyter_notebook_config.py ~/.jupyter/jupyter_notebook_config.py

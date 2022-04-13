@@ -8,8 +8,6 @@ echo ""
 echo "2. INSTALLATION: installing utilities."
 echo ""
 
-UNAME=$(uname)
-
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 
 # Update and upgrade

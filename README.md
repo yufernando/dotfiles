@@ -1,10 +1,33 @@
 # Dotfiles
 
-This repository contains scripts to setup, harden, configure and install utilities in an Ubuntu
-Linux Machine. It configures the server, sets up SSH and a firewall and installs useful tools (zsh,
-tmux, etc) and dotfiles for configuration.
+This repository contains scripts configure the same environment in a Mac, Ubuntu Server or Docker container. It installs useful tools (zsh, tmux, etc) and dotfiles for configuration.
+
+In addtion, in an Ubuntu server it configures and hardens the server (sets up SSH and firewall).
 
 # Installation instructions
+
+## Mac
+
+1. Clone the `master` branch of the repository into a hidden folder in the home directory:
+
+```
+git clone --single-branch --branch master https://github.com/yufernando/dotfiles ~/.dotfiles
+```
+
+2. Make sure you have `make` installed:
+
+```
+brew install make
+```
+
+3. Run the config and install scripts:
+
+```
+cd ~/.dotfiles
+make all
+```
+
+## Ubuntu Linux
 
 1. Copy your SSH public key to the Linux box. If you set SSH keys from the console manager or using
    an automated script this step is not necessary:
@@ -44,19 +67,28 @@ The last argument `sshkey` is only needed when configured through an automated s
 
 You can run the scripts individually.
 
-### Setup
+### Setup (Linux Server)
 
 `0_setup.sh` sets basic information including hostname and timezone.
 
-### Hardening
+### Hardening (Linux Server)
 
 `1_harden.sh` sets up the ufw firewall and configures ssh.
 
+### Installation of programs
+
+The script `2_install.sh` installs useful utilities, including `oh-my-zsh` to customize the
+`zsh` shell.
+
+`./2_install.sh`
+
+Equivalent to `make install`.
+
 ### Configuration
 
-The file `2_config.sh` creates symlinks to the respective file locations.
+The file `3_config.sh` creates symlinks to the respective file locations.
 ```
-./2_config.sh
+./3_config.sh
 ```
 
 Equivalent to `make config`.
@@ -70,15 +102,6 @@ ln -svf ~/.dotfiles/vimrc        ~/.vimrc
 ln -svf ~/.dotfiles/zshrc        ~/.zshrc
 ```
 
-### Installation of programs
-
-The script `3_install.sh` installs useful utilities, including `oh-my-zsh` to customize the
-`zsh` shell.
-
-`./3_install.sh`
-
-Equivalent to `make install`.
-
 # Configure a Docker Container
 
 To configure a Docker container running Ubuntu with zsh, oh-my-zsh and other utilities clone the
@@ -88,5 +111,7 @@ apt update && apt -y upgrade
 apt -y install make
 git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
 cd ~/.dotfiles
-make config_install user=username
+make install config user=username
 ```
+
+The two `make` steps are intentional to exploit caching of the install step and avoid rebuilding every time we change the configuration step.

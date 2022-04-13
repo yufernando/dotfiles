@@ -11,7 +11,6 @@ echo ""
 DIR=$PWD
 
 # Create directories and files
-
 # Vim
 mkdir -p ~/.config/nvim/
 touch ~/.config/nvim/init.vim
@@ -60,7 +59,6 @@ tic -o ~/.terminfo $DIR/tmux/tmux-256color.terminfo.txt || true
 tic -o ~/.terminfo $DIR/tmux/tmux.terminfo.txt || true
 
 # Ranger
-ln -svf $DIR/thesis.sty                 ~/Library/texmf/tex/latex/local/thesis.sty
 ln -svf $DIR/ranger/rc.conf             ~/.config/ranger/rc.conf
 ln -svf $DIR/ranger/commands.py         ~/.config/ranger/commands.py
 ln -svf $DIR/vifmrc                     ~/.config/vifm/vifmrc

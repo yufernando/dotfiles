@@ -10,7 +10,7 @@ echo ""
 
 UNAME=$(uname)
 
-if [[ "$UNAME" == "Linux" ]]; then
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 
 # Update and upgrade
 DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y upgrade
@@ -45,7 +45,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
 
-if [[ "$UNAME" == "Darwin" ]]; then
+if [[ "$OSTYPE" == "darwin"* ]]; then
 # Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 

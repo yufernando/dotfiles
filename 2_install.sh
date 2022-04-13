@@ -44,29 +44,46 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
+
 # Homebrew
+if ! type brew > /dev/null; then
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
 # Install VIM
+if ! type nvim > /dev/null; then
 brew install neovim
+fi
 
 # Install vim-plug
+if [ ! -e $HOME/.local/share/nvim/site/autoload/plug.vim ]
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+fi
 nvim --headless +PlugInstall +qall > /dev/null 2>&1
 
 # Install TMUX
+if ! type tmux > /dev/null; then
 brew install tmux
+fi
 
 # Install zsh (need to reboot to change shell)
+if ! type zsh > /dev/null; then
 brew install zsh
+fi
+if [[ $SHELL != /bin/zsh ]]; then
 chsh -s /usr/bin/zsh
+fi
 
 # Install oh-my-zsh
+if [ ! -e $HOME/.oh-my-zsh/oh-my-zsh.sh ]
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 
 # Oh-my-zsh plugins
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+fi
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi

@@ -232,7 +232,11 @@ endfunction
 
 " Deoplete Jedi
 let g:python_host_prog  = '/usr/bin/python' 
-let g:python3_host_prog  = '/usr/bin/python3' 
+if system('uname') =~ "Darwin"
+    let g:python3_host_prog = '/Users/fer/miniconda3/envs/dsfull/bin/python'
+else
+    let g:python3_host_prog  = '/usr/bin/python3' 
+endif
 
 " Deoplete-clangx
 call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')

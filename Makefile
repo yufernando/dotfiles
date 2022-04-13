@@ -17,6 +17,12 @@
 # Setup Docker image:
 #		make install
 #		make config     -> two steps for caching
+#
+# Mac: Update install and config
+# 	make install config
+#
+# Ubuntu: Update install and config
+# 	make install config
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)

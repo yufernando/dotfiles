@@ -49,9 +49,12 @@ ln -svf $DIR/latexmkrc                  ~/.latexmkrc
 #sudo ln -svf /srv/jupyterhub/jupyterhub.service /etc/systemd/system/jupyterhub.service  
 
 # Tmux
-ln -svf $DIR/tmux/tmux.conf             ~/.tmux.conf
 if [[ "$OSTYPE" == "darwin"* ]]; then
+ln -svf $DIR/tmux/tmux.conf.mac             ~/.tmux.conf
 ln -svf $DIR/tmux/tunes.js              ~/.tmux/tunes.js
+fi
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+ln -svf $DIR/tmux/tmux.conf.ubuntu          ~/.tmux.conf
 fi
 
 # Italics in iTerm and Tmux

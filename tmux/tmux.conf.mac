@@ -1,0 +1,233 @@
+# ╔╦╗╔╦╗╦ ╦═╗ ╦
+#  ║ ║║║║ ║╔╩╦╝
+#  ╩ ╩ ╩╚═╝╩ ╚═
+
+# Tmux Config File
+#------------------
+# From https://github.com/nicknisi/dotfiles/blob/master/tmux/tmux.conf.symlink
+
+# Reset keys: load reset file
+source-file ~/.tmux.reset.conf
+
+#set -g default-command "login-shell"
+
+# tmux display things in 256 colors
+set -g default-terminal 'tmux-256color' #Make italics work in Tmux
+set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
+# set -g default-terminal "screen-256color" #Make Vim colors work in Tmux
+# set -g default-terminal "tmux-256color-italic"
+# set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
+# set -g terminal-overrides ",tmux-256color:Tc"
+
+#set -g history-limit 20000
+
+# automatically renumber tmux windows
+#set -g renumber-windows on
+
+# unbind default prefix and set it to Ctrl+a
+# unbind C-b
+# set -g prefix C-a
+# bind C-a send-prefix
+
+# for nested tmux sessions
+# bind-key a send-prefix
+bind-key -n C-a send-prefix
+
+# Activity Monitoring
+#setw -g monitor-activity off
+#set -g visual-activity off
+
+# Rather than constraining window size to the maximum size of any client
+# connected to the *session*, constrain window size to the maximum size of any
+# client connected to *that window*. Much more reasonable.
+#setw -g aggressive-resize on
+
+# make delay shorter
+#set -sg escape-time 0
+
+# make window/pane index start with 1
+#set -g base-index 1
+#setw -g pane-base-index 1
+
+#set-option -g set-titles on
+#set-option -g set-titles-string "#T - #W"
+# set-window-option -g automatic-rename on
+
+######################
+#### Key Bindings ####
+######################
+
+# reload config file
+bind r source-file ~/.tmux.conf \; display "Config Reloaded."
+
+# split window and fix path for tmux 1.9
+#bind | split-window -h -c "#{pane_current_path}"
+#bind - split-window -v -c "#{pane_current_path}"
+
+# synchronize all panes in a window
+bind y setw synchronize-panes
+
+# pane movement shortcuts
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# Tmux-Vim-Navigator: https://www.bugsnag.com/blog/tmux-and-vim
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+
+is_fzf="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?fzf$'"
+
+bind -n C-h run "($is_vim && tmux send-keys C-h) || \
+                  tmux select-pane -L"
+bind -n C-j run "($is_vim && tmux send-keys C-j) || \
+                 ($is_fzf && tmux send-keys C-j) || \
+                 tmux select-pane -D"
+bind -n C-k run "($is_vim && tmux send-keys C-k) || \
+                 ($is_fzf && tmux send-keys C-k) || \
+                  tmux select-pane -U"
+bind -n C-l run  "($is_vim && tmux send-keys C-l) || \
+                   tmux select-pane -R"
+bind-key -n 'C-\' if-shell "$is_vim" "send-keys 'C-\\'" "select-pane -l"
+
+# cycle through panes
+# unbind o # this is the default key for cycling panes
+# The following two lines conflict with nested tmux sessions
+# bind-key -n C-a select-pane -t:.+
+# bind C-a        select-pane -t:.+
+# bind-key -n C-o select-pane -t:.+
+unbind-key -T root C-o
+
+
+# Following two lines conflict with nested tmux sessions
+bind b          select-pane -t:.+
+bind C-b        select-pane -t:.+
+
+bind -r C-h select-window -t :-
+bind -r C-l select-window -t :+
+
+# Reorder windows
+bind-key T swap-window -t 0
+
+# Resize pane shortcuts
+bind -r H resize-pane -L 1
+bind -r J resize-pane -D 1
+bind -r K resize-pane -U 1
+bind -r L resize-pane -R 1
+
+# Resize all panes equally
+unbind =
+bind = select-layout even-horizontal
+# bind = select-layout tiled
+
+# enable mouse support for switching panes/windows
+setw -g mouse on
+
+# set vi mode for copy mode
+setw -g mode-keys vi
+# more settings to make copy-mode more vim-like
+#unbind [
+#bind Escape copy-mode
+# unbind p
+# bind p paste-buffer
+bind -Tcopy-mode-vi 'v' send -X begin-selection
+bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
+
+# Buffers to/from Mac clipboard, yay tmux book from pragprog
+#bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
+#bind C-v run "tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer"
+
+##############################
+### Color & Style Settings ###
+##############################
+
+#source ~/.dotfiles/tmux/base16.sh
+
+#################################
+# TMUX CONF
+#################################
+# Inspired by Nick Nisi: https://github.com/nicknisi/dotfiles
+
+#### COLOUR
+
+tm_color_active=colour32
+tm_color_inactive=colour241
+tm_color_feature=colour206
+tm_color_music=colour215
+tm_active_border_color=colour246
+
+# separators
+tm_separator_left_bold="◀"
+tm_separator_left_thin="❮"
+tm_separator_right_bold="▶"
+tm_separator_right_thin="❯"
+
+set -g status-left-length 32
+set -g status-right-length 150
+set -g status-interval 5
+
+# default statusbar colors
+# set-option -g status-bg colour0
+# set-option -g status-fg $tm_color_active
+# set-option -g status-bg default
+# set-option -g status-attr default
+set-option -g status-style fg=$tm_color_active,bg=default,default
+
+# default window title colors (color of output in terminal)
+# set-window-option -g window-status-fg $tm_color_inactive
+# set-window-option -g window-status-bg default
+set -g window-status-format "#I #W"
+# set-option -g window-style fg=$tm_color_inactive,bg=default
+# set-option -g window-style fg=$tm_color_active,bg=default
+
+# active window title colors
+# set-window-option -g window-status-current-fg $tm_color_active
+# set-window-option -g window-status-current-bg default
+set-window-option -g window-status-current-format "#[bold]#W"
+set-option -g window-status-current-style fg=$tm_color_active,bg=default
+
+# pane border
+# set-option -g pane-border-fg $tm_color_inactive
+set-option -g pane-border-style fg=$tm_color_inactive
+# set-option -g pane-active-border-fg $tm_active_border_color
+set-option -g pane-active-border-style fg=$tm_active_border_color
+
+# message text
+# set-option -g message-bg default
+# set-option -g message-fg $tm_color_active
+set-option -g message-style bg=default,fg=$tm_color_active
+
+# pane number display
+set-option -g display-panes-active-colour $tm_color_active
+set-option -g display-panes-colour $tm_color_inactive
+
+# clock
+set-window-option -g clock-mode-colour $tm_color_active
+
+# tm_tunes="#[fg=$tm_color_music]#(osascript ~/.dotfiles/applescripts/tunes.scpt | cut -c 1-50)"
+tm_tunes="#[fg=$tm_color_music]#(osascript -l JavaScript ~/.tmux/tunes.js)"
+#tm_battery="#(~/.dotfiles/bin/battery_indicator.sh)"
+
+tm_date="#[fg=$tm_color_inactive] %R %d %b"
+tm_host="#[fg=$tm_color_feature,bold]#h"
+tm_session_name="#[fg=$tm_color_feature,bold]#S"
+tm_panetitle="#[fg=$tm_color_feature,bold]#T"
+tm_condaenv="#[fg=$tm_color_feature,bold]#(conda info | grep 'active environment' | sed 's/^.*: //')#[default]"
+
+# From https://aaronlasseigne.com/2012/10/15/battery-life-in-the-land-of-tmux/
+tm_language="#[fg=$tm_color_inactive][#(~/.dotfiles/tmux/language.sh)]"
+
+set -g status-left $tm_session_name' '
+set -g status-right $tm_tunes' '$tm_language''$tm_date
+
+# Hide Status bar
+#set -g status on
+bind 0 set-option status
+
+# Conda environment
+#conda deactivate
+
+# Tmux Escape Time: Otherwise Esc in Vim takes too long
+# https://github.com/neovim/neovim/issues/2035
+set-option -sg escape-time 10
+

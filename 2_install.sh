@@ -3,7 +3,6 @@
 # INSTALLATION (2_install.sh)
 # Install utilities in a Linux server or Mac computer
 #----------------------------------------------------------------
-set -e
 
 echo ""
 echo "2. INSTALLATION: Installing utilities."

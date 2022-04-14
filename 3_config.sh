@@ -11,17 +11,15 @@ echo ""
 DIR=$PWD
 
 # Create directories and files
-# Vim
-mkdir -p ~/.config/nvim/
+mkdir -p ~/.config/nvim/            # Nvim
 touch ~/.config/nvim/init.vim
-mkdir -p ~/.vim/autoload/
+mkdir -p ~/.vim/autoload/           # Vim
 touch ~/.vim/autoload/autocmds.vim
-# Tmux
-touch ~/.tmux.conf
-# Zshrc
-touch ~/.zshrc
-# Oh-my-zsh
-mkdir -p ~/.oh-my-zsh/custom/themes
+touch ~/.tmux.conf                  # Tmux
+touch ~/.zshrc                      # Zsh
+mkdir -p ~/.oh-my-zsh/custom/themes # Oh-my-zsh
+mkdir -p ~/.config/ranger           # Ranger
+mkdir -p ~/.config/vifm             # Vifm
 
 # Create Symlinks
 

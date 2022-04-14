@@ -291,7 +291,9 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 fi
 
 # Initialize Pyenv: https://github.com/pyenv/pyenv#basic-github-checkout
-eval "$(pyenv init -)"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    eval "$(pyenv init -)"
+fi
 #}}}
 # Key Bindings {{{
 bindkey -v # Vim mode for zsh command line

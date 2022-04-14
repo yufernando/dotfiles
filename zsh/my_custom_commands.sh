@@ -107,8 +107,11 @@ Usage:
                     return 1
                 fi
 
-                # Get token and launch
+                # Get Token
                 TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
+                # Get Port
+                PORT=`docker ps --format "{{.Ports}}" --filter "name=${CONTAINER}$" | cut -d: -f2 | cut -d- -f1 | tr -d '\n'`
+                # Run container
                 URL="http://localhost:$PORT/?$TOKEN"
                 echo "Opening JupyterLab running in Docker container '$CONTAINER'..."
                 # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
@@ -196,8 +199,10 @@ Usage:
                 return 1
             fi
 
-            # Get token and launch
+            # Get Token
             TOKEN=`docker logs $CONTAINER 2>&1| grep -o "token=[a-z0-9]*" | tail -1`
+            # Get Port
+            PORT=`docker ps --format "{{.Ports}}" --filter "name=${CONTAINER}$" | cut -d: -f2 | cut -d- -f1 | tr -d '\n'`
             URL="http://localhost:$PORT/?$TOKEN"
             echo "Opening browser window."
             # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL > /dev/null
@@ -212,82 +217,77 @@ Usage:
 }
 
 # Run JupyterLab from Docker Container
-# This command pulls the yufernando/jupyterlab image from Docker Hub if it is
-# not already present on the local host. It then starts an ephemeral container
-# running a Jupyter Notebook server and exposes the server on host port 8888.
-# The command mounts the current working directory on the host as
-# /home/jovyan/work in the container. The server logs appear in the terminal.
-# Visiting http://<hostname>:10000/?token=<token> in a browser loads
-# JupyterLab, where hostname is the name of the computer running docker and
-# token is the secret token printed in the console. Docker destroys the
-# container after notebook server exit, but any files written to ~/work in the
-# container remain intact on the host.:
-function dockerlab {
+# This command is a wrapper on docker run that uses a specified image (default:
+# yufernando/jupyterlab). It then starts a container and can mount folders into
+# it.
 
-    usage="Run JupyterLab in a Docker Container, mount current directory and open with Chrome in app mode.
+# JupyterLab Image
+# For the JupyterLab image it runs a Jupyter Notebook server and exposes the
+# server on host port 8888. It can mount the current working directory into
+# /home/jovyan/work or any other directory specified. It queries unused ports
+# and the JupyterLab token to build the URL
+# http://<hostname>:<port>/?token=<token> and optionally open it in Chrome.
 
-Usage: 
-    dockerlab -h                    Display help.
+function dock() {
 
-    dockerlab                       Use image: yufernando/jupyterlab.
-    dockerlab yufernando/bioaretian Use image: yufernando/bioaretian.
-    dockerlab [IMG]                 Use image: IMG.
-    dockerlab -n [NAME]             Set container name NAME. (Default: jupyterlab)
-    dockerlab -p [PORT]             Use port PORT. (Default: 8888)
+    # Color aliases
+    COLOR_NC='\033[0m'
+    COLOR_GREEN='\033[0;32m'
+    COLOR_LIGHT_GREEN='\e[1;32m'
+    COLOR_LIGHT_BLUE='\e[1;34m'
+    COLOR_RED='\e[0;31m'
+    COLOR_WHITE='\e[1;37m'
+    COLOR_YELLOW='\e[1;33m'
+    COLOR_LIGHT_PURPLE='\e[1;35m'
+    COLOR_LIGHT_RED='\e[1;31m'
+    COLOR_GRAY='\e[1;30m'
+    COLOR_LIGHT_GRAY='\e[0;37m'
 
-    dockerlab -v [DIR]              Mount directory DIR only. (Default: PWD)
-    dockerlab -V [DIR]              Mount directory DIR and current directory.
-    dockerlab -v \"\"               Do not mount directory.
+    usage="Run a Docker Container, optionally mount directories and open in a browser or in a terminal.
 
-    dockerlab -d                    Detached mode: do not open Chrome.
-    dockerlab -i                    Interactive mode: open zsh shell."
+${COLOR_LIGHT_BLUE}Usage:${COLOR_NC} dock ${COLOR_LIGHT_PURPLE}[options]${COLOR_NC} ${COLOR_LIGHT_GREEN}<target>${COLOR_NC}
+
+  ${COLOR_LIGHT_GREEN}target:${COLOR_NC}
+    lab, cs50, bio, <image-name>. Default: yufernando/jupyterlab.
+
+  ${COLOR_LIGHT_PURPLE}options:${COLOR_NC}
+    -h                    Display help.
+    -n [NAME]             Set container name NAME (Default: jupyterlab).
+    -p [PORT]             Use port PORT (Default: 8888).
+
+    -c                    Mount CWD into WORKDIR.
+    -v [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR.
+    -V [HOSTDIR:CONTDIR]  Mount HOSTDIR into CONTDIR and CWD into WORKDIR (same as -vc).
+
+    -o                    Open Jupyterlab in Chrome.
+    -i                    Interactive mode: open zsh shell.
+
+    -s                    Copy Github SSH keys into container.
+
+${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
+    dock                  Run JupyterLab container in detached mode.
+    dock -i lab           Run JupyterLab container. Open in a terminal.
+    dock -co bio          Run Bioaretian. Mount CWD. Open in a browser.
+    dock -cis cs50        Run CS50 image. Mount CWD. Copy SSH Keys. Open in a terminal.
+"
 
     # Defaults
-    OPENCHROME=true
+    # IMAGE='yufernando/jupyterlab'
+    OPENCHROME=false
     OPENZSH=false
-    MOUNT_PWD=true
-    MOUNT_SOURCE_TARGET=""
+    COPYSSH=false
+    FLAG_IT=
     PORT=8888
-    CONTAINER_NAME='jupyterlab'
+    FLAG_PORT=
+    FLAG_MOUNT=
+    MOUNT_CWD=
+    FLAG_ENV=
+    FLAG_USER_RUN=
+    FLAG_USER_EXEC=
+    CONTAINER_NAME=
+    IMAGE=
 
-    while getopts 'dhin:p:v:V:' option; do
-        case "$option" in
-            d) # Detached. do not open Chrome.
-                OPENCHROME=false
-                ;;
-            h) # Display help 
-                echo "$usage"
-                return 0
-                ;;
-            i) # Open zsh in interactive mode
-                OPENZSH=true
-                ;;
-            n) # Container name
-                CONTAINER_NAME=$OPTARG
-                ;;
-            p) # Port
-                PORT=$OPTARG
-                ;;
-            v) # Mount folder
-                MOUNT_SOURCE_TARGET=$OPTARG
-                MOUNT_PWD=false
-                ;;
-            V) # Mount both specified folder and CWD
-                MOUNT_SOURCE_TARGET=$OPTARG
-                ;;
-            \?) # incorrect option
-                echo "Error: Invalid option. Usage: dockerlab -h."
-                return 1
-                ;;
-            :)
-                echo "Invalid Option: -$OPTARG requires an argument" 1>&2
-                return 1
-                ;;
-        esac
-    done
-    shift $((OPTIND -1))
-
-    # Check if Docker is running
+    # Check if Docker is running. Launch Docker if not.
     if (! docker ps > /dev/null 2>&1 ); then
         # Launch Docker
         echo "Docker daemon not running. Launching Docker Desktop..."
@@ -299,88 +299,143 @@ Usage:
         done
     fi
 
-    if [[ $# -eq 0 ]]; then
-        IMAGE='yufernando/jupyterlab'
-    else 
-        IMAGE=$1
-    fi
-    # Container name: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
-    CONTAINER=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
-    NOCOLOR='\033[0m'
-    GREEN='\033[0;32m'
+    # GET OPTIONS
+    while getopts 'chiosn:p:v:V:' option; do
+        case "$option" in
+            c) # Mount current working directory
+                MOUNT_CWD=true
+                ;;
+            h) # Display help 
+                echo "$usage"
+                return 0
+                ;;
+            i) # Open zsh in interactive mode
+                OPENZSH=true
+                ;;
+            n) # Container name
+                CONTAINER_NAME=$OPTARG
+                ;;
+            o) # Open Chrome in Jupyterlab
+                OPENCHROME=true
+                ;;
+            p) # Port
+                PORT=$OPTARG
+                ;;
+            s) # Copy ssh keys into container
+                COPYSSH=true
+                ;;
+            v) # Mount folder
+                FLAG_MOUNT+=(-v $OPTARG)
+                ;;
+            V) # Mount both specified folder and CWD
+                MOUNT_CWD=true
+                FLAG_MOUNT+=(-v $OPTARG)
+                ;;
+            \?) # Incorrect option
+                echo "Error: Invalid option. Usage: dock -h."
+                return 1
+                ;;
+            :) # Argument ommited
+                echo "Invalid Option: -$OPTARG requires an argument" 1>&2
+                return 1
+                ;;
+        esac
+    done
+    shift $((OPTIND -1))
 
+    # GET IMAGE ARGUMENT
+    if [[ $# -ge 1 ]]; then
+        IMAGE=$1; shift
+    fi
+    case "$IMAGE" in 
+        cs50)
+            IMAGE="yufernando/cs50"
+            FLAG_IT="-it" # Run with -it to avoid container exit after start
+            if [[ $MOUNT_CWD = true ]]; then
+                FLAG_MOUNT+=(-v $PWD:/home/cs50)
+            fi
+            ;;
+        ""|lab) # Defaults to jupyterlab
+            IMAGE="yufernando/jupyterlab"
+            ;|
+        bio)
+            IMAGE="yufernando/bioaretian"
+            ;|
+        ""|lab|bio|yufernando/bioaretian*|yufernando/jupyterlab*)
+            if [[ $MOUNT_CWD = true ]]; then
+                FLAG_MOUNT+=(-v $PWD:/home/jovyan/work)
+            fi
+            FLAG_ENV+=(-e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes)
+            FLAG_USER_RUN+=(--user root)  # Run as root to grant sudo permissions
+            FLAG_USER_EXEC+=(--user 1000) # Open shell as user jovyan
+
+            # Check if port $PORT is in use. If it is, look for port not in use.
+            PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
+            while echo $PORT_LIST | grep -w -q $PORT; do
+                PORT=$(($PORT+1))
+            done
+            FLAG_PORT=(-p $PORT:8888)
+            ;;
+    esac
+
+    # Extract repository name from image: yufernando/jupyterlab:lab-3.1.6 --> jupyterlab
+    IMAGE_REPO=$(echo $IMAGE | cut -d/ -f2 | cut -d: -f1)
     # Set container name if not specified in option -n
     if [[ -z $CONTAINER_NAME ]]; then
-        CONTAINER_NAME=$CONTAINER
+        CONTAINER_NAME=$IMAGE_REPO
     fi
 
-    # Check if preexisting container is running
+    # Check if preexisting container is running. Else run image.
     if docker ps --format "{{.Names}}" | grep -wq $CONTAINER_NAME
     then
-        echo "Found Docker container '$CONTAINER_NAME' already running. If you want to create a new container run 'dockerlab -n [CONTAINER_NAME]'"
+        echo "Using Docker container ${COLOR_LIGHT_GREEN}$CONTAINER_NAME${COLOR_NC} found running. If you want to create a new container run ${COLOR_GREEN}dock -n [CONTAINER_NAME]${COLOR_NC}"
     else
-        echo "Running image '$IMAGE' in container '$CONTAINER_NAME' with ID:";
+        echo "Running image ${COLOR_LIGHT_GREEN}$IMAGE${COLOR_NC} in container ${COLOR_LIGHT_BLUE}$CONTAINER_NAME${COLOR_NC} with ID:";
 
-        # Mount directory depending on flag option
-        MOUNT_SCRIPT_PWD=""
-        MOUNT_MSG_PWD=""
-        if [[ $MOUNT_PWD = true ]]; then
-            MOUNT_SCRIPT_PWD="-v$PWD:/home/jovyan/work"
-            MOUNT_MSG_PWD="  Mounted: ${GREEN}$PWD${NOCOLOR} --> /home/jovyan/work"
-        fi
-
-        MOUNT_SCRIPT=""
-        MOUNT_MSG=""
-        if [[ -n $MOUNT_SOURCE_TARGET ]]; then
-            MOUNT_SOURCE=$(echo $MOUNT_SOURCE_TARGET | cut -d: -f1)
-            MOUNT_TARGET=$(echo $MOUNT_SOURCE_TARGET | cut -d: -f2)
-            MOUNT_SCRIPT="-v$MOUNT_SOURCE:$MOUNT_TARGET"
-            MOUNT_MSG="  Mounted: ${GREEN}$MOUNT_SOURCE${NOCOLOR} --> $MOUNT_TARGET"
-        fi
-
-        if [[ -z $MOUNT_SOURCE_TARGET  && $MOUNT_PWD = false ]]; then
-            MOUNT_MSG="  No Mounted Folder."
-        fi
-
-        # Check Port
-        PORT_LIST=$(docker ps --format "{{.Ports}}" | cut -d: -f2 | cut -d- -f1 | tr '\n' ' ')
-        PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
-        CHANGE_PORT=false
-        while [[ $PORT_MATCH -eq 0 ]]; do
-            PORT=$(($PORT+1))
-            PORT_MATCH=$(echo $PORT_LIST | grep -w -q $PORT; echo $?)
-            CHANGE_PORT=true
-        done
-
-        # Run container
-        docker run -d --rm -p $PORT:8888 $MOUNT_SCRIPT_PWD $MOUNT_SCRIPT -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes --user root --name $CONTAINER_NAME $IMAGE
+        docker run -d --rm ${FLAG_IT} ${FLAG_PORT[@]} ${FLAG_MOUNT[@]} ${FLAG_ENV[@]} ${FLAG_USER_RUN[@]} --name $CONTAINER_NAME $IMAGE
 
         # Report PORT
-        if [[ $CHANGE_PORT = true ]]; then 
+        if [[ $PORT -ne 8888 ]]; then 
             echo "Port in use. Using Port $PORT."; 
         fi
-        # Report mounted folder
-        echo ""
-        if [[ -n $MOUNT_MSG_PWD ]]; then echo $MOUNT_MSG_PWD; fi
-        if [[ -n $MOUNT_MSG ]]    ; then echo $MOUNT_MSG    ; fi
-        echo ""
 
+        # Report mounted folder
+        if [[ -n $FLAG_MOUNT ]]; then
+            echo ""
+            for (( i=3; i<=${#FLAG_MOUNT[@]}; i+=2 ))
+            do
+                MOUNT_SOURCE=$(echo "${FLAG_MOUNT[i]}" | cut -d: -f1)
+                MOUNT_TARGET=$(echo "${FLAG_MOUNT[i]}" | cut -d: -f2)
+                MOUNT_MSG="  Mounted: ${COLOR_LIGHT_PURPLE}$MOUNT_SOURCE${COLOR_NC} --> $MOUNT_TARGET"
+                echo $MOUNT_MSG
+            done
+            echo ""
+        fi
+    fi
+
+    # Add Github ssh keys
+    if [[ $COPYSSH = true ]]; then
+        docker exec $CONTAINER_NAME mkdir -p /home/jovyan/.ssh
+        docker cp ~/.ssh/id_rsa_github $CONTAINER_NAME:/home/jovyan/.ssh
+        docker cp ~/.ssh/id_rsa_github.pub $CONTAINER_NAME:/home/jovyan/.ssh
+        echo "Added Github SSH keys."
+    fi
+
+    # Open JupyterLab running in container with Chrome
+    if [[ $OPENCHROME = true ]]; then
         # Wait until Jupyterlab is initialized by checking logs
-        # echo 'Jupyterlab initializing...'
         RUNNING=""
         while [[ -z $RUNNING ]]; do
             RUNNING=`docker logs $CONTAINER_NAME 2>&1| grep -o "Or copy and paste one of these URLs"`
             sleep .2
         done
+        # Open Chrome: PORT will be inferred from running containers
+        chromeapp docker -c $CONTAINER_NAME
     fi
 
-    # Open JupyterLab running in container with Chrome
-    if [[ $OPENCHROME = true ]]; then
-        chromeapp docker -c $CONTAINER_NAME -p $PORT
-    fi
-
+    # Open container in interactive terminal
     if [[ $OPENZSH = true ]]; then
-        docker exec -it $CONTAINER_NAME zsh
+        docker exec -it ${FLAG_USER_EXEC[@]} $CONTAINER_NAME /bin/zsh
     fi
 }
 
@@ -462,4 +517,16 @@ function vicd {
         return 1
     fi
     cd "$dst"
+}
+
+# First Ctrl-z suspend job. Second Ctrl-z resumes in background
+# If terminal buffer has text, open a second terminal, then resume
+# Source: https://superuser.com/a/378045
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    bg
+    zle redisplay
+  else
+    zle push-input
+  fi
 }

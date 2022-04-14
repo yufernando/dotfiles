@@ -149,6 +149,7 @@ command! -nargs=+ TT Topen | T <args>
 let g:neoterm_automap_keys = ",t"
 " let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --no-autoindent --nosep']
 " let g:neoterm_repl_enable_ipython_paste_magic = 1
+let g:neoterm_shell = "/bin/zsh"
 
 " For Limelight to work with colorscheme (:help cterm-colors)
 let g:limelight_conceal_ctermfg = 'gray'

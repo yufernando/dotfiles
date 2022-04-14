@@ -85,4 +85,4 @@ ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim
 
 # Install Vim Plugins
 echo "Installing Vim Plugins..."
-nvim --headless +PlugInstall +qall > /dev/null 2>&1
+nvim --headless +PlugInstall +UpdateRemotePlugins +qall > /dev/null 2>&1

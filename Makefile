@@ -1,4 +1,5 @@
-# Makefile
+# Dotfiles
+# Install and configure a common environment across platforms.
 #
 # Help
 #	make help
@@ -81,10 +82,11 @@ merge: ## Merge branch with master and push to remote
 	git checkout master
 
 help: ## View help
-	@awk 'BEGIN {FS="^#+ ?"}; \
-		  NR==1 {printf "\033[36m%s\033[0m\n\n", $$2; next} \
-		  /^#+ ?[^ \t]/ {print $$2} \
-		  /^#+( {2,}| ?\t)/ {printf "\033[0;37m%s\033[0m\n", $$2} \
+	@awk 'BEGIN {FS="^#+ ?"; header=1; body=0}; \
+		  header == 1 {printf "\033[36m%s\033[0m\n", $$2} \
+		  /^#\s*$$/ {header=0; body=1; next} \
+		  body == 1 && /^#+ ?[^ \t]/ {print $$2} \
+		  body == 1 && /^#+( {2,}| ?\t)/ {printf "\033[0;37m%s\033[0m\n", $$2} \
 		  /^\s*$$/ {print "";exit}' $(MAKEFILE_LIST)
 	@echo "Rules:"
 	@grep -E '^[a-zA-Z_-]+:.*##[ \t]+.*$$' $(MAKEFILE_LIST) \

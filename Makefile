@@ -59,16 +59,16 @@ all_user: ## Linux standard user: install and config.
 		./3_config.sh"
 
 install: ## Install programs. Clone dotfiles repo if not existent.
-	if [ ! -d ~/.dotfiles ]; then \
+	@if [ ! -d ~/.dotfiles ]; then \
 		git clone --single-branch --branch $(DOTFILES_BRANCH) https://github.com/yufernando/dotfiles.git ~/.dotfiles; \
 	fi
-	./2_install.sh
+	@./2_install.sh
 
 config: ## Configure settings. Clone dotfiles repo if not existent.
-	if [ ! -d ~/.dotfiles ]; then \
+	@if [ ! -d ~/.dotfiles ]; then \
 		git clone --single-branch --branch $(DOTFILES_BRANCH) https://github.com/yufernando/dotfiles.git ~/.dotfiles; \
 	fi
-	./3_config.sh
+	@./3_config.sh
 
 help: ## View help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \

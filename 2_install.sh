@@ -1,12 +1,15 @@
 #!/bin/bash
 #
 # INSTALLATION (2_install.sh)
-# Install utilities in a linux server or mac computer
+# Install utilities in a Linux server or Mac computer
 #----------------------------------------------------------------
+set -e
 
 echo ""
-echo "2. INSTALLATION: installing utilities."
+echo "2. INSTALLATION: Installing utilities."
 echo ""
+
+echo "Skipping if programs already installed."
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 
@@ -56,7 +59,7 @@ brew install neovim
 fi
 
 # Install vim-plug
-if [ ! -e $HOME/.local/share/nvim/site/autoload/plug.vim ]
+if [ ! -e $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 fi
@@ -76,14 +79,15 @@ chsh -s /usr/bin/zsh
 fi
 
 # Install oh-my-zsh
-if [ ! -e $HOME/.oh-my-zsh/oh-my-zsh.sh ]
+if [ ! -e $HOME/.oh-my-zsh/oh-my-zsh.sh ]; then
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
 # Oh-my-zsh plugins
-if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions]; then
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
-if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting]; then
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+fi
 fi

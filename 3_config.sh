@@ -58,11 +58,11 @@ fi
 # Italics in iTerm and Tmux
 # https://apple.stackexchange.com/a/267261
 if [[ "$OSTYPE" == "darwin"* ]]; then
-tic -o ~/.terminfo $DIR/tmux/xterm-256color.terminfo_mac.txt || true
+tic -o ~/.terminfo $DIR/tmux/tmux-256color.terminfo_mac.txt || true
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-tic -o ~/.terminfo $DIR/tmux/xterm-256color.terminfo_ubuntu.txt || true
+tic -o ~/.terminfo $DIR/tmux/tmux-256color.terminfo_ubuntu.txt || true
 fi
-tic -o ~/.terminfo $DIR/tmux/tmux-256color.terminfo.txt || true
+tic -o ~/.terminfo $DIR/tmux/xterm-256color.terminfo.txt || true
 tic -o ~/.terminfo $DIR/tmux/tmux.terminfo.txt || true
 
 # Ranger

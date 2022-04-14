@@ -1,6 +1,6 @@
 # Makefile
 #
-# Help:
+# Help
 #	make help
 #
 # Setup Mac:
@@ -15,8 +15,8 @@
 #		[sshkey=sshkey] # if configured in automated script
 #
 # Setup Docker image:
-#		make install
-#		make config     -> two steps for caching
+#	make install
+#	make config     -> two steps for caching
 #
 # Mac: Update config
 # 	make config
@@ -34,7 +34,7 @@ else ifeq ($(UNAME), Darwin)
 DOTFILES_BRANCH := mac
 endif
 
-.PHONY: all all_root all_user install config install_config help
+.PHONY: all all_root all_user install config install_config merge help
 
 ifeq ($(UNAME), Linux)
 all: all_root all_user ## Main entrypoint: install and config (Linux, also setup and harden)
@@ -73,15 +73,21 @@ config: ## Configure settings. Clone dotfiles repo if not existent.
 	fi
 	@./3_config.sh
 
-help: ## View help
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
-	| sort \
-	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-
 merge: ## Merge branch with master and push to remote
 	git checkout $(branch)
 	git pull
 	git merge master
 	git push
 	git checkout master
+
+help: ## View help
+	@awk 'BEGIN {FS="^#+ ?"}; \
+		  NR==1 {printf "\033[36m%s\033[0m\n\n", $$2; next} \
+		  /^#+ ?[^ \t]/ {print $$2} \
+		  /^#+( {2,}| ?\t)/ {printf "\033[0;37m%s\033[0m\n", $$2} \
+		  /^\s*$$/ {print "";exit}' $(MAKEFILE_LIST)
+	@echo "Rules:"
+	@grep -E '^[a-zA-Z_-]+:.*##[ \t]+.*$$' $(MAKEFILE_LIST) \
+	| sort \
+	| awk 'BEGIN {FS=":.*##[ \t]+"}; {printf "\033[36m%-20s\033[0m%s\n", $$1, $$2}'
 

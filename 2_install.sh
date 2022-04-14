@@ -32,18 +32,28 @@ mkdir -p ~/.local/bin
 ln -sf $(which fdfind) ~/.local/bin/fd
 
 # Install vim-plug
+if [ ! -e $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+fi
 
 # Change shell to zsh
+if [[ $SHELL != /bin/zsh ]]; then
 chsh -s /usr/bin/zsh
+fi
 
 # Install oh-my-zsh
+if [ ! -e $HOME/.oh-my-zsh/oh-my-zsh.sh ]; then
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+fi
 
 # Oh-my-zsh plugins
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+fi
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; then
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+fi
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then

@@ -23,6 +23,9 @@
 #
 # Ubuntu: Update config
 # 	make config
+#
+# Merge branch with master and push to remote
+# 	make merge branch=mac
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
@@ -74,4 +77,11 @@ help: ## View help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+merge: ## Merge branch with master and push to remote
+	git checkout $(branch)
+	git pull
+	git merge master
+	git push
+	git checkout master
 

@@ -17,7 +17,7 @@
 #
 # Setup Docker image:
 #	make install
-#	make config     -> two steps for caching
+#	make config		--> two steps for caching
 #
 # Mac: Update config
 # 	make config
@@ -27,6 +27,7 @@
 #
 # Merge branch with master and push to remote
 # 	make merge branch=mac
+# 	make merge 		--> merges both mac and ubuntu
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
@@ -34,6 +35,7 @@ DOTFILES_BRANCH := ubuntu
 else ifeq ($(UNAME), Darwin)
 DOTFILES_BRANCH := mac
 endif
+branch := all
 
 .PHONY: all all_root all_user install config install_config merge help
 
@@ -75,11 +77,16 @@ config: ## Configure settings. Clone dotfiles repo if not existent.
 	@./3_config.sh
 
 merge: ## Merge branch with master and push to remote
-	git checkout $(branch)
-	git pull
-	git merge master
-	git push
-	git checkout master
+	@if [ "$(branch)" = "all" ]; then  \
+		$(MAKE) merge branch=mac; \
+		$(MAKE) merge branch=ubuntu; \
+	else \
+		git checkout $(branch); \
+		git pull --ff-only; \
+		git merge master --ff-only; \
+		git push; \
+		git checkout master; \
+	fi
 
 help: ## View help
 	@awk 'BEGIN {FS="^#+ ?"; header=1; body=0}; \

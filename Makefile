@@ -18,11 +18,11 @@
 #		make install
 #		make config     -> two steps for caching
 #
-# Mac: Update install and config
-# 	make install config
+# Mac: Update config
+# 	make config
 #
-# Ubuntu: Update install and config
-# 	make install config
+# Ubuntu: Update config
+# 	make config
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)

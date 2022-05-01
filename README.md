@@ -2,13 +2,15 @@
 
 This repository contains scripts configure the same environment in a Mac, Ubuntu Server or Docker container. It installs useful tools (zsh, tmux, etc) and dotfiles for configuration.
 
-In addtion, in an Ubuntu server it configures and hardens the server (sets up SSH and firewall).
+In addition, in an Ubuntu server it configures and hardens the server (sets up SSH and firewall).
+
+All scripts can be run from the `master` branch with has flags for every type of OS/platform. The instructions below make specific mention to an `ubuntu` branch just in case we want to customize further in the future.
 
 # Installation instructions
 
 ## Mac
 
-1. Clone the `master` branch of the repository into a hidden folder in the home directory:
+1. Clone the `master` branch of the repository:
 
 ```
 git clone --single-branch --branch master https://github.com/yufernando/dotfiles ~/.dotfiles
@@ -20,12 +22,20 @@ git clone --single-branch --branch master https://github.com/yufernando/dotfiles
 brew install make
 ```
 
-3. Run the config and install scripts:
+3. To run a full installation and configuration:
 
 ```
 cd ~/.dotfiles
 make all
 ```
+
+To just run configuration:
+
+```
+cd ~/.dotfiles
+make config
+```
+
 
 ## Ubuntu Linux
 
@@ -49,7 +59,7 @@ apt update && apt -y upgrade
 apt -y install git make
 ```
 
-4. Clone the `ubuntu` branch of the repository into a hidden folder in the home directory:
+4. Clone the `ubuntu` branch of the repository:
 
 ```
 git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
@@ -105,13 +115,13 @@ ln -svf ~/.dotfiles/zshrc        ~/.zshrc
 # Configure a Docker Container
 
 To configure a Docker container running Ubuntu with zsh, oh-my-zsh and other utilities clone the
-repository and run the `config_install` recipe:
+repository and run `install` and `config`:
 ```
 apt update && apt -y upgrade
 apt -y install make
 git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
 cd ~/.dotfiles
-make install config user=username
+make install config
 ```
 
-The two `make` steps are intentional to exploit caching of the install step and avoid rebuilding every time we change the configuration step.
+The two `make` steps should be kept separate in a Dockerfile to exploit caching.

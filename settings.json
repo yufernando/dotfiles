@@ -258,5 +258,6 @@
 
   // Disable when developing Vue projects, it will conflict with npm esling module
   // "editor.formatOnSave": true,
-"jupyter.sendSelectionToInteractiveWindow": false
+"jupyter.sendSelectionToInteractiveWindow": false,
+"python.pythonPath": "/Users/fer/miniconda3/envs/dsfull/bin/python"
 }

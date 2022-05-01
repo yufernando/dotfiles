@@ -116,7 +116,7 @@ c.LabApp.browser = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chro
 
 ## The notebook manager class to use.
 #c.NotebookApp.contents_manager_class = 'notebook.services.contents.largefilemanager.LargeFileManager'
-c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager"
+# c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager"
 # Note: disable this for conda environments that don't have Jupytext installed
 
 ## Extra keyword arguments to pass to `set_secure_cookie`. See tornado's
@@ -375,7 +375,7 @@ c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager"
 #------------------------------------------------------------------------------
 
 ## The app directory to launch JupyterLab from.
-#c.LabApp.app_dir = '/Users/Fer/anaconda3/share/jupyter/lab'
+#c.LabApp.app_dir = '/Users/fer/miniconda3/share/jupyter/lab'
 
 ## Whether to start the app in core mode. In this mode, JupyterLab will run using
 #  the JavaScript assets that are within the installed JupyterLab Python package.

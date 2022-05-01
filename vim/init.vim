@@ -1,6 +1,12 @@
 " ╦  ╦╦╔╦╗
 " ╚╗╔╝║║║║
 "  ╚╝ ╩╩ ╩
+" Vim Configuration File
+
+" 'zo': Open folded sections 
+" 'zc': Open folded sections 
+" <leader>d: Open init.vim
+" <leader>D: Reload init.vim
 
 " Setup {{{
 
@@ -17,9 +23,8 @@ set nocompatible     " Loads .vimrc as your own .vimrc. Was used for compatibili
 
 set textwidth=79
 
-" syntax enable
-" syntax off
-" syntax on
+syntax enable " Use this vs 'syntax on' if you use 'highlight' commands
+    " Source: https://www.reddit.com/r/vim/comments/choowl/vimpolyglot_syntax_on_or_syntax_enable/
 set number
 set number relativenumber
 set ruler
@@ -32,7 +37,6 @@ set tabstop=4       " The width of a TAB is set to 4.
                     " Still it is a \t. It is just that
                     " Vim will interpret it to be having
                     " a width of 4.
-
 set shiftwidth=4    " Indents will have a width of 4
 set softtabstop=4   " Sets the number of columns for a TAB
 set expandtab       " Expand TABs to spaces
@@ -42,11 +46,34 @@ set clipboard=unnamed "MacOS Clipboard
 set splitbelow      " Split below
 set splitright      " Split to the right, feels more natural 
 
+" Statusline helper functions
+" Get Git Branch
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+" Add Git Branch to Statusline
+function! StatuslineGit()
+  " let l:branchname = GitBranch()
+  let l:branchname = FugitiveHead()
+  return strlen(l:branchname) > 0?'   '.l:branchname.' ':''
+endfunction
+
 set statusline=
-set statusline+=%#LineNr#   " Status line background color
-set statusline+=%f          " file name in status line
-set statusline+=\ %{FugitiveStatusline()} " Git info in status line
-set laststatus=0            " Hide status bar
+set statusline+=%#CursorColumn#
+set statusline+=%{StatuslineGit()}
+" set statusline+=%{FugitiveHead()}         " Get Branch From Vim Fugitive
+" set statusline+=\ %{FugitiveStatusline()} " Get Branch From Vim Fugitive
+set statusline+=%m\ " File was modified
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+" set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+" set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ 
 
 set foldmethod=marker " Fold with three brackets
 
@@ -63,39 +90,41 @@ set virtualedit=block "Allow cursor to move when there is no text in visual bloc
 " }}}
 " Plugins {{{
 
-call plug#begin('~/.vim/plugged')
+call plug#begin(stdpath('data') . '/plugged')
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " Tree browser
 Plug 'junegunn/goyo.vim'            " Focused editing
 Plug 'junegunn/limelight.vim'       " Highlight current paragraph
-Plug '/usr/local/opt/fzf'           " Fuzzy finder
-Plug 'junegunn/fzf.vim'             " Fuzzy finder for Vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy finder
+Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'           " Edit surrounding text
 Plug 'tpope/vim-commentary'         " Comments
 Plug 'tpope/vim-fugitive'           " Github
 Plug 'mhinz/vim-startify'           " Startup buffer
 Plug 'morhetz/gruvbox'
 Plug 'vimwiki/vimwiki'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'posva/vim-vue'                 " Vue syntax highlighting
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'davidhalter/jedi-vim' " Has Go To Definition
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'christoomey/vim-tmux-navigator'
+Plug 'Shougo/deoplete-clangx', { 'for': ['c'] }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippets
-Plug 'dense-analysis/ale' "Linter
-"Plug 'vim-airline/vim-airline' " Bottom Status Bar
-"Plug 'vim-airline/vim-airline-themes'
-"Plug 'rakr/vim-one'
-"Plug 'goerz/jupytext.vim'
-"Plug 'vim-pandoc/vim-pandoc-syntax'
-"Plug 'lervag/vimtex'                " Latex
-"Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
+Plug 'dense-analysis/ale' " Linter
+Plug 'jiangmiao/auto-pairs'
+Plug 'epeli/slimux'                 " Send comands to tmux window
+Plug 'kassio/neoterm'               " Terminal in Vim
+" Plug 'christoomey/vim-tmux-navigator'
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'vim-airline/vim-airline' " Bottom Status Bar
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'rakr/vim-one'
+" Plug 'goerz/jupytext.vim'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'lervag/vimtex'                " Latex
+" Plug 'neomake/neomake'              " Code syntax checking: activate with :Neomake
 " Plug 'bkad/camelcasemotion'
 " Plug 'plasticboy/vim-markdown'      " Plasticboy Plugin for Markdown
-" Plug 'epeli/slimux'                 " Send comands to tmux window
-" Plug 'kassio/neoterm'               " Terminal in Vim
 " Plug 'takac/vim-hardtime'           " Block repeat keys
 " Plug 'ctrlpvim/ctrlp.vim'           " Fuzzy finder
 " Plug 'tpope/vim-vinegar'            " File browser
@@ -108,12 +137,19 @@ call plug#end()
 " Vimtex and Skim
 let g:vimtex_view_method = 'skim'
 
-" Neoterm
-let g:neoterm_autoscroll = '1'
+" Neoterm: https://github.com/kassio/neoterm/pull/274
+let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --nosep']
+let g:neoterm_bracketed_paste = 1
+let g:neoterm_autoscroll = 1
 let g:neoterm_default_mod='belowright'
-let g:neoterm_size = 16
+let g:neoterm_size = 14
 let g:neoterm_keep_term_open = 1
-" command! -nargs=+ TT Topen | T
+" https://github.com/kassio/neoterm/issues/148 Usage: TT ls
+command! -nargs=+ TT Topen | T <args>
+let g:neoterm_automap_keys = ",t"
+" let g:neoterm_repl_python = ['conda activate ds', 'clear', 'ipython --no-banner --no-autoindent --nosep']
+" let g:neoterm_repl_enable_ipython_paste_magic = 1
+let g:neoterm_shell = "/bin/zsh"
 
 " For Limelight to work with colorscheme (:help cterm-colors)
 let g:limelight_conceal_ctermfg = 'gray'
@@ -128,7 +164,10 @@ let g:limelight_conceal_ctermfg = 'gray'
 let g:omni_sql_no_default_maps = 1
 
 " Linter
-let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']} "pydocstyle, bandit, mypy
+let g:ale_linters = {
+    \ 'python': ['flake8'],
+    \ 'javascript': ['eslint'],
+    \ 'c': ['clang']} " pydocstyle, bandit, mypy
 " let g:ale_fixers = {'*': [], 'python':['black', isort']}
 " let g:ale_fix_on_save = 1
 " Disable ALE by default. Enable with :ALEToggle (leader+z)
@@ -193,15 +232,26 @@ endfunction
 " endfunction
 
 " Deoplete Jedi
-let g:python_host_prog  = '/usr/local/bin/python'
-let g:python3_host_prog = '/Users/fer/anaconda3/envs/ds/bin/python'
+let g:python_host_prog  = '/usr/bin/python' 
+if system('uname') =~ "Darwin"
+    let g:python3_host_prog = '/Users/fer/miniconda3/envs/dsfull/bin/python'
+else
+    let g:python3_host_prog  = '/usr/bin/python3' 
+endif
+
+" Deoplete-clangx
+call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')
+
+" Deoplete-clang
+" let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+" let g:deoplete#sources#clang#clang_header = '/Library/Developer/CommandLineTools/usr/lib/clang'
 
 " Jedi-Vim
-let g:jedi#auto_initialization = 0 " Disable init at startup
+let g:jedi#auto_initialization = 1 " Disable init at startup
 " Manually set function helper
 " let g:jedi#show_call_signatures = "1" "0: do not show function helper
 " Disable completions when using together with deoplete-jedi
-let g:jedi#completions_enabled = 0 " Disable completions
+let g:jedi#completions_enabled = 0 " Disable completions: https://github.com/davidhalter/jedi-vim
 let g:jedi#goto_command = 'gd'
 nnoremap gd :call jedi#goto()<CR>
 " let g:jedi#auto_vim_configuration = 0
@@ -216,13 +266,8 @@ let g:vim_markdown_math = 1             " Avoid math syntax conceal
 let g:tex_conceal = ""
 set conceallevel=2                      " Highlight Bold and Italic 
 
-" FZF preview window
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-" set -gx FZF_DEFAULT_COMMAND  'rg --files --no-ignore-vcs --hidden'
-
 " Startify Bookmarks
-let g:startify_bookmarks = [ {'d': '~/.dotfiles/init.vim'}, {'z': '~/.dotfiles/zshrc'}, {'t':'~/.dotfiles/tmux.conf'} ]
+let g:startify_bookmarks = [ {'d': '~/.dotfiles/vim/init.vim'},  {'z': '~/.dotfiles/zsh/zshrc'}, {'t': '~/.dotfiles/tmux/tmux.conf'}, {'c': '~/.dotfiles/zsh/my_custom_commands.sh'} ]
 
 let s:startify_ascii_header=[
                 \ '                  ________ ;;     ________',
@@ -271,9 +316,9 @@ let ferwiki = {}
 let g:vimwiki_list = [ferwiki]
 
 " Jupytext
-let g:jupytext_fmt = 'py'
-let g:jupytext_fmt = 'python' "convert to .py files
-let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
+" let g:jupytext_fmt = 'py'
+" let g:jupytext_fmt = 'python' "convert to .py files
+" let g:jupytext_filetype_map = {'md': 'python'} "python syntax highlighting
 
 " CamelCaseMotion: treat _ as word separator
 " omap <silent> iw <Plug>CamelCaseMotion_iw
@@ -292,6 +337,49 @@ let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 
+" TERNJS (Javascript)
+" Set bin if you have many instalations
+" let g:deoplete#sources#ternjs#tern_bin = '/path/to/tern_bin'
+let g:deoplete#sources#ternjs#timeout = 1
+" Whether to include the types of the completions in the result data. Default: 0
+let g:deoplete#sources#ternjs#types = 1
+" Whether to include the distance (in scopes for variables, in prototypes for 
+" properties) between the completions and the origin position in the result 
+" data. Default: 0
+let g:deoplete#sources#ternjs#depths = 1
+" Whether to include documentation strings (if found) in the result data.
+" Default: 0
+let g:deoplete#sources#ternjs#docs = 1
+" When on, only completions that match the current word at the given point will
+" be returned. Turn this off to get all results, so that you can filter on the 
+" client side. Default: 1
+let g:deoplete#sources#ternjs#filter = 0
+" Whether to use a case-insensitive compare between the current word and 
+" potential completions. Default 0
+let g:deoplete#sources#ternjs#case_insensitive = 1
+" When completing a property and no completions are found, Tern will use some 
+" heuristics to try and return some properties anyway. Set this to 0 to 
+" turn that off. Default: 1
+let g:deoplete#sources#ternjs#guess = 0
+" Determines whether the result set will be sorted. Default: 1
+let g:deoplete#sources#ternjs#sort = 0
+" When disabled, only the text before the given position is considered part of 
+" the word. When enabled (the default), the whole variable name that the cursor
+" is on will be included. Default: 1
+let g:deoplete#sources#ternjs#expand_word_forward = 0
+" Whether to ignore the properties of Object.prototype unless they have been 
+" spelled out by at least two characters. Default: 1
+let g:deoplete#sources#ternjs#omit_object_prototype = 0
+" Whether to include JavaScript keywords when completing something that is not 
+" a property. Default: 0
+let g:deoplete#sources#ternjs#include_keywords = 1
+" If completions should be returned when inside a literal. Default: 1
+let g:deoplete#sources#ternjs#in_literal = 0
+"Add extra filetypes
+let g:deoplete#sources#ternjs#filetypes = [
+                \ 'jsx',
+                \ 'vue',
+                \ ]
 "}}}
 " UI Customization {{{
 
@@ -344,25 +432,36 @@ nnoremap <silent> <leader>l :NERDTreeToggle<CR>
 nnoremap <silent> <leader>L :NERDTreeFind<CR> 
 
 " Slimux Send Selection
-" nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
-" vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
-" nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
-nnoremap <silent> mm :w<CR>:!python3 %<CR>
-nnoremap m<CR> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
-nnoremap <F5> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
+nnoremap <silent> <space><CR>  :SlimuxREPLSendLine<CR>j0
+vnoremap <silent> <space><CR>  :SlimuxREPLSendSelection<CR>
+nnoremap <silent> <leader><CR> :SlimuxREPLSendBuffer<CR>
+nnoremap <silent> mm    :w<CR>:!python3 %<CR>
+nnoremap <silent> m<CR> :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
+nnoremap <silent> <F5>  :w<CR>:!tmux send-keys -t .1 "python3 %:p"; tmux send-keys -t .1 C-m<CR><CR>
 
 "vnoremap <silent> <space><CR> :<C-w>SlimuxShellRun %cpaste<CR>:'<,'>SlimuxREPLSendSelection<CR>:SlimuxShellRun --<CR>
 
 " Neoterm Send Selection
+nnoremap <silent> <leader>tt :Ttoggle<CR>
+nnoremap <silent> <leader>th :Tclose<CR>
 nmap gx <Plug>(neoterm-repl-send)
 xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)
-nnoremap <leader>t :Ttoggle<CR>
+nnoremap <silent> gz :TREPLSendFile<CR>
+nnoremap <silent> gm :T python %<CR>
+nnoremap <silent> mp :silent w<CR>:Tclear<CR>:TT python %<CR>
 " nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
 " vnoremap <silent> <leader><CR> :TREPLSendSelection<CR>
 
+" C Language compile
+" Compile only and create executable
+nnoremap <silent> mC :silent w<CR>:echo system('clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow '.expand('%').' -lcs50 -lm -o '.expand('%:r').' && echo Compiled to file: '.expand('%:r'))<CR>
+" Compile and Run in new terminal window
+nnoremap <silent> mc :silent w<CR>:Tclear<CR>:exec "TT clang -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow ".expand('%')." -lcs50 -lm -o ".expand('%:r')." && ./".expand('%:r')<CR>
+
+" :exec "T cd ".expand('%:h:p').
 " Escape key to jk
 inoremap jj <Esc>`^
 inoremap jk <Esc>`^
@@ -385,16 +484,26 @@ map ,p :w<CR>:silent !~/.dotfiles/zsh/displayline -b -g <C-r>=line('.')<CR> %<.p
 " FZF
 " nnoremap <silent> <leader>f :FZF<cr>
 nnoremap <leader>e :Files<CR>
+nnoremap <leader>o :Files<CR>
+nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>f :BLines<CR>
 nnoremap <leader>F :Lines<CR>
 nnoremap <leader>c :Commands<CR>
 nnoremap <leader>H :History<CR>
 nnoremap <leader>h :Helptags!<CR>
 nnoremap <leader>r :Rg<CR>
+nnoremap <leader>rg :Rg<CR>
 nnoremap <leader>R :Rgcmd 
-nnoremap <leader>rh :Rghome<CR>
+" Home folder
+nnoremap <leader>rh :Rghome<CR> 
+" Up one folder
 nnoremap <leader>ru :Rgup<CR>
+" Dropbox folder
 nnoremap <leader>rd :Rgdrop<CR>
+
+" Jump between buffers
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
 
 " ALE Linting
 " Toggle Linter
@@ -465,6 +574,26 @@ inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <silent><expr><CR> pumvisible() ? "<C-E>\<CR>" : "\<CR>"
 
+" Hide all status lines
+let s:hidden_all = 0
+function! ToggleHiddenAll()
+    if s:hidden_all  == 0
+        let s:hidden_all = 1
+        set noruler " Show row and column numbers
+        set laststatus=0
+        set noshowmode " Hide Insert, Visual text in statusline
+        set noshowcmd " Hide number of lines output in visual mode
+    else
+        let s:hidden_all = 0
+        set ruler
+        set laststatus=2
+        set showmode
+        set showcmd
+    endif
+endfunction
+
+nnoremap <S-h> :call ToggleHiddenAll()<CR>
+
 " }}}
 " Autocommands {{{
 
@@ -479,7 +608,7 @@ augroup set_filetypes
 augroup end
 
 " Filetype settings
-" Note: at some point this should be moved to .vim/after/ftplugin/tex.vim
+" Note: at some point this should/could be moved to .vim/after/ftplugin/tex.vim
 augroup filetype_settings
     autocmd!
     autocmd FileType text,tex,markdown setlocal textwidth=99 
@@ -503,6 +632,12 @@ augroup filetype_settings
     " ---
 
     autocmd FileType vimwiki set syntax=markdown
+
+    " Javascript: tab = 2 spaces
+    autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+
+    " Makefiles: use real tabs instead of spaces
+    autocmd FileType make set noexpandtab
 augroup END
 
 " https://vi.stackexchange.com/a/17550
@@ -653,6 +788,10 @@ endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" FZF Commands
+" command! -bang -nargs=? -complete=dir Files
+"   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(

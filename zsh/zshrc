@@ -1,6 +1,10 @@
 # ╔═╗╔═╗╦ ╦╦═╗╔═╗
 # ╔═╝╚═╗╠═╣╠╦╝║  
 # ╚═╝╚═╝╩ ╩╩╚═╚═╝
+# Zsh Configuration File
+
+# 'zo': Open folded sections 
+# 'zc': Open folded sections 
 
 # Oh My Zsh {{{
 
@@ -11,8 +15,14 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    ZSH_THEME="robbyrussell"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    ZSH_THEME="robbyrussell-userhost"
+fi
+
 # ZSH_THEME="agnostergit"
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 
 # Display username
 #DEFAULT_USER=`whoami`
@@ -74,15 +84,20 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 
 plugins=(
-  # git 
+  git 
   # osx # to control spotify
   # kubectl # For Kubernetes on Google Cloud
+  # zsh-vi-mode
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
 
 #}}}
 # Options {{{
+
+# Extended globbing options: allows ^(file.txt) to select everything but file.txt
+# set -o gives full list of options
+setopt extendedglob
 
 # Avoid exit after Ctrl+d
 set -o ignoreeof
@@ -117,9 +132,9 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
 # Option 1 - Ripgrep only files in current directory 
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --smart-case'
 # Option 2 - FD only files in current directory 
-# export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore --exclude .git'
 # Option 3 - FD both files and directories: 
-export FZF_DEFAULT_COMMAND='fd . $HOME'
+# export FZF_DEFAULT_COMMAND='fd . $HOME'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 #ESC+C
 # Option 1 - Include hidden and ignored directories
@@ -127,6 +142,15 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Option 2 - Don't include hidden and ignored directories
 export FZF_ALT_C_COMMAND="fd --type directory . $HOME"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+# Default for vim**<tab>
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+# Default for cd**<tab>
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
 
 #}}}
 # Aliases {{{
@@ -141,50 +165,72 @@ export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 # alias ohmyzsh="mate ~/.oh-my-zsh
 alias skim='open -a skim'
 alias vim='nvim'
+# alias vim='~/nvim.appimage'
 # For Linux: when installing with linuxbrew
 # alias vim = './home/linuxbrew/.linuxbrew/Cellar/neovim/0.4.3_1/bin/nvim'
 alias vi='nvim -u NONE' # Load vim without settings
 # Set neovim server name to use with neovim-remote (nvr)
 # https://github.com/mhinz/neovim-remote)
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
-alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
+# alias jhubrun='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=http://104.197.213.71'
 # Call Python 3 by default. This does not and should not change the symlink to
 # /usr/local/lib/python
-# alias python='python3'
-# alias pip='pip3'
+alias python='python3'
+alias pip='pip3'
 
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
 # Vifm mode: moves to current working directory after exiting
 alias vifm='vicd'
 
+alias mv='mv -i'
+
 #}}}
 # Path {{{
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/Users/Fer/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/Users/Fer/anaconda3/etc/profile.d/conda.sh" ]; then
-#         . "/Users/Fer/anaconda3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/Users/Fer/anaconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
+__conda_setup="$('/Users/fer/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/fer/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/fer/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/fer/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
 # <<< conda initialize <<<
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/fer/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/fer/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/fer/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/fer/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+fi
+# source /opt/conda/etc/profile.d/conda.sh  # commented out by conda initialize
 
 # Note: the script above caused tmux to take too long to initialize: instead I followedd
 # https://github.com/conda/conda/blob/master/CHANGELOG.md#440-2017-12-20
-. "$HOME/anaconda3/etc/profile.d/conda.sh"
+# . "$HOME/anaconda3/etc/profile.d/conda.sh"
 # conda deactivate
 
 # TeX and X11 directories are added to path from /etc/paths.d
 
 # Use latest version of Vim (symlinked to MacVim) instead of /usr/bin/vim
-PATH="/usr/local/bin:$PATH"
+# This is not necessary since the following is already in PATH
+# PATH="/usr/local/bin:$PATH"
 
 # Use Anaconda Python 3 before /usr/local
 # Disabled in 2020. Instead, conda activate before using python
@@ -195,34 +241,41 @@ PATH="$PATH:/Library/TeX/texbin"
 
 # Setting PATH for Python 2.7
 # The original version is saved in .bash_profile.pysave
-PATH="$PATH:/Library/Frameworks/Python.framework/Versions/2.7/bin"
+# PATH="$PATH:/Library/Frameworks/Python.framework/Versions/2.7/bin"
 
 # Add Visual Studio Code (code)
 PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # Dotfiles
-PATH="$PATH:/Users/Fer/.dotfiles/"
+# PATH="$PATH:/Users/Fer/.dotfiles/"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/Fer/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/Fer/google-cloud-sdk/path.zsh.inc'; fi
-
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/Fer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Fer/google-cloud-sdk/completion.zsh.inc'; fi
 
-typeset -gxU path # equivalent to 'export PATH' but also keep unique entries
+# Pipenv
+PATH="$PATH:$HOME/.local/bin"
+
+# Linuxbrew
+PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"
 
 # CS50 tutorial: add to path so it finds cs50.h
-export LIBRARY_PATH=/usr/local/lib
+# export LIBRARY_PATH=/usr/local/lib
 # Configure clang
 # export CC="clang"
 # export CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable Wshadow"
 # export LDLIBS="lcrypt -lcs50 -lm"
+# export C_INCLUDE_PATH=/usr/local/include
 
-export C_INCLUDE_PATH=/usr/local/include
+# Vimgolf
+# PATH="$PATH:/Users/Fer/.gem/ruby/2.3.0/bin"
 
-# Extended globbing options: allows ^(file.txt) to select everything but file.txt
-# set -o gives full list of options
-setopt extendedglob
+# Rust and Cargo package manager: already added in ~/.zprofile
+# PATH="$HOME/.cargo/bin:$PATH"
+
+export PATH
+typeset -gxU path # equivalent to 'export PATH' but also keep unique entries
 
 # Ruby
 PATH="$PATH:$HOME/.rbenv/versions/2.6.1/bin"
@@ -240,13 +293,27 @@ export PATH
 # Load oh-my-zsh: largest file, slow down startup
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/zsh/my_custom_commands.sh
+# source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#
+# Order dotfiles first after ls: https://superuser.com/a/866223
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+	alias la='LC_COLLATE=C ls -lAFh'
+fi
 
-# Initialize Pyenv
-eval "$(pyenv init -)"
+# Initialize Pyenv: https://github.com/pyenv/pyenv#basic-github-checkout
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    eval "$(pyenv init -)"
+fi
 #}}}
 # Key Bindings {{{
-bindkey '^[[A' fzf-history-widget
 bindkey -v # Vim mode for zsh command line
+bindkey -M vicmd '^[[A' fzf-history-widget
+bindkey -M viins '^[[A' fzf-history-widget
+
+zle -N fancy-ctrl-z
+# bindkey '^Z' fancy-ctrl-z
+bindkey -M viins '^Z' fancy-ctrl-z
+bindkey -M vicmd '^Z' fancy-ctrl-z
 # }}}
 # Other {{{
 
@@ -254,7 +321,7 @@ bindkey -v # Vim mode for zsh command line
 # [[ -z $TMUX ]] || source deactivate; #conda activate base
 
 # Run rbenv to manage Ruby versions
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Source FZF Autocompletion and Command Search
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -265,4 +332,5 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
 # Option --no-use delays initialization of nvm so session loads faster
 # As a result, nvm must be called every time I work on node: nvm use 13.9.0
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 #}}}

@@ -23,16 +23,16 @@ mkdir -p ~/.config/vifm             # Vifm
 
 # Create Symlinks
 
-ln -svf $DIR/bash_profile               ~/.bash_profile
-ln -svf $DIR/gitconfig                  ~/.gitconfig
+ln -svf $DIR/bash/bash_profile          ~/.bash_profile
+ln -svf $DIR/git/gitconfig              ~/.gitconfig
 ln -svf $DIR/zsh/zshrc                  ~/.zshrc
 if [[ "$OSTYPE" == "darwin"* ]]; then
     ln -svf $DIR/zsh/zprofile           ~/.zprofile #Ruby, Rust and pyenv
 fi
 
 ln -svf $PWD/oh-my-zsh/robbyrussell-userhost.zsh-theme  ~/.oh-my-zsh/custom/themes/robbyrussell-userhost.zsh-theme
-ln -svf $DIR/stata_kernel.conf          ~/.stata_kernel.conf
-ln -svf $DIR/latexmkrc                  ~/.latexmkrc
+ln -svf $DIR/jupyter/stata_kernel.conf  ~/.stata_kernel.conf
+ln -svf $DIR/latex/latexmkrc            ~/.latexmkrc
 
 # Tmux
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -56,7 +56,7 @@ tic -o ~/.terminfo $DIR/tmux/tmux.terminfo.txt || true
 # Ranger
 ln -svf $DIR/ranger/rc.conf             ~/.config/ranger/rc.conf
 ln -svf $DIR/ranger/commands.py         ~/.config/ranger/commands.py
-ln -svf $DIR/vifmrc                     ~/.config/vifm/vifmrc
+ln -svf $DIR/vifm/vifmrc                ~/.config/vifm/vifmrc
 
 # Conda
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -67,11 +67,11 @@ fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # VSCode
-    ln -svf $DIR/settings.json          ~/Library/Application\Support/Code/User/settings.json
+    ln -svf $DIR/vscode/settings.json       ~/Library/Application\Support/Code/User/settings.json
     # Karabiner
-    ln -svf $DIR/karabiner.json         ~/.config/karabiner/karabiner.json
+    ln -svf $DIR/karabiner/karabiner.json   ~/.config/karabiner/karabiner.json
     # Latex
-    ln -svf $DIR/thesis.sty             ~/Library/texmf/tex/latex/local/thesis.sty
+    ln -svf $DIR/latex/thesis.sty           ~/Library/texmf/tex/latex/local/thesis.sty
 fi
 
 # Vim
@@ -81,7 +81,8 @@ ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim
 
 # Install Vim Plugins
 echo "Installing Vim Plugins..."
-nvim --headless +PlugInstall +UpdateRemotePlugins +qall > /dev/null 2>&1
+nvim --headless +PlugInstall         +qall > /dev/null 2>&1
+nvim --headless +UpdateRemotePlugins +qall > /dev/null 2>&1
 
 # EXTRA
 

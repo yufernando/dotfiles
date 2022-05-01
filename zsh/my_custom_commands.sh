@@ -530,4 +530,3 @@ fancy-ctrl-z () {
     zle push-input
   fi
 }
->>>>>>> 2201a9a67c37ea247b48aef3e8f4ead65b150b2c

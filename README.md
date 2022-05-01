@@ -1,74 +1,77 @@
 # Dotfiles
 
-This repository contains scripts configure the same environment in a Mac, Ubuntu Server or Docker container. It installs useful tools (zsh, tmux, etc) and dotfiles for configuration.
+This repository contains scripts to configure the same environment in a Mac, Ubuntu Server or Docker container. It installs useful tools (zsh, tmux, etc) and dotfiles for configuration.
 
 In addition, in an Ubuntu server it configures and hardens the server (sets up SSH and firewall).
 
-All scripts can be run from the `master` branch with has flags for every type of OS/platform. The instructions below make specific mention to an `ubuntu` branch just in case we want to customize further in the future.
+All scripts can be run from the `master` branch which has flags for every type of OS/platform. The instructions below make specific mention to an `ubuntu` branch just in case we want to customize further in the future but it is not necessary.
+
+For specific implementation details run `make help`.
 
 # Installation instructions
 
 ## Mac
 
-1. Clone the `master` branch of the repository:
+1. Clone the `master` branch and install make:
 
 ```
 git clone --single-branch --branch master https://github.com/yufernando/dotfiles ~/.dotfiles
-```
-
-2. Make sure you have `make` installed:
-
-```
 brew install make
-```
-
-3. To run a full installation and configuration:
-
-```
 cd ~/.dotfiles
+```
+
+2. (a) Run a full installation and configuration:
+
+```
 make all
 ```
 
-To just run configuration:
+2. (b) To just run configuration:
 
 ```
-cd ~/.dotfiles
 make config
 ```
 
+## Docker Container
+
+1. Install required programs and clone the repository:
+```
+apt update && apt -y upgrade
+apt -y install make
+git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
+cd ~/.dotfiles
+```
+
+2. Run full installation and configuration:
+```
+make install config
+```
+The two `make` steps should be kept separate in a Dockerfile to exploit caching.
 
 ## Ubuntu Linux
 
-1. Copy your SSH public key to the Linux box. If you set SSH keys from the console manager or using
-   an automated script this step is not necessary:
+1. Copy your SSH public key to the Linux box and SSH in. If you set SSH keys from the console manager or using an automated script this first step is not necessary:
 
 ```
 scp ~/.ssh/id_rsa.pub root@ip-address:~/.ssh/authorized_keys
-```
-
-2. `ssh` into your Linux box:
-
-```
 ssh root@ip-address
 ```
 
-3. Install `git` and `make`: 
+2. Install required programs and clone the repository:
 
 ```
 apt update && apt -y upgrade
 apt -y install git make
-```
-
-4. Clone the `ubuntu` branch of the repository:
-
-```
 git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
-```
-
-5. Run the scripts. The argument `host` defines the server name. The argument `user` defines the local user to configure in addition to `root`. `ignoreip` is an ip-address that should be ignored by Fail2ban.
-
-```
 cd ~/.dotfiles
+```
+
+3. Run a full installation and configuration including SSH hardening and firewall with the following arguments:
+- `host`: server name. 
+- `user`: local username to configure in addition to `root`. 
+- `ignoreip`: ip-address that should be ignored by Fail2ban.
+
+```
 make all host=hostname user=username password=password [ignoreip=ignoreip] [sshkey=sshkey]
 ```
 The last argument `sshkey` is only needed when configured through an automated script.
@@ -112,16 +115,3 @@ ln -svf ~/.dotfiles/vimrc        ~/.vimrc
 ln -svf ~/.dotfiles/zshrc        ~/.zshrc
 ```
 
-# Configure a Docker Container
-
-To configure a Docker container running Ubuntu with zsh, oh-my-zsh and other utilities clone the
-repository and run `install` and `config`:
-```
-apt update && apt -y upgrade
-apt -y install make
-git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
-cd ~/.dotfiles
-make install config
-```
-
-The two `make` steps should be kept separate in a Dockerfile to exploit caching.

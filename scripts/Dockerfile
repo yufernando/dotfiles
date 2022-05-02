@@ -16,6 +16,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update                   && \
 
 ARG password
 
-RUN usermod --password $(openssl passwd -1 $password) root
+RUN usermod --password $(openssl passwd -1 $password) root      && \ 
+    TZ=America/New_York date > ~/.docker-date-created
 
 ENTRYPOINT service ssh start && bash

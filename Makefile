@@ -54,11 +54,11 @@ endif
 
 all_root: ## Linux root user: setup, harden, install and config.
 	@echo "\nConfiguring root.\n"
-	@./0_setup.sh $(host)
-	@./1_harden.sh --user $(user) --password $(password) --ignoreip "$(ignoreip)" --sshkey "$(sshkey)" 
-	@./2_install.sh
-	@./3_config.sh
-	@./4_copy_ssh.sh $(user) $(sshkey)
+	@./scripts/0_setup.sh $(host)
+	@./scripts/1_harden.sh --user $(user) --password $(password) --ignoreip "$(ignoreip)" --sshkey "$(sshkey)" 
+	@./scripts/2_install.sh
+	@./scripts/3_config.sh
+	@./scripts/4_copy_ssh.sh $(user) $(sshkey)
 
 all_user: ## Linux standard user: install and config.
 	@echo "\nConfiguring user.\n"
@@ -66,14 +66,14 @@ all_user: ## Linux standard user: install and config.
 		"cd /home/$(user); \
 		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
 		cd .dotfiles; \
-		./2_install.sh; \
-		./3_config.sh"
+		./scripts/2_install.sh; \
+		./scripts/3_config.sh"
 
 install: ## Install programs. Clone dotfiles repo if not existent.
-	@./2_install.sh
+	@./scripts/2_install.sh
 
 config: ## Configure settings. Clone dotfiles repo if not existent.
-	@./3_config.sh
+	@./scripts/3_config.sh
 
 merge: ## Merge branch with master and push to remote
 	@if [ "$(branch)" = "all" ]; then  \

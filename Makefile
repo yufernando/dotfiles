@@ -87,3 +87,19 @@ merge: ## Merge branch with master and push to remote
 		git checkout master; \
 	fi
 
+test-build: ## Build test image
+	@if [ -z "$(password)" ]; then echo "Must provide a password. Example: make test-build password=mypass."; exit 1; fi;
+	@echo "Building Docker image..."
+	@docker build --quiet -t ubuntu:test scripts --build-arg password=$(password) > /dev/null
+
+test-run: test-build ## Run test container
+	@echo "Removing running containers and running new instance..."
+	@docker stop ubuntu-test &> /dev/null || true
+	@docker rm ubuntu-test   &> /dev/null || true
+	@docker run --rm -d -it -p 2222:22 --name ubuntu-test ubuntu:test > /dev/null
+
+test-ssh: test-run ## SSH into test container
+	@awk '!/localhost/' ~/.ssh/known_hosts > ~/.ssh/tmp && mv ~/.ssh/tmp ~/.ssh/known_hosts
+	@echo "SSH into container..."
+	@ssh -o StrictHostKeyChecking=no -o LogLevel=ERROR -p 2222 root@localhost
+

@@ -7,6 +7,8 @@ echo ""
 echo "SETUP: Update, upgrade, configure hostname, ip and date."
 echo ""
 
+set -e
+
 # Update system without any interaction
 DEBIAN_FRONTEND=noninteractive apt-get --yes update
 DEBIAN_FRONTEND=noninteractive \

@@ -90,18 +90,18 @@ You can run the scripts individually.
 
 ### Installation of programs
 
-The script `2_install.sh` installs useful utilities, including `oh-my-zsh` to customize the
+The script `3_install.sh` installs useful utilities, including `oh-my-zsh` to customize the
 `zsh` shell.
 
-`./2_install.sh`
+`./3_install.sh`
 
 Equivalent to `make install`.
 
 ### Configuration
 
-The file `3_config.sh` creates symlinks to the respective file locations.
+The file `4_config.sh` creates symlinks to the respective file locations.
 ```
-./3_config.sh
+./4_config.sh
 ```
 
 Equivalent to `make config`.

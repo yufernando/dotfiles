@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# CONFIGURATION (3_config.sh)
+# CONFIGURATION (4_config.sh)
 # Create symlinks to configure programs
 #----------------------------------------------------------------
 

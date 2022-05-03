@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# INSTALLATION (2_install.sh)
+# INSTALLATION (3_install.sh)
 # Install utilities in a Linux server or Mac computer
 #----------------------------------------------------------------
 

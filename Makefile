@@ -50,7 +50,7 @@ help: ## View help
 	| awk 'BEGIN {FS=":.*##[ \t]+"}; {printf "\033[36m%-20s\033[0m%s\n", $$1, $$2}'
 
 ifeq ($(UNAME), Linux)
-all: harden install config all_user ## Main entrypoint: install and config (Linux, also setup and harden)
+all: harden install config user ## Main entrypoint: install and config (Linux, also setup and harden)
 	@echo "\nInstallation complete. Relogin."
 else ifeq ($(UNAME), Darwin)
 all: install config
@@ -68,6 +68,12 @@ install: ## Install programs. Clone dotfiles repo if not existent.
 
 config: ## Configure settings. Clone dotfiles repo if not existent.
 	@./scripts/4_config.sh
+
+user: ## Linux standard user: install and config.
+	@echo "\nConfiguring user.\n"
+	git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git /home/$(user)/dotfiles; \
+	cd /home/$(user)/.dotfiles; \
+	@echo $(password) | sudo -S -u $(user) -H sh -c $(MAKE) install config
 
 all_user: ## Linux standard user: install and config.
 	@echo "\nConfiguring user.\n"
@@ -100,7 +106,7 @@ test-run: ## Run test container
 	@docker stop ubuntu-test &> /dev/null || true
 	@docker rm   ubuntu-test &> /dev/null || true
 	@sleep 1
-	docker run --rm -d -it -p 2222:22 --name ubuntu-test ubuntu:test > /dev/null
+	@docker run --rm -d -it -p 2222:22 --name ubuntu-test ubuntu:test > /dev/null
 
 test-copy-ssh: ## Copy SSH keys into test container
 	@echo "Copying SSH keys..."

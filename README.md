@@ -1,54 +1,39 @@
 # Dotfiles
 
-This repository contains scripts to configure the same environment in a Mac, Ubuntu Server or Docker container. It installs useful tools (zsh, tmux, etc) and dotfiles for configuration.
+This repository contains scripts to configure a common environment in a Mac, Ubuntu Server or Docker container. It installs useful tools (zsh, tmux, etc) and dotfiles for configuration.
 
-In addition, in an Ubuntu server it configures and hardens the server (sets up SSH and firewall).
+In addition, it can harden an Ubuntu server (set up SSH and firewall).
 
-All scripts can be run from the `master` branch which has flags for every type of OS/platform. The instructions below make specific mention to an `ubuntu` branch just in case we want to customize further in the future but it is not necessary.
+All scripts can be run from the `master` branch which has flags for every type of OS/platform. The instructions below mention an `ubuntu` branch in case we want to customize further in the future but it is not necessary.
 
 For specific implementation details run `make help`.
 
 # Installation instructions
 
-## Mac
+1. Install required programs:
 
-1. Clone the `master` branch and install make:
+- Mac: `brew install make`
+- Linux: `apt update && apt -y upgrade && apt install -y git make`
+
+2. Clone the repository:
 
 ```
 git clone --single-branch --branch master https://github.com/yufernando/dotfiles ~/.dotfiles
-brew install make
 cd ~/.dotfiles
 ```
 
-2. (a) Run a full installation and configuration:
+2. Install and configure programs:
 
-```
-make all
-```
-
-2. (b) To just run configuration:
-
-```
-make config
-```
-
-## Docker Container
-
-1. Install required programs and clone the repository:
-```
-apt update && apt -y upgrade
-apt -y install make
-git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
-cd ~/.dotfiles
-```
-
-2. Run full installation and configuration:
 ```
 make install config
 ```
-The two `make` steps should be kept separate in a Dockerfile to exploit caching.
 
-## Ubuntu Linux
+To just run configuration `make config`, which is idempotent.
+
+
+## Hardening
+
+In addition to install and config, you can also harden a fresh Linux box: set up SSH and firewall.
 
 1. Copy your SSH public key to the Linux box and SSH in. If you set SSH keys from the console manager or using an automated script this first step is not necessary:
 
@@ -57,16 +42,9 @@ scp ~/.ssh/id_rsa.pub root@ip-address:~/.ssh/authorized_keys
 ssh root@ip-address
 ```
 
-2. Install required programs and clone the repository:
+2. Clone the repository as above.
 
-```
-apt update && apt -y upgrade
-apt -y install git make
-git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles ~/.dotfiles
-cd ~/.dotfiles
-```
-
-3. Run a full installation and configuration including SSH hardening and firewall with the following arguments:
+3. Run hardening, install and config for both root and user with arguments:
 - `host`: server name. 
 - `user`: local username to configure in addition to `root`. 
 - `ignoreip`: ip-address that should be ignored by Fail2ban.
@@ -80,15 +58,17 @@ The last argument `sshkey` is only needed when configured through an automated s
 
 You can run the scripts individually.
 
-### Setup (Linux Server)
+### 0. Setup (Linux Server)
 
 `0_setup.sh` sets basic information including hostname and timezone.
 
-### Hardening (Linux Server)
+### 1. Hardening (Linux Server)
 
 `1_harden.sh` sets up the ufw firewall and configures ssh.
 
-### Installation of programs
+### 2. Copy SSH keys to user
+
+### 3. Installation of programs
 
 The script `3_install.sh` installs useful utilities, including `oh-my-zsh` to customize the
 `zsh` shell.
@@ -97,7 +77,7 @@ The script `3_install.sh` installs useful utilities, including `oh-my-zsh` to cu
 
 Equivalent to `make install`.
 
-### Configuration
+### 4. Configuration
 
 The file `4_config.sh` creates symlinks to the respective file locations.
 ```
@@ -106,7 +86,7 @@ The file `4_config.sh` creates symlinks to the respective file locations.
 
 Equivalent to `make config`.
 
-This creates symlinks such as:
+This idempotent operation creates symlinks such as:
 ```
 ln -svf ~/.dotfiles/bash_profile ~/.bash_profile
 ln -svf ~/.dotfiles/init.vim     ~/.config/nvim/init.vim
@@ -114,4 +94,16 @@ ln -svf ~/.dotfiles/tmux.conf    ~/.tmux.conf
 ln -svf ~/.dotfiles/vimrc        ~/.vimrc
 ln -svf ~/.dotfiles/zshrc        ~/.zshrc
 ```
+
+# Testing the scripts
+
+Instead of testing in a remote VM, you can test the scripts locally in a Docker container using the following recipes:
+```
+make test host=[hostname] user=[username] password=[password]
+make test-ssh
+```
+
+# Tips
+
+For Dockerfiles it is useful to separate `make install` and `make config` to exploit caching.
 

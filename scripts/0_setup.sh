@@ -5,7 +5,7 @@
 #----------------------------------------------------------------
 
 echo ""
-echo "0_SETUP: Update, upgrade, configure hostname, ip and date."
+echo "0. SETUP: Update, upgrade, configure hostname, ip and date."
 echo ""
 
 set -euo pipefail

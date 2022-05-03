@@ -29,16 +29,24 @@
 SHELL := /bin/bash
 skipplugins := ""
 
+
+
+# Get platform
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
 DOTFILES_BRANCH := ubuntu
+PLATFORM = Linux
+ifneq ("$(wildcard /.docker-date-created)","")
+PLATFORM = DockerLinux
+endif
 else ifeq ($(UNAME), Darwin)
+PLATFORM = Darwin
 DOTFILES_BRANCH := mac
 endif
 branch := all
 
-.PHONY: help all all_root all_user install config merge
-.PHONY: test-build test-run copy-ssh copy-dotfiles test-setup test-ssh
+.PHONY: help all harden install config user merge
+.PHONY: test-build test-run test-copy-ssh test-copy-dotfiles test test-ssh
 
 help: ## View help
 	@awk 'BEGIN {FS="^#+ ?"; header=1; body=0}; \
@@ -52,10 +60,15 @@ help: ## View help
 	| sort \
 	| awk 'BEGIN {FS=":.*##[ \t]+"}; {printf "\033[36m%-20s\033[0m%s\n", $$1, $$2}'
 
-ifeq ($(UNAME), Linux)
+ifeq ($(PLATFORM), Linux)
 all: harden install config user ## Main entrypoint: install and config (Linux, also setup and harden)
 	@echo "\nInstallation complete. Relogin."
-else ifeq ($(UNAME), Darwin)
+endif
+ifeq ($(PLATFORM), DockerLinux)
+all: install config 
+	@echo "\nInstallation complete. Relogin."
+endif
+ifeq ($(PLATFORM), Darwin)
 all: install config
 	@echo "\nInstallation complete. Relogin."
 endif

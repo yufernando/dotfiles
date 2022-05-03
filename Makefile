@@ -50,24 +50,23 @@ help: ## View help
 	| awk 'BEGIN {FS=":.*##[ \t]+"}; {printf "\033[36m%-20s\033[0m%s\n", $$1, $$2}'
 
 ifeq ($(UNAME), Linux)
-all: all_root all_user ## Main entrypoint: install and config (Linux, also setup and harden)
+all: harden install config all_user ## Main entrypoint: install and config (Linux, also setup and harden)
 	@echo "\nInstallation complete. Relogin."
 else ifeq ($(UNAME), Darwin)
 all: install config
 	@echo "\nInstallation complete. Relogin."
 endif
 
-# harden:
-# 	@echo "\nConfiguring root.\n"
-# 	@./scripts/0_setup.sh $(host)
-# 	@./scripts/1_harden.sh --user $(user) --password $(password) --ignoreip "$(ignoreip)" --sshkey "$(sshkey)" 
-
-all_root: ## Linux root user: setup, harden, install and config.
+harden:
 	@echo "\nConfiguring root.\n"
 	@./scripts/0_setup.sh $(host)
 	@./scripts/1_harden.sh --user $(user) --password $(password) --ignoreip "$(ignoreip)" --sshkey "$(sshkey)" 
 	@./scripts/2_copy_ssh.sh $(user) $(sshkey)
+
+install: ## Install programs. Clone dotfiles repo if not existent.
 	@./scripts/3_install.sh
+
+config: ## Configure settings. Clone dotfiles repo if not existent.
 	@./scripts/4_config.sh
 
 all_user: ## Linux standard user: install and config.
@@ -78,12 +77,6 @@ all_user: ## Linux standard user: install and config.
 		cd .dotfiles; \
 		./scripts/3_install.sh; \
 		./scripts/4_config.sh"
-
-install: ## Install programs. Clone dotfiles repo if not existent.
-	@./scripts/3_install.sh
-
-config: ## Configure settings. Clone dotfiles repo if not existent.
-	@./scripts/4_config.sh
 
 merge: ## Merge branch with master and push to remote
 	@if [ "$(branch)" = "all" ]; then  \

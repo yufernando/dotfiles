@@ -107,3 +107,5 @@ make test-ssh
 
 For Dockerfiles it is useful to separate `make install` and `make config` to exploit caching.
 
+After editing the dotfiles, the `make merge` recipe automates syncing and pushing the `mac` and `ubuntu branch.`
+

@@ -21,6 +21,10 @@
 # Merge branch with master and push to remote
 # 	make merge branch=mac
 # 	make merge 		--> merges both mac and ubuntu
+#
+# Test scripts:
+#   make test host=ubuntu-test user=fer password=abc123
+#   make test-ssh   --> SSH into test container
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
@@ -31,6 +35,7 @@ endif
 branch := all
 
 .PHONY: help all all_root all_user install config merge
+.PHONY: test-build test-run copy-ssh copy-dotfiles test-setup test-ssh
 
 help: ## View help
 	@awk 'BEGIN {FS="^#+ ?"; header=1; body=0}; \
@@ -87,7 +92,6 @@ merge: ## Merge branch with master and push to remote
 		git checkout master; \
 	fi
 
-.PHONY: test-build test-run copy-ssh copy-dotfiles test-setup test-ssh
 test-build: ## Build test image
 	@if [ -z "$(password)" ]; then echo "Must provide a password. Example: make test-build password=mypass."; exit 1; fi;
 	@echo "Building Docker image..."
@@ -95,24 +99,25 @@ test-build: ## Build test image
 
 test-run: ## Run test container
 	@echo "Removing previous containers and running new instance..."
-	@docker stop ubuntu-test &> /dev/null || true && \
-	docker rm ubuntu-test    &> /dev/null || true && \
+	@docker stop ubuntu-test &> /dev/null || true
+	@docker rm   ubuntu-test &> /dev/null || true
+	@sleep 1
 	docker run --rm -d -it -p 2222:22 --name ubuntu-test ubuntu:test > /dev/null
 
-copy-ssh: ## Copy SSH keys into test container
+test-copy-ssh: ## Copy SSH keys into test container
 	@echo "Copying SSH keys..."
 	@docker exec ubuntu-test mkdir -p /root/.ssh
 	@scp -P 2222 ~/.ssh/id_rsa_linode.pub root@localhost:~/.ssh/authorized_keys
 
-copy-dotfiles: ## Copy dotfiles to running test container
+test-copy-dotfiles: ## Copy dotfiles to running test container
 	@echo "Copying dotfiles..."
 	@docker cp ~/.dotfiles ubuntu-test:/root/
 
 test: ## Run full test setup
 	@$(MAKE) test-build
 	@$(MAKE) test-run
-	@$(MAKE) copy-ssh
-	@$(MAKE) copy-dotfiles
+	@$(MAKE) test-copy-ssh
+	@$(MAKE) test-copy-dotfiles
 	docker exec -it ubuntu-test bash -c "cd /root/.dotfiles; make all host=$(host) user=$(user) password=$(password)"
 
 test-ssh: ## SSH into test container

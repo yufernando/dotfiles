@@ -70,23 +70,14 @@ install: ## Install programs. Clone dotfiles repo if not existent.
 	@./scripts/3_install.sh
 
 config: ## Configure settings. Clone dotfiles repo if not existent.
-	@./scripts/4_config.sh $(skipplugins)
+	./scripts/4_config.sh $(skipplugins)
 
 user: ## Linux standard user: install and config.
 	@echo "\nConfiguring user.\n"
-	sudo -S -u $(user) -H bash -c \
+	@echo $(password) | sudo -S -u $(user) -H bash -c \
 		"git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git /home/$(user)/.dotfiles; \
 		cd /home/$(user)/.dotfiles; \
 		$(MAKE) install config"
-
-all_user: ## Linux standard user: install and config.
-	@echo "\nConfiguring user.\n"
-	@echo $(password) | sudo -S -u $(user) -H sh -c \
-		"cd /home/$(user); \
-		git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git .dotfiles; \
-		cd .dotfiles; \
-		./scripts/3_install.sh; \
-		./scripts/4_config.sh"
 
 merge: ## Merge branch with master and push to remote
 	@if [ "$(branch)" = "all" ]; then  \

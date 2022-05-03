@@ -4,10 +4,10 @@
 # Help
 #	make help
 #
-# Setup Mac or Docker Linux:
+# Install and configure programs:
 #	make install config
 #
-# Setup Ubuntu Server:
+# Harden (Ubuntu Server):
 #	make all 
 #		host=hostname
 #		user=username
@@ -15,7 +15,7 @@
 #		[ignoreip=ignoreip]
 #		[sshkey=sshkey] --> if configured in automated script
 #
-# Update config:
+# Update config only:
 # 	make config
 #
 # Merge branch with master and push to remote

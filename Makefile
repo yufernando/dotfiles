@@ -26,6 +26,8 @@
 #   make test host=ubuntu-test user=fer password=abc123
 #   make test-ssh   --> SSH into test container
 
+SHELL := /bin/bash
+
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
 DOTFILES_BRANCH := ubuntu

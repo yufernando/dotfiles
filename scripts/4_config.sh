@@ -82,9 +82,11 @@ ln -svf $DIR/vim/init.vim               ~/.config/nvim/init.vim
 ln -svf $DIR/vim/autocmds.vim           ~/.vim/autoload/autocmds.vim        
 
 # Install Vim Plugins
-echo "Installing Vim Plugins..."
-nvim --headless +PlugInstall         +qall > /dev/null 2>&1
-nvim --headless +UpdateRemotePlugins +qall > /dev/null 2>&1
+if [ "$1" != "skipplugins" ]; then
+    echo "Installing Vim Plugins..."
+    nvim --headless +PlugInstall         +qall > /dev/null 2>&1
+    nvim --headless +UpdateRemotePlugins +qall > /dev/null 2>&1
+fi
 
 # EXTRA
 

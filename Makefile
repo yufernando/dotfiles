@@ -73,7 +73,7 @@ user: ## Linux standard user: install and config.
 	@echo "\nConfiguring user.\n"
 	git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git /home/$(user)/.dotfiles
 	cd /home/$(user)/.dotfiles
-	@echo $(password) | sudo -S -u $(user) -H bash -c $(MAKE) install config
+	@echo $(password) | sudo -S -u $(user) -H bash -c "$(MAKE) install config"
 
 all_user: ## Linux standard user: install and config.
 	@echo "\nConfiguring user.\n"

@@ -4,6 +4,8 @@
 # Create symlinks to configure programs
 #----------------------------------------------------------------
 
+set -euo pipefail
+
 echo ""
 echo "3. CONFIGURATION: Creating symlinks."
 echo ""

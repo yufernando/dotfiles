@@ -3,6 +3,9 @@
 # COPY SSH (4_copy_ssh.sh)
 # Copy ssh keys to user ssh folder
 #----------------------------------------------------------------
+
+set -eo pipefail  # option -u throws unbound variable error
+
 echo ""
 echo "4. COPY SSH: copying ssh keys to user ssh folder."
 echo ""

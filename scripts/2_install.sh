@@ -4,6 +4,8 @@
 # Install utilities in a Linux server or Mac computer
 #----------------------------------------------------------------
 
+set -euo pipefail
+
 echo ""
 echo "2. INSTALLATION: Installing utilities."
 echo ""

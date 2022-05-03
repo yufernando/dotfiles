@@ -4,6 +4,8 @@
 # Configure SSH, setup ufw firewall and fail2ban
 #----------------------------------------------------------------
 
+set -eo pipefail  # option -u throws unbound variable error
+
 # Get user input
 while [ "$1" != "" ];
 do

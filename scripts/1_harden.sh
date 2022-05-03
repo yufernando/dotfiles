@@ -53,20 +53,24 @@ if [[ -n $SSHKEY ]]; then
     chmod -R 700 $SSHDIR && chmod 600 $SSHDIR/authorized_keys
     chown -R $USERNAME:$USERNAME $SSHDIR
 fi
-systemctl restart sshd
 
-# Install and configure ufw
-apt install -y ufw
-ufw default allow outgoing
-ufw default deny incoming
-ufw allow ssh
-yes | ufw enable
+if [ ! -f /.docker-date-created ]; then
+    systemctl restart sshd
 
-# Install and configure Fail2ban
-apt install -y fail2ban
-cd /etc/fail2ban && cp fail2ban.conf fail2ban.local && cp jail.conf jail.local
-if [[ -n $IGNOREIP ]]; then
-    echo "ignoreip = $IGNOREIP" >> /etc/fail2ban/jail.local
+    # Install and configure ufw
+    apt install -y ufw
+    ufw default allow outgoing
+    ufw default deny incoming
+    ufw allow ssh
+    yes | ufw enable
+
+    # Install and configure Fail2ban
+    apt install -y fail2ban
+    cd /etc/fail2ban && cp fail2ban.conf fail2ban.local && cp jail.conf jail.local
+    if [[ -n $IGNOREIP ]]; then
+        echo "ignoreip = $IGNOREIP" >> /etc/fail2ban/jail.local
+    fi
+    systemctl enable fail2ban
+else # Inside Docker container
+    service ssh restart
 fi
-systemctl enable fail2ban
-

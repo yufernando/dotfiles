@@ -22,7 +22,7 @@ DEBIAN_FRONTEND=noninteractive \
 SET_HOSTNAME=$1
 
 # Set Hostname and time
-if [ ! -f ~/.docker-date-created ]; then
+if [ ! -f /.docker-date-created ]; then
     # Get IP Addresses
     IP_ADDRESS=$(ip address show eth0 | grep "inet " | awk '{print $2}' | cut -d '/' -f1)
     IPV6_ADDRESS=$(ip address show eth0 | grep -m1 "inet6 " | awk '{print $2}' | cut -d '/' -f1)
@@ -32,7 +32,6 @@ if [ ! -f ~/.docker-date-created ]; then
     hostnamectl set-hostname $SET_HOSTNAME
     # Set timezone
     timedatectl set-timezone "America/New_York"
-else
-    # Docker container
-    awk 'NR==1 {$0=$SET_HOSTNAME} {print} /etc/hostname'
+else # Inside Docker container
+    echo $SET_HOSTNAME > /etc/hostname
 fi

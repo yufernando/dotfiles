@@ -38,7 +38,10 @@ fi
 
 # Change shell to zsh
 if [[ $SHELL != /bin/zsh ]]; then
-chsh -s /usr/bin/zsh
+    chsh -s /usr/bin/zsh
+fi
+if [ -f /.docker-date-created ]; then
+    echo "export HOST=$(cat /etc/hostname)" >> ~/.dotfiles/zsh/zshrc
 fi
 
 # Install oh-my-zsh

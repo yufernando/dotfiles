@@ -248,7 +248,7 @@ function dock() {
 ${COLOR_LIGHT_BLUE}Usage:${COLOR_NC} dock ${COLOR_LIGHT_PURPLE}[options]${COLOR_NC} ${COLOR_LIGHT_GREEN}<target>${COLOR_NC}
 
   ${COLOR_LIGHT_GREEN}target:${COLOR_NC}
-    lab, cs50, bio, <image-name>. Default: yufernando/jupyterlab.
+    lab, c-lang, bio, <image-name>. Default: yufernando/jupyterlab.
 
   ${COLOR_LIGHT_PURPLE}options:${COLOR_NC}
     -h                    Display help.
@@ -268,7 +268,7 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
     dock                  Run JupyterLab container in detached mode.
     dock -i lab           Run JupyterLab container. Open in a terminal.
     dock -co bio          Run Bioaretian. Mount CWD. Open in a browser.
-    dock -cis cs50        Run CS50 image. Mount CWD. Copy SSH Keys. Open in a terminal.
+    dock -cis c-lang      Run C development image. Mount CWD. Copy SSH Keys. Open in a terminal.
 "
 
     # Defaults
@@ -348,11 +348,11 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
         IMAGE=$1; shift
     fi
     case "$IMAGE" in 
-        cs50)
-            IMAGE="yufernando/cs50"
+        c-lang)
+            IMAGE="yufernando/c-lang"
             FLAG_IT="-it" # Run with -it to avoid container exit after start
             if [[ $MOUNT_CWD = true ]]; then
-                FLAG_MOUNT+=(-v $PWD:/home/cs50)
+                FLAG_MOUNT+=(-v $PWD:/root/work)
             fi
             ;;
         ""|lab) # Defaults to jupyterlab

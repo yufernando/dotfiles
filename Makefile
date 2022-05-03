@@ -1,7 +1,7 @@
 # Dotfiles
 # Install and configure a common environment across platforms.
 #
-# Help
+# Help:
 #	make help
 #
 # Install and configure programs:
@@ -18,7 +18,7 @@
 # Update config only:
 # 	make config
 #
-# Merge branch with master and push to remote
+# Merge branch with master and push to remote:
 # 	make merge branch=mac
 # 	make merge 		--> merges both mac and ubuntu
 #

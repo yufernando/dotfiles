@@ -168,8 +168,8 @@ let g:ale_linters = {
     \ 'python': ['flake8'],
     \ 'javascript': ['eslint'],
     \ 'c': ['clang']} " pydocstyle, bandit, mypy
-" let g:ale_fixers = {'*': [], 'python':['black', isort']}
-" let g:ale_fix_on_save = 1
+let g:ale_fixers = {'*': [], 'python':['black']}
+let g:ale_fix_on_save = 1
 " Disable ALE by default. Enable with :ALEToggle (leader+z)
 let g:ale_enabled = 0
 

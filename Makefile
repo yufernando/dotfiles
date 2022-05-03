@@ -117,7 +117,7 @@ test: ## Run full test setup
 	@$(MAKE) test-run
 	@$(MAKE) test-copy-ssh
 	@$(MAKE) test-copy-dotfiles
-	docker exec -it ubuntu-test bash -c "cd /root/.dotfiles; make all host=$(host) user=$(user) password=$(password)"
+	docker exec -it ubuntu-test bash -c "cd /root/.dotfiles; make all host=$(host) user=$(user) password=$(password) skipplugins=$(skipplugins)"
 
 test-ssh: ## SSH into test container
 	@awk '!/localhost/' ~/.ssh/known_hosts > ~/.ssh/tmp && mv ~/.ssh/tmp ~/.ssh/known_hosts

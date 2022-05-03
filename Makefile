@@ -92,24 +92,24 @@ merge: ## Merge branch with master and push to remote
 		git checkout master; \
 	fi
 
-test-build: ## Build test image
+test-build:
 	@if [ -z "$(password)" ]; then echo "Must provide a password. Example: make test-build password=mypass."; exit 1; fi;
 	@echo "Building Docker image..."
 	@docker build --quiet -t ubuntu:test scripts --build-arg password=$(password) > /dev/null
 
-test-run: ## Run test container
+test-run:
 	@echo "Removing previous containers and running new instance..."
 	@docker stop ubuntu-test &> /dev/null || true
 	@docker rm   ubuntu-test &> /dev/null || true
 	@sleep 1
 	@docker run --rm -d -it -p 2222:22 --name ubuntu-test ubuntu:test > /dev/null
 
-test-copy-ssh: ## Copy SSH keys into test container
+test-copy-ssh:
 	@echo "Copying SSH keys..."
 	@docker exec ubuntu-test mkdir -p /root/.ssh
 	@scp -P 2222 ~/.ssh/id_rsa_linode.pub root@localhost:~/.ssh/authorized_keys
 
-test-copy-dotfiles: ## Copy dotfiles to running test container
+test-copy-dotfiles:
 	@echo "Copying dotfiles..."
 	@docker cp ~/.dotfiles ubuntu-test:/root/
 

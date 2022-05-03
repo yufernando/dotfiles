@@ -7,7 +7,7 @@
 set -euo pipefail
 
 echo ""
-echo "3. CONFIGURATION: Creating symlinks."
+echo "4. CONFIGURATION: Creating symlinks."
 echo ""
 
 DIR=$PWD

@@ -7,7 +7,7 @@
 set -uo pipefail
 
 echo ""
-echo "2. INSTALLATION: Installing utilities."
+echo "3. INSTALLATION: Installing utilities."
 echo ""
 
 echo "Skipping if programs already installed."

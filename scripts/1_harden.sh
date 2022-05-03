@@ -6,6 +6,10 @@
 
 set -eo pipefail  # option -u throws unbound variable error
 
+echo ""
+echo "1. HARDEN: Configure SSH, setup ufw firewall and fail2ban."
+echo ""
+
 # Get user input
 while [ "$1" != "" ];
 do

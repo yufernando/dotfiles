@@ -3,8 +3,9 @@
 # GENERAL CONFIGURATION (0_setup.sh)
 # Update, upgrade, configure hostname, ip and date
 #----------------------------------------------------------------
+
 echo ""
-echo "SETUP: Update, upgrade, configure hostname, ip and date."
+echo "0_SETUP: Update, upgrade, configure hostname, ip and date."
 echo ""
 
 set -euo pipefail

@@ -95,9 +95,9 @@ test-build: ## Build test image
 
 test-run: ## Run test container
 	@echo "Removing previous containers and running new instance..."
-	@docker stop ubuntu-test &> /dev/null || true && docker rm ubuntu-test &> /dev/null || true
-	@sleep 1
-	@docker run --rm -d -it -p 2222:22 --name ubuntu-test ubuntu:test > /dev/null
+	@docker stop ubuntu-test &> /dev/null || true && \
+	docker rm ubuntu-test    &> /dev/null || true && \
+	docker run --rm -d -it -p 2222:22 --name ubuntu-test ubuntu:test > /dev/null
 
 copy-ssh: ## Copy SSH keys into test container
 	@echo "Copying SSH keys..."

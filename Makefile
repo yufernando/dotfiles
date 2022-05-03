@@ -75,9 +75,10 @@ config: ## Configure settings. Clone dotfiles repo if not existent.
 user: ## Linux standard user: install and config.
 	@echo "\nConfiguring user.\n"
 	@echo $(password) | sudo -S -u $(user) -H bash -c \
-		"git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git /home/$(user)/.dotfiles; \
-		cd /home/$(user)/.dotfiles; \
-		$(MAKE) install config"
+		"git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git /home/$(user)/.dotfiles; 	\
+		cd /home/$(user)/.dotfiles; 				\
+		$(MAKE) install; 							\
+		$(MAKE) config skipplugins=$(skipplugins)"
 
 merge: ## Merge branch with master and push to remote
 	@if [ "$(branch)" = "all" ]; then  \

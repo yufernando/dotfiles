@@ -29,8 +29,6 @@
 SHELL := /bin/bash
 skipplugins := ""
 
-
-
 # Get platform
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
@@ -65,7 +63,7 @@ all: harden install config user ## Main entrypoint: install and config (Linux, a
 	@echo "\nInstallation complete. Relogin."
 endif
 ifeq ($(PLATFORM), DockerLinux)
-all: install config 
+all: harden install config user
 	@echo "\nInstallation complete. Relogin."
 endif
 ifeq ($(PLATFORM), Darwin)

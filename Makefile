@@ -87,19 +87,35 @@ merge: ## Merge branch with master and push to remote
 		git checkout master; \
 	fi
 
+.PHONY: test-build test-run copy-ssh copy-dotfiles test-setup test-ssh
 test-build: ## Build test image
 	@if [ -z "$(password)" ]; then echo "Must provide a password. Example: make test-build password=mypass."; exit 1; fi;
 	@echo "Building Docker image..."
 	@docker build --quiet -t ubuntu:test scripts --build-arg password=$(password) > /dev/null
 
-test-run: test-build ## Run test container
-	@echo "Removing running containers and running new instance..."
-	@docker stop ubuntu-test &> /dev/null || true
-	@docker rm ubuntu-test   &> /dev/null || true
+test-run: ## Run test container
+	@echo "Removing previous containers and running new instance..."
+	@docker stop ubuntu-test &> /dev/null || true && docker rm ubuntu-test &> /dev/null || true
+	@sleep 1
 	@docker run --rm -d -it -p 2222:22 --name ubuntu-test ubuntu:test > /dev/null
 
-test-ssh: test-run ## SSH into test container
+copy-ssh: ## Copy SSH keys into test container
+	@echo "Copying SSH keys..."
+	@docker exec ubuntu-test mkdir -p /root/.ssh
+	@scp -P 2222 ~/.ssh/id_rsa_linode.pub root@localhost:~/.ssh/authorized_keys
+
+copy-dotfiles: ## Copy dotfiles to running test container
+	@echo "Copying dotfiles..."
+	@docker cp ~/.dotfiles ubuntu-test:/root/
+
+test: ## Run full test setup
+	@$(MAKE) test-build
+	@$(MAKE) test-run
+	@$(MAKE) copy-ssh
+	@$(MAKE) copy-dotfiles
+	docker exec -it ubuntu-test bash -c "cd /root/.dotfiles; make all host=$(host) user=$(user) password=$(password)"
+
+test-ssh: ## SSH into test container
 	@awk '!/localhost/' ~/.ssh/known_hosts > ~/.ssh/tmp && mv ~/.ssh/tmp ~/.ssh/known_hosts
 	@echo "SSH into container..."
-	@ssh -o StrictHostKeyChecking=no -o LogLevel=ERROR -p 2222 root@localhost
-
+	@ssh -o StrictHostKeyChecking=no -o LogLevel=ERROR -p 2222 fer@localhost

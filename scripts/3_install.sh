@@ -38,7 +38,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
                https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     fi
     mkdir -p $HOME/.cache/nvim
-	chmod g+rwx $HOME/.cache/nvim # fix permissions to avoid vim creating .nvimlog everywhere
+	chmod -R 775 $HOME/.cache/nvim # fix permissions to avoid vim creating .nvimlog everywhere
 
     # Change shell to zsh
     if [[ $SHELL != /bin/zsh ]]; then

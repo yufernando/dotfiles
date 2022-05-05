@@ -253,7 +253,6 @@ let g:jedi#auto_initialization = 1 " Disable init at startup
 " Disable completions when using together with deoplete-jedi
 let g:jedi#completions_enabled = 0 " Disable completions: https://github.com/davidhalter/jedi-vim
 let g:jedi#goto_command = 'gd'
-nnoremap gd :call jedi#goto()<CR>
 " let g:jedi#auto_vim_configuration = 0
 " let g:jedi#documentation_command = '<Leader>_K'
 " let g:jedi#auto_close_doc = 0
@@ -512,6 +511,9 @@ noremap <leader>z :ALEToggle \| :echo ale_enabled ? "Linter On." : "Linter Off."
 " nmap <silent> <leader>k <Plug>(ale_previous)
 " nmap <silent> <leader>j <Plug>(ale_next)
 
+" Jedi Vim
+nnoremap gd :call jedi#goto()<CR>
+
 " Navigate splits
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -593,6 +595,11 @@ function! ToggleHiddenAll()
 endfunction
 
 nnoremap <S-h> :call ToggleHiddenAll()<CR>
+
+" Regex: special characters interpreted as such. Makes regex more intuitive.
+"        see :help /magic and https://www.youtube.com/watch?v=VjOcINs6QWs
+nnoremap / /\v
+vnoremap / /\v
 
 " }}}
 " Autocommands {{{

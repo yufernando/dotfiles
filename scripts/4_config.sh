@@ -22,6 +22,7 @@ touch ~/.zshrc                      # Zsh
 mkdir -p ~/.oh-my-zsh/custom/themes # Oh-my-zsh
 mkdir -p ~/.config/ranger           # Ranger
 mkdir -p ~/.config/vifm             # Vifm
+mkdir -p ~/.config/git              # Git
 
 # Create Symlinks
 

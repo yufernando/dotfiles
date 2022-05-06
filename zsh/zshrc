@@ -125,31 +125,40 @@ export EDITOR="$VISUAL"
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # FZF settings
-# Defaults
+# FZF Layout
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
-# Smart case: case insensitive only if all lowercase
-#FZF DEFAULT
-# Option 1 - Ripgrep only files in current directory 
+# FZF Default Command
+#Option 1: FD only files in current directory, ignore hidden and ignored files
+export FZF_DEFAULT_COMMAND='fd --type file'
+#Option 2: - FD only files in current directory, include hidden and ignored, exclude .git
+# export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore --exclude .git'
+#Option 3 - Ripgrep only files in current directory 
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --smart-case'
-# Option 2 - FD only files in current directory 
-export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore --exclude .git'
-# Option 3 - FD both files and directories: 
+#Option 4 - FD both files and directories: 
 # export FZF_DEFAULT_COMMAND='fd . $HOME'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-#ESC+C
-# Option 1 - Include hidden and ignored directories
+# FZF ESC+C Command
+#Option 1: Don't include hidden and ignored directories, search current directory
+export FZF_ALT_C_COMMAND="fd --type directory"
+#Option 2: Don't include hidden and ignored directories, search all folders
+# export FZF_ALT_C_COMMAND="fd --type directory . $HOME"
+#Option 3: Include hidden and ignored directories, exclude .git, search all folders
 # export FZF_ALT_C_COMMAND="fd --type directory --hidden --no-ignore --exclude .git . ~"
-# Option 2 - Don't include hidden and ignored directories
-export FZF_ALT_C_COMMAND="fd --type directory . $HOME"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
-# Default for vim**<tab>
+# Default for vim**<tab>:
 _fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
+  #Option 1: ignore hidden files
+  fd . "$1"
+  #Option 2: include hidden files and symlinks, exclude .git
+  # fd --hidden --follow --exclude ".git" . "$1"
 }
-# Default for cd**<tab>
+# Default for cd**<tab>: ignore hidden and ignored folders
 _fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
+  #Option 1: ignore hidden folders
+  fd --type d . "$1"
+  #Option 2: include hidden folders and symlinks, exclude .git
+  # fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
 #}}}

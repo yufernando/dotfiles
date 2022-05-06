@@ -36,9 +36,11 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     if [ ! -e $HOME/.local/share/nvim/site/autoload/plug.vim ]; then
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
                https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    fi
+    fi 
+    #fix permissions to avoid vim creating .nvimlog everywhere
     mkdir -p $HOME/.cache/nvim
-	chmod -R 775 $HOME/.cache/nvim # fix permissions to avoid vim creating .nvimlog everywhere
+    touch $HOME/.cache/nvim/log
+	chmod -R 775 $HOME/.cache/nvim
 
     # Change shell to zsh
     if [[ $SHELL != /bin/zsh ]]; then

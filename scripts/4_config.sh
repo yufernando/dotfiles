@@ -26,7 +26,12 @@ mkdir -p ~/.config/vifm             # Vifm
 # Create Symlinks
 
 ln -svf $DIR/bash/bash_profile          ~/.bash_profile
-ln -svf $DIR/git/gitconfig              ~/.gitconfig
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    ln -svf $DIR/git/gitconfig          ~/.gitconfig
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    ln -svf $DIR/git/gitconfig_ubuntu   ~/.gitconfig
+fi
+ln -svf $DIR/git/attributes             ~/.config/git/attributes
 ln -svf $DIR/zsh/zshrc                  ~/.zshrc
 if [[ "$OSTYPE" == "darwin"* ]]; then
     ln -svf $DIR/zsh/zprofile           ~/.zprofile #Ruby, Rust and pyenv

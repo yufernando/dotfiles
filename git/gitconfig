@@ -42,5 +42,6 @@
 [filter "nbstripout"]
 	clean = \"/Users/fer/miniconda3/envs/ds/bin/python3.9\" -m nbstripout
 	smudge = cat
+    extrakeys = metadata.language_info.version
 [diff "ipynb"]
 	textconv = \"/Users/fer/miniconda3/envs/ds/bin/python3.9\" -m nbstripout -t

@@ -32,14 +32,12 @@ skipplugins := ""
 # Get platform
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
-DOTFILES_BRANCH := ubuntu
 PLATFORM = Linux
 ifneq ("$(wildcard /.docker-date-created)","")
 PLATFORM = DockerLinux
 endif
 else ifeq ($(UNAME), Darwin)
 PLATFORM = Darwin
-DOTFILES_BRANCH := mac
 endif
 branch := all
 
@@ -86,7 +84,7 @@ config: ## Configure settings. Clone dotfiles repo if not existent.
 user: ## Linux standard user: install and config.
 	@echo "\nConfiguring user.\n"
 	@echo $(password) | sudo -S -u $(user) -H bash -c \
-		"git clone --single-branch --branch ubuntu https://github.com/yufernando/dotfiles.git /home/$(user)/.dotfiles; 	\
+		"git clone --single-branch --branch master https://github.com/yufernando/dotfiles.git /home/$(user)/.dotfiles; 	\
 		cd /home/$(user)/.dotfiles; 				\
 		$(MAKE) install; 							\
 		$(MAKE) config skipplugins=$(skipplugins)"

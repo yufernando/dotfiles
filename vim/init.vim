@@ -568,8 +568,8 @@ nnoremap <leader>g :Goyo<CR>
 " Vimwiki
 " Todo Toggle conflicts with Choosing keyboard language
 " From: https://github.com/vimwiki/vimwiki/blob/master/doc/vimwiki.txt
-" nmap <Leader>tt <Plug>VimwikiToggleListItem
-nmap <Leader>w<Leader>g <Plug>VimwikiMakeDiaryNote<Esc>:Goyo<CR>i
+nmap <leader>x <Plug>VimwikiToggleListItem
+nmap <leader>w<leader>g <Plug>VimwikiMakeDiaryNote<Esc>:Goyo<CR>i
 
 " Deoplete Enable Autocomplete
 nnoremap <leader>a :call AutocompleteToggle()<CR>

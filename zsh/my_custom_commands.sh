@@ -522,11 +522,42 @@ function vicd {
 # First Ctrl-z suspend job. Second Ctrl-z resumes in background
 # If terminal buffer has text, open a second terminal, then resume
 # Source: https://superuser.com/a/378045
-fancy-ctrl-z () {
+function fancy-ctrl-z {
   if [[ $#BUFFER -eq 0 ]]; then
     bg
     zle redisplay
   else
     zle push-input
   fi
+}
+
+function jqnb {
+    if [[ -n $ZSH_VERSION ]]; then
+        FUNCNAME=$funcstack[1]
+    fi
+    usage="Usage: $FUNCNAME [-h] notebook"
+
+    while getopts ':h' option; do
+        case "$option" in
+            h)
+                echo "Pretty print Jupyter Notebook (code only)."
+                echo "$usage"
+                return 0
+                ;;
+            \?)
+                echo "Error: invalid option: -$OPTARG" >&2
+                echo "$usage"
+                return 1
+                ;;
+        esac
+    done
+    shift $((OPTIND -1))
+
+    if [[ $# -eq 0 ]]; then
+        echo "Error: missing argument: notebook"
+        echo "$usage"
+        return 1
+    fi
+
+    cat $1 | jq '.cells[].source[]' | awk 'gsub(/^"|\\n"$|"$/, "")'
 }

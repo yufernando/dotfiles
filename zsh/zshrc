@@ -296,7 +296,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 export PATH
 
-export SHELL=/usr/bin/zsh
+export SHELL=/bin/zsh
 
 # }}}
 # Source files {{{

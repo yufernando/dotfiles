@@ -2,25 +2,25 @@
 # Install and configure a common environment across platforms.
 #
 # Help:
-#	make help
+#   make help
 #
 # Install and configure programs:
-#	make install config
+#   make install config
 #
 # Harden (Ubuntu Server):
-#	make all 
-#		host=hostname
-#		user=username
-#		password=password 
-#		[ignoreip=ignoreip]
-#		[sshkey=sshkey] --> if configured in automated script
+#   make all 
+#     host=hostname
+#     user=username
+#     password=password 
+#     [ignoreip=ignoreip]
+#     [sshkey=sshkey] --> if configured in automated script
 #
 # Update config only:
-# 	make config
+#   make config
 #
 # Merge branch with master and push to remote:
-# 	make merge branch=mac
-# 	make merge 		--> merges both mac and ubuntu
+#   make merge branch=mac
+#   make merge 		--> merges both mac and ubuntu
 #
 # Test scripts:
 #   make test host=ubuntu-test user=fer password=abc123
@@ -45,12 +45,12 @@ branch := all
 .PHONY: test-build test-run test-copy-ssh test-copy-dotfiles test test-ssh
 
 help: ## View help
-	@awk 'BEGIN 					{ FS="^#+ ?"; header=1; body=0 }			\
-		  NR==1 					{ printf "\033[36m%s\033[0m\n", $$2; next }	\
-		  (header==1 && /^#.*?/)	{ printf "\033[34m%s\033[0m\n", $$2 }		\
-		  /^#\s*$$/ 				{ header=0; body=1; next }					\
-		  body==1 && /^#+ ?[^ \t]/	{ print $$2 } 								\
-		  /^\s*$$/ 					{ print "";exit }' $(MAKEFILE_LIST)
+	@awk 'BEGIN 				{ FS="^#+ ?"; header=1; body=0 }			\
+		  NR==1 				{ printf "\033[36m%s\033[0m\n", $$2; next }	\
+		  header==1 && /^#.*?/	{ printf "\033[34m%s\033[0m\n", $$2 }		\
+		  /^#\s*$$/ 			{ header=0; body=1; next }					\
+		  body==1 && /^#+/		{ print $$2 } 								\
+		  /^\s*$$/ 				{ print ""; exit }' $(MAKEFILE_LIST)
 	@echo "Rules:"
 	@grep -E '^[a-zA-Z_-]+:.*##[ \t]+.*$$' $(MAKEFILE_LIST) \
 	| sort 													\

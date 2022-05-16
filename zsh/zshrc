@@ -90,6 +90,8 @@ plugins=(
   # zsh-vi-mode
   zsh-autosuggestions
   zsh-syntax-highlighting
+  docker
+  docker-compose
 )
 
 #}}}
@@ -327,6 +329,9 @@ bindkey -M viins '^Z' fancy-ctrl-z
 bindkey -M vicmd '^Z' fancy-ctrl-z
 # }}}
 # Other {{{
+
+# Fixes Docker autocompletion: https://stackoverflow.com/a/45406609/10688326
+autoload -U compinit && compinit
 
 # Solves problem with Tmux and Conda environments
 # [[ -z $TMUX ]] || source deactivate; #conda activate base

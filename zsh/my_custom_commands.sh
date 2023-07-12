@@ -394,6 +394,8 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
 
         docker run -d --rm ${FLAG_IT} ${FLAG_PORT[@]} ${FLAG_MOUNT[@]} ${FLAG_ENV[@]} ${FLAG_USER_RUN[@]} --name $CONTAINER_NAME $IMAGE
 
+        echo "${COLOR_GRAY}docker run -d --rm ${FLAG_IT} ${FLAG_PORT[@]} ${FLAG_MOUNT[@]} ${FLAG_ENV[@]} ${FLAG_USER_RUN[@]} --name $CONTAINER_NAME $IMAGE${COLOR_NC}"
+
         # Report PORT
         if [[ $PORT -ne 8888 ]]; then 
             echo "Port in use. Using Port $PORT."; 

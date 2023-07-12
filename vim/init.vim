@@ -169,6 +169,8 @@ let g:ale_linters = {
     \ 'javascript': ['eslint'],
     \ 'c': ['clang']} " pydocstyle, bandit, mypy
 let g:ale_fixers = {'*': [], 'python':['black']}
+let g:ale_python_black_options='--line-length=88'
+let g:ale_python_flake8_options = '--max-line-length=88'
 let g:ale_fix_on_save = 1
 " Disable ALE by default. Enable with :ALEToggle (leader+z)
 let g:ale_enabled = 0
@@ -286,8 +288,25 @@ let s:startify_ascii_header=[
                 \ '                           ;;',
                 \ '',
                 \]
-let g:startify_custom_header = map(s:startify_ascii_header +
-        \ startify#fortune#boxed(), '"           ".v:val')
+
+let s:startify_keybindings=[
+                \ '',
+                \ '     C-lang:',
+                \ '         mc          compile and run.',
+                \ '         ,tt         toggle terminal.',
+                \ '         ,th         hide terminal.',
+                \ '         Ctrl+\      normal model in terminal.',
+                \ '         Ctrl+j/k    switch panes.',
+                \ '         ,a          toggle autocomplete.',
+                \ '         ,=          enlarge window.',
+                \ '         ,-          shrink window.',
+                \]
+
+" let g:startify_custom_header = map(s:startify_ascii_header +
+let g:startify_custom_header = map(
+            \ startify#fortune#boxed() + 
+            \ s:startify_keybindings,
+            \'"           ".v:val')
 
 " NERD Tree hide help message
 let NERDTreeMinimalUI=1
@@ -448,7 +467,7 @@ xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)
 nnoremap <silent> gz :TREPLSendFile<CR>
 nnoremap <silent> gm :T python %<CR>
-nnoremap <silent> mp :silent w<CR>:Tclear<CR>:TT python %<CR>
+nnoremap <silent> mp :silent w<CR>:Tclear<CR>:TT ~/miniconda3/envs/dsfull/bin/python3 %<CR>
 " nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
@@ -511,8 +530,6 @@ noremap <leader>z :ALEToggle \| :echo ale_enabled ? "Linter On." : "Linter Off."
 " nmap <silent> <leader>k <Plug>(ale_previous)
 " nmap <silent> <leader>j <Plug>(ale_next)
 
-" Jedi Vim
-nnoremap gd :call jedi#goto()<CR>
 
 " Navigate splits
 nnoremap <C-h> <C-w>h
@@ -624,7 +641,9 @@ augroup filetype_settings
     autocmd!
     autocmd FileType text,tex,markdown setlocal textwidth=99 
     autocmd FileType text,tex,markdown let g:goyo_width=99
-    autocmd FileType python,R   setlocal textwidth=79
+    autocmd FileType python,R   setlocal textwidth=88
+    " Jedi Vim
+    " autocmd FileType python,R   nnoremap gd :call jedi#goto()<CR>
 
     " Latex no indent environments (Abstract, theorem, etc)
     autocmd FileType tex set indentkeys-=o

@@ -86,8 +86,9 @@ bind -n C-j run "($is_vim && tmux send-keys C-j) || \
 bind -n C-k run "($is_vim && tmux send-keys C-k) || \
                  ($is_fzf && tmux send-keys C-k) || \
                   tmux select-pane -U"
-bind -n C-l run  "($is_vim && tmux send-keys C-l) || \
-                   tmux select-pane -R"
+# Uncommenting the following creates a collision with Ctrl+l ("clear screen") in bpython
+# bind -n C-l run  "($is_vim && tmux send-keys C-l) || \
+#                    tmux select-pane -R"
 bind-key -n 'C-\' if-shell "$is_vim" "send-keys 'C-\\'" "select-pane -l"
 
 # cycle through panes

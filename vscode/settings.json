@@ -1,6 +1,5 @@
 {
   "telemetry.enableTelemetry": false,
-  "window.zoomLevel": 1,
   "zenMode.fullScreen": false,
   "editor.minimap.enabled": false,
   "zenMode.centerLayout": false,
@@ -231,7 +230,6 @@
     "source.fixAll": true,
     "source.fixAll.eslint": true
   },
-  "eslint.alwaysShowStatus": true,
 
   // General formatting
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -243,21 +241,23 @@
   // Python formatting
   "[python]": {
     "editor.tabSize": 4,
-    "editor.defaultFormatter": "ms-python.python"
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
   },
   "python.formatting.provider": "black",
-  // Path to Black, you can use a custom version of Black by modifying this setting to include the full path.
-  "python.formatting.blackPath": "/Users/fer/.pyenv/versions/3.8.5/bin/black",
+  // // Path to Black, you can use a custom version of Black by modifying this setting to include the full path.
+  // "python.formatting.blackPath": "/Users/fer/.pyenv/versions/3.8.5/bin/black",
   // Python Linting: Disable pylint, enable flake 8
+  "python.sortImports.args": ["--profile=black"]
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.linting.enabled": true,
   "python.linting.flake8Path": "/Users/fer/.local/pipx/venvs/flake8/bin/flake8",
   // Python interpreter
-  "python.defaultInterpreterPath": "/Users/fer/.pyenv/versions/3.8.5/bin/python",
-
-  // Disable when developing Vue projects, it will conflict with npm esling module
-  // "editor.formatOnSave": true,
-"jupyter.sendSelectionToInteractiveWindow": false,
-"python.pythonPath": "/Users/fer/miniconda3/envs/dsfull/bin/python"
+  "python.defaultInterpreterPath": "/Users/fer/miniconda3/envs/dsfull/bin/python",
+"window.zoomLevel": 1,
+"jupyter.interactiveWindow.textEditor.executeSelection": false
 }

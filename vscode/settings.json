@@ -1,98 +1,18 @@
 {
-  "telemetry.enableTelemetry": false,
   "zenMode.fullScreen": false,
   "editor.minimap.enabled": false,
   "zenMode.centerLayout": false,
-  "latex-workshop.view.pdf.viewer": "tab",
   "files.associations": {
     "*.wiki": "markdown"
   },
-"zenMode.hideStatusBar": false,
+  "zenMode.hideStatusBar": false,
   "explorer.confirmDelete": false,
   "zenMode.hideLineNumbers": false,
   "explorer.confirmDragAndDrop": false,
-  "latex-workshop.latex.recipe.default": "lastUsed",
-
-  // Spelling
-  "cSpell.userWords": [
-    "Hausmann",
-    "Helvetica",
-    "Hotelería",
-    "Indec",
-    "Lualatex",
-    "Macroeconómico",
-    "Ricardiano",
-    "apropiabilidad",
-    "autopartes",
-    "autopartista",
-    "biodiesel",
-    "competitivamente",
-    "complejizan",
-    "complementariedades",
-    "contracara",
-    "conurbano",
-    "correlaciona",
-    "correlacionan",
-    "correlacione",
-    "cuentapropistas",
-    "desagregación",
-    "determinístico",
-    "discrecionalidad",
-    "econométrico",
-    "estadísticamente",
-    "exógeno",
-    "gravitacional",
-    "grifería",
-    "idiosincráticas",
-    "idiosincrático",
-    "idiosincráticos",
-    "impactos",
-    "imprevisibilidad",
-    "judicialización",
-    "macroeconomía",
-    "macroeconómicos",
-    "marroquinería",
-    "microeconómica",
-    "microeconómico",
-    "neoclásica",
-    "optimización",
-    "paradigmático",
-    "performance",
-    "poliamidas",
-    "preselección",
-    "prevalencia",
-    "priorización",
-    "prospectos",
-    "rankear",
-    "recesivo",
-    "redituable",
-    "regulatoria",
-    "regulatorio",
-    "regulatorios",
-    "similaridad",
-    "sofisticación",
-    "stock",
-    "subfigure",
-    "subnacionales",
-    "subsector",
-    "subsectores",
-    "subóptimas"
-  ],
-  "cSpell.ignoreRegExpList": [
-    "\\\\cite{[A-Za-z0-9, -]+}",
-    "\\\\begin{\\w+}",
-    "\\\\end{\\w+}",
-    "\\\\usepackage{\\w+}",
-    "\\\\bibliographystyle{\\w+}",
-    "\\\\hyphenation{[A-Za-z0-9, -]+}",
-    "\\w+{",
-    "\\\\textwidth",
-    "itemizecolor"
-  ],
   "rewrap.wrappingColumn": 100,
-  "cSpell.language": ",es",
-  "cSpell.enabled": false,
-  // Controls the font family.
+
+  //    FONTS
+  //---------------------------
   "editor.fontFamily": "OperatorMono-Book, Fira Code, Victor Mono, Menlo, Monaco, 'Courier New', monospace",
   // Enables/Disables font ligatures.
   "editor.fontLigatures": true,
@@ -100,106 +20,22 @@
   "workbench.colorTheme": "Operator Mono Dark Theme",
   // Controls the font weight.
   "editor.fontWeight": "400", //Normal = 400
-  // Latex-Tools Compilers
-  "latex-workshop.latex.tools": [
-    {
-      "name": "latexmk",
-      "command": "latexmk",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-pdf",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "lualatexmk",
-      "command": "latexmk",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-lualatex",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "latexmk_rconly",
-      "command": "latexmk",
-      "args": ["%DOC%"],
-      "env": {}
-    },
-    {
-      "name": "pdflatex",
-      "command": "pdflatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "bibtex",
-      "command": "bibtex",
-      "args": ["%DOCFILE%"],
-      "env": {}
-    },
-    {
-      "name": "xelatexmk",
-      "command": "latexmk",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-xelatex",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "env": {}
-    }
-  ],
-  "latex-workshop.latex.recipes": [
-    {
-      "name": "latexmk 🔃",
-      "tools": ["latexmk"]
-    },
-    {
-      "name": "latexmk (latexmkrc)",
-      "tools": ["latexmk_rconly"]
-    },
-    {
-      "name": "latexmk (lualatex)",
-      "tools": ["lualatexmk"]
-    },
-    {
-      "name": "pdflatex ➞ bibtex ➞ pdflatex × 2",
-      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
-    },
-    {
-      "name": "xelatexmk (xelatex)",
-      "tools": ["xelatexmk"]
-    }
-  ],
+  
+  //    MISC
+  //---------------------------
   "workbench.settings.useSplitJSON": true,
-
   "search.useIgnoreFiles": false,
   "editor.largeFileOptimizations": false,
   "editor.dragAndDrop": false,
   "workbench.startupEditor": "newUntitledFile",
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
-
   // SideBar Location
   "workbench.sideBar.location": "left",
-
-  // Vim Settings
+  "jupyter.interactiveWindow.textEditor.executeSelection": false,
+  
+  //    VIM
+  //---------------------------
   "vim.textwidth": 100,
   "editor.wordWrap": "on",
   "editor.wordWrapColumn": 100,
@@ -217,47 +53,52 @@
     }
   ],
   "vim.neovimPath": "/usr/local/bin/nvim",
-
-  //   VUE + JAVASCRIPT
-  //***************************
-
+  
+  //    JAVASCRIPT
+  //---------------------------
   // Eslint configuration
   // https://eslint.vuejs.org/user-guide/#faq
   // Vetur
   "vetur.validation.template": false,
   "eslint.validate": ["javascript", "vue", "html"],
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.fixAll.eslint": true
-  },
-
+  // "editor.codeActionsOnSave": {
+  //   "source.fixAll": true,
+  //   "source.fixAll.eslint": true
+  // },
   // General formatting
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.singleQuote": true,
-
-  //   PYTHON
-  //***************************
-
+  
+  
+  //    PYTHON
+  //---------------------------
+  // Python interpreter
+  "python.defaultInterpreterPath": "/Users/fer/mambaforge/envs/dsfull/bin/python3",
+  
   // Python formatting
   "[python]": {
     "editor.tabSize": 4,
-    "editor.defaultFormatter": "ms-python.python",
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
-    }
+    },
   },
-  "python.formatting.provider": "black",
-  // // Path to Black, you can use a custom version of Black by modifying this setting to include the full path.
-  // "python.formatting.blackPath": "/Users/fer/.pyenv/versions/3.8.5/bin/black",
-  // Python Linting: Disable pylint, enable flake 8
-  "python.sortImports.args": ["--profile=black"]
-  "python.linting.pylintEnabled": false,
-  "python.linting.flake8Enabled": true,
-  "python.linting.enabled": true,
-  "python.linting.flake8Path": "/Users/fer/.local/pipx/venvs/flake8/bin/flake8",
-  // Python interpreter
-  "python.defaultInterpreterPath": "/Users/fer/miniconda3/envs/dsfull/bin/python",
-"window.zoomLevel": 1,
-"jupyter.interactiveWindow.textEditor.executeSelection": false
-}
+  "isort.args": [
+    "--profile=black"
+  ],
+  "flake8.args": [
+    "--max-line-length=88"
+  ],
+  "pylint.args": [
+    "--good-names=x,y,z,i,j,n,f,e,df,r"
+  ],
+  "window.zoomLevel": 1,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": true,
+    "markdown": false,
+    "scminput": false
+  },
+  "terminal.integrated.inheritEnv": false
+  }

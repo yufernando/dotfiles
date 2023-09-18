@@ -236,7 +236,7 @@ endfunction
 " Deoplete Jedi
 let g:python_host_prog  = '/usr/bin/python' 
 if system('uname') =~ "Darwin"
-    let g:python3_host_prog = '/Users/fer/miniconda3/envs/dsfull/bin/python'
+    let g:python3_host_prog = '/Users/fer/mambaforge/envs/dsfull/bin/python3'
 else
     let g:python3_host_prog  = '/usr/bin/python3' 
 endif
@@ -290,6 +290,29 @@ let s:startify_ascii_header=[
                 \]
 
 let s:startify_keybindings=[
+                \ '',
+                \ '     Shortcuts:',
+                \ '         d           init.vim',
+                \ '         z           zshrc',
+                \ '         c           my_custom_commands.sh',
+                \ '         t           tmux.conf',
+                \ '',
+                \ '     Useful:',
+                \ '         gt          Next Tab.',
+                \ '',
+                \ '     Vimwiki:',
+                \ '         ,w,w        New Diary Page.',
+                \ '         ,w,g        New Diary Page, Zen Mode.',
+                \ '         ,wi         Index Page.',
+                \ '         ,w,i        Update Links in Index Page.',
+                \ '         Enter       Follow/Create wiki link.',
+                \ '         Backspace   Return to Parent wiki link.',
+                \ '         Tab         Next wiki link.',
+                \ '         Shift-Tab   Previous wiki link.',
+                \ '         ,x          Toggle List Item.',
+                \ '         =           Add Header Level.',
+                \ '         -           Remove Header Level.',
+                \ '         ,md         Display Markdown File.',
                 \ '',
                 \ '     C-lang:',
                 \ '         mc          compile and run.',
@@ -467,7 +490,7 @@ xmap gx <Plug>(neoterm-repl-send)
 nmap gxx <Plug>(neoterm-repl-send-line)
 nnoremap <silent> gz :TREPLSendFile<CR>
 nnoremap <silent> gm :T python %<CR>
-nnoremap <silent> mp :silent w<CR>:Tclear<CR>:TT ~/miniconda3/envs/dsfull/bin/python3 %<CR>
+nnoremap <silent> mp :silent w<CR>:Tclear<CR>:TT ~/mambaforge/envs/dsfull/bin/python3 %<CR>
 " nnoremap <leader><CR> <Plug>(neoterm-repl-send-line)
 "xnoremap <leader><CR> <Plug>(neoterm-repl-send)
 " nnoremap <silent> <leader><CR> :TREPLSendLine<CR>j0
@@ -587,6 +610,8 @@ nnoremap <leader>g :Goyo<CR>
 " From: https://github.com/vimwiki/vimwiki/blob/master/doc/vimwiki.txt
 nmap <leader>x <Plug>VimwikiToggleListItem
 nmap <leader>w<leader>g <Plug>VimwikiMakeDiaryNote<Esc>:Goyo<CR>i
+nmap <leader>w<leader>w <Plug>VimwikiMakeDiaryNote
+nmap <leader>wp <Plug>VimwikiDiaryPrevDay
 
 " Deoplete Enable Autocomplete
 nnoremap <leader>a :call AutocompleteToggle()<CR>

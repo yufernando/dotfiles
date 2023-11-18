@@ -12,4 +12,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$PATH:/Users/fer/.local/bin"
 
 # Init pyenv: https://github.com/pyenv/pyenv#basic-github-checkout
-eval "$(pyenv init --path)"
+# eval "$(pyenv init --path)"
+# Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/opt/homebrew/bin/brew shellenv)"

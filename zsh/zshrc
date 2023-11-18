@@ -213,22 +213,18 @@ else
     fi
 fi
 unset __conda_setup
-
-if [ -f "/Users/fer/mambaforge/etc/profile.d/mamba.sh" ]; then
-    . "/Users/fer/mambaforge/etc/profile.d/mamba.sh"
-fi
 # <<< conda initialize <<<
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/fer/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/Users/fer/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/fer/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/fer/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/Users/fer/mambaforge/etc/profile.d/conda.sh" ]; then
+        . "/Users/fer/mambaforge/etc/profile.d/conda.sh"
     else
-        export PATH="/home/fer/miniconda3/bin:$PATH"
+        export PATH="/Users/fer/mambaforge/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -318,9 +314,9 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 fi
 
 # Initialize Pyenv: https://github.com/pyenv/pyenv#basic-github-checkout
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    eval "$(pyenv init -)"
-fi
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+#     eval "$(pyenv init -)"
+# fi
 #}}}
 # Key Bindings {{{
 bindkey -v # Vim mode for zsh command line

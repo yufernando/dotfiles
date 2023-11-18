@@ -75,11 +75,11 @@ fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # VSCode
-    ln -svf $DIR/vscode/settings.json       ~/Library/Application\Support/Code/User/settings.json
+    ln -svf $DIR/vscode/settings.json       ~/Library/Application\ Support/Code/User/settings.json
     # Karabiner
     ln -svf $DIR/karabiner/karabiner.json   ~/.config/karabiner/karabiner.json
     # Latex
-    ln -svf $DIR/latex/thesis.sty           ~/Library/texmf/tex/latex/local/thesis.sty
+    #ln -svf $DIR/latex/thesis.sty           ~/Library/texmf/tex/latex/local/thesis.sty
 fi
 
 # Vim

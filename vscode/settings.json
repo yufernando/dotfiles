@@ -88,17 +88,19 @@
     "--profile=black"
   ],
   "flake8.args": [
-    "--max-line-length=88"
+    "--max-line-length=88",
+    "--ignore=E402"
   ],
   "pylint.args": [
     "--good-names=x,y,z,i,j,n,f,e,df,r"
   ],
-  "window.zoomLevel": 1,
   "github.copilot.enable": {
     "*": true,
     "plaintext": true,
     "markdown": false,
     "scminput": false
   },
-  "terminal.integrated.inheritEnv": false
+  "terminal.integrated.inheritEnv": false,
+  "svelte.enable-ts-plugin": true,
+  "window.zoomLevel": 1
   }

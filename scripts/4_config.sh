@@ -18,6 +18,7 @@ touch ~/.config/nvim/init.vim
 mkdir -p ~/.vim/autoload/           # Vim
 touch ~/.vim/autoload/autocmds.vim
 touch ~/.tmux.conf                  # Tmux
+touch ~/.tmux.reset.conf
 touch ~/.zshrc                      # Zsh
 mkdir -p ~/.oh-my-zsh/custom/themes # Oh-my-zsh
 mkdir -p ~/.config/ranger           # Ranger
@@ -45,6 +46,7 @@ ln -svf $DIR/latex/latexmkrc            ~/.latexmkrc
 # Tmux
 if [[ "$OSTYPE" == "darwin"* ]]; then
     ln -svf $DIR/tmux/tmux.conf.mac     ~/.tmux.conf
+    ln -svf $DIR/tmux/tmux.reset.conf   ~/.tmux.reset.conf
     ln -svf $DIR/tmux/tunes.js          ~/.tmux/tunes.js
 fi
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then

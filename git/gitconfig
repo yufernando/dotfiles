@@ -6,13 +6,13 @@
 [diff]
     tool = nvim
 [difftool]
-    prompt = false
+	prompt = false
 [difftool "nvim"]
     cmd = nvim -d -c \"wincmd l\" -c \"cd $GIT_PREFIX\" $LOCAL $REMOTE
 [merge]
     tool = nvim
 [mergetool]
-    prompt = false
+	prompt = false
 [mergetool "nvim"]
     cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [alias]
@@ -30,11 +30,11 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 [diff "jupyternotebook"]
-	command = git-nbdiffdriver diff
+	command = git-nbdiffdriver diff --sources
 [merge "jupyternotebook"]
-    driver = git-nbmergedriver merge %O %A %B %L %P
-    name = jupyter notebook merge driver
+	driver = git-nbmergedriver merge %O %A %B %L %P
+	name = jupyter notebook merge driver
 [difftool "nbdime"]
-    cmd = git-nbdifftool diff \"$LOCAL\" \"$REMOTE\" \"$BASE\"
+	cmd = git-nbdifftool diff \"$LOCAL\" \"$REMOTE\" \"$BASE\"
 [mergetool "nbdime"]
-    cmd = git-nbmergetool merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+	cmd = git-nbmergetool merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"

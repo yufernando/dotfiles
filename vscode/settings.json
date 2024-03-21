@@ -1,6 +1,5 @@
 {
   "zenMode.fullScreen": false,
-  "editor.minimap.enabled": false,
   "zenMode.centerLayout": false,
   "files.associations": {
     "*.wiki": "markdown"
@@ -81,7 +80,7 @@
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     },
   },
   "isort.args": [
@@ -101,6 +100,5 @@
     "scminput": false
   },
   "terminal.integrated.inheritEnv": false,
-  "svelte.enable-ts-plugin": true,
-  "window.zoomLevel": 1
+  "svelte.enable-ts-plugin": true
   }

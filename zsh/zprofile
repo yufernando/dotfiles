@@ -6,7 +6,6 @@ PATH="$HOME/.rbenv/bin:$PATH"
 # PATH="$PATH:$HOME/.rbenv/versions/2.6.1/bin"
 
 # Add Cargo to PATH
-export PATH="$HOME/.cargo/bin:$PATH"
 
 # Created by `userpath` on 2020-10-17 04:23:49
 export PATH="$PATH:/Users/fer/.local/bin"

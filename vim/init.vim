@@ -658,6 +658,7 @@ augroup set_filetypes
     autocmd BufReadPost,BufNewFile *.py  set filetype=python
     autocmd BufReadPost,BufNewFile *.R   set filetype=R
     autocmd BufReadPost,BufNewFile *.tex set filetype=tex
+    autocmd BufRead,BufNewFile **/.ssh/config.d/* set filetype=sshconfig
 augroup end
 
 " Filetype settings

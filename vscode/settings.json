@@ -15,8 +15,6 @@
   "editor.fontFamily": "OperatorMono-Book, Fira Code, Victor Mono, Menlo, Monaco, 'Courier New', monospace",
   // Enables/Disables font ligatures.
   "editor.fontLigatures": true,
-  // Controls the font size in pixels.
-  "workbench.colorTheme": "Operator Mono Dark Theme",
   // Controls the font weight.
   "editor.fontWeight": "400", //Normal = 400
   
@@ -30,7 +28,7 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   // SideBar Location
-  "workbench.sideBar.location": "left",
+  "workbench.sideBar.location": "right",
   "jupyter.interactiveWindow.textEditor.executeSelection": false,
   
   //    VIM
@@ -66,9 +64,20 @@
   // },
   // General formatting
   // "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.requireConfig": true,
   "prettier.singleQuote": true,
-  
-  
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": { 
+    "editor.formatOnSave": true ,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+  },
   //    PYTHON
   //---------------------------
   // Python interpreter
@@ -100,5 +109,39 @@
     "scminput": false
   },
   "terminal.integrated.inheritEnv": false,
-  "svelte.enable-ts-plugin": true
-  }
+  "svelte.enable-ts-plugin": true,
+  "github.copilot.editor.enableAutoCompletions": false,
+  "[jupyter]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  //    C-LANG
+  //---------------------------
+  // Python interpreter
+  "[c]": {
+    "editor.formatOnSave": true,
+  },
+  "window.customTitleBarVisibility": "windowed",
+  "notebook.formatOnSave.enabled": true,
+  "editor.minimap.enabled": false,
+  "notebook.cellToolbarLocation": {
+    "default": "hidden"
+  },
+  "notebook.insertToolbarLocation": "notebookToolbar",
+  "notebook.showCellStatusBar": "hidden",
+  //    RUST
+  //---------------------------
+  "[rust]": {
+    "editor.formatOnSave": true,
+  },
+  "[svelte]": {
+    "editor.defaultFormatter": "svelte.svelte-vscode",
+    "editor.formatOnSave": true,
+  },
+  //    JUPYTER
+  //---------------------------
+  "jupyter.askForKernelRestart": false,
+  "notebook.output.wordWrap": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "github.copilot.nextEditSuggestions.enabled": true,
+}

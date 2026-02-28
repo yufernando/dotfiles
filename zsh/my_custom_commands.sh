@@ -211,7 +211,7 @@ Usage:
         *)
             URL=${subcommand:-http://localhost:8888}
             # /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito --app=$URL
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=$URL
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --app=${URL}
             ;;
     esac
 }
@@ -361,7 +361,10 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
         bio)
             IMAGE="yufernando/bioaretian"
             ;|
-        ""|lab|bio|yufernando/bioaretian*|yufernando/jupyterlab*)
+        geo)
+            IMAGE="yufernando/jupyterlab:geo"
+            ;|
+        ""|lab|bio|geo|yufernando/bioaretian*|yufernando/jupyterlab*)
             if [[ $MOUNT_CWD = true ]]; then
                 FLAG_MOUNT+=(-v $PWD:/home/jovyan/work)
             fi
@@ -438,6 +441,15 @@ ${COLOR_LIGHT_BLUE}Examples:${COLOR_NC}
     # Open container in interactive terminal
     if [[ $OPENZSH = true ]]; then
         docker exec -it ${FLAG_USER_EXEC[@]} $CONTAINER_NAME /bin/zsh
+    fi
+}
+
+# Jupyterlab shortcut
+function lab {
+    if [ "$#" -eq 0 ]; then
+        dock -co
+    else
+        dock -co -n "$@"
     fi
 }
 
